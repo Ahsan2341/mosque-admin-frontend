@@ -1,0 +1,46 @@
+@import "tailwindcss";
+.loader {
+  border-top-color: #3498db;
+  animation: spinner 1.5s linear infinite;
+}
+
+@keyframes spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+/* Radio button checked */
+input[type="radio"]:checked:before {
+  display: block;
+  height: 0.4em;
+  width: 0.4em;
+  position: relative;
+  left: 0.4em;
+  top: 0.4em;
+  background: #fff;
+  border-radius: 100%;
+  content: "";
+}
+
+/* Checkbox checked */
+/* input[type="checkbox"]:checked:before {
+  content: "";
+  display: block;
+  width: 4px;
+  height: 8px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+  margin-left: 4px;
+  margin-top: 1px;
+} */
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

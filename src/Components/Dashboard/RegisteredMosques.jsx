@@ -1,0 +1,65 @@
+import React, { useEffect, useState } from "react";
+import SearchFilterBox from "./SearchFilterBox";
+import MosqueTable from "./MosqueTable";
+import MosquesAPI from "../../api/mosques";
+
+function RegisteredMosques() {
+  const [mosques, setMosques] = useState([]);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [totalItems, setTotalItems] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(false);
+
+  const fetchMosques = async (pageNum = 1) => {
+    setLoading(true);
+    try {
+      const res = await MosquesAPI.getMosques(
+        `page=${pageNum}&limit=${pageSize}`
+      );
+      console.log(res.data);
+      const { data, totalItems, totalPages, currentPage } = res.data;
+      setMosques(data);
+      setTotalItems(totalItems);
+      setTotalPages(totalPages);
+      setPage(currentPage || 1);
+    } catch (err) {
+      // handle error
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    fetchMosques(page);
+    // eslint-disable-next-line
+  }, [page, pageSize]);
+
+  return (
+    <div>
+      <div className="total-users gap-[56.15px] w-[244px] pt-[25.89px] pb-[22.53px] pl-[21px] flex flex-col justify-between shadow-[0px_4.01px_7.01px_0px_rgba(0,0,0,0.15)] rounded-[8.79px]">
+        <div className="flex flex-col gap-[7.4px]">
+          <p className="font-inter text-[#989898] font-normal text-[18.96px]">
+            Total
+          </p>
+          <p className="font-inter text-[#21ABA5] font-medium text-[26px]">
+            {totalItems}
+          </p>
+        </div>
+        <p className="text-[#000000] font-inter text-[20px] font-medium">
+          Registered Mosques
+        </p>
+      </div>
+      <SearchFilterBox />
+      <MosqueTable
+        rows={mosques}
+        page={page}
+        pageSize={pageSize}
+        totalRows={totalItems}
+        onPageChange={(newPage) => setPage(newPage)}
+        loading={loading}
+      />
+    </div>
+  );
+}
+
+export default RegisteredMosques;
