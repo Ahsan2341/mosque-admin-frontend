@@ -11,6 +11,8 @@ function Faqs() {
   const [triggerFetchFaqs, setTriggerFetchFaqs] = useState(false);
   const [selectedFaq, setSelectedFaq] = useState(null);
   const [deleteFaq, setDeleteFaq] = useState(null);
+  const [faqs, setFaqs] = useState([]);
+  const [name, setName] = useState("");
   return (
     <MainLayout>
       <FaqPopup
@@ -47,6 +49,9 @@ function Faqs() {
         <input
           type="text"
           placeholder="Search"
+          onChange={(e) => {
+            setName(e.target.value);
+          }}
           className="outline-none border-none placeholder:text-[14px]  bg-transparent text-[#757575] text-[18px] w-full placeholder:text-[#000000]"
         />
       </div>
@@ -56,6 +61,7 @@ function Faqs() {
         setSelectedFaq={setSelectedFaq}
         triggerFetchFaqs={triggerFetchFaqs}
         setDeleteFaq={setDeleteFaq}
+        name={name}
       />
     </MainLayout>
   );

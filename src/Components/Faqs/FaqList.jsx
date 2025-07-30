@@ -10,6 +10,7 @@ function FaqList({
   setSelectedFaq,
   triggerFetchFaqs,
   setDeleteFaq,
+  name,
 }) {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(5);
@@ -20,15 +21,32 @@ function FaqList({
       setPage(response.data.currentPage);
       setTotalPages(response.data.totalPages);
       setFaqs(response.data.data);
+      setFilteredFaqs(response.data.data);
     });
   };
-
+  const [filteredFaqs, setFilteredFaqs] = useState([]);
   useEffect(() => {
     fetchFaqs();
   }, [triggerFetchFaqs, page]);
+  useEffect(() => {
+    if (name === "") {
+      setFilteredFaqs(faqs);
+    } else {
+      setFilteredFaqs(
+        faqs.filter((faq) => {
+          if (
+            faq.answer.toLowerCase().includes(name.toLowerCase()) ||
+            faq.question.toLowerCase().includes(name.toLowerCase())
+          ) {
+            return faq;
+          }
+        })
+      );
+    }
+  }, [name]);
   return (
     <div>
-      {faqs?.map((faq, index) => {
+      {filteredFaqs?.map((faq, index) => {
         return (
           <SingleFaq
             key={faq._id}
