@@ -129,6 +129,7 @@ function RegisterationRequests() {
   };
   useEffect(() => {
     if (activeTab === "pending") {
+      setPage(1);
       fetchPendingMosques();
     }
   }, [activeTab, page, fetchMosques]);
