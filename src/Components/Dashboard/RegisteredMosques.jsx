@@ -32,7 +32,7 @@ function RegisteredMosques() {
           );
         }
       } else {
-        setFilteredusers(data);
+        setFilteredMosques(data);
       }
       setTotalItems(totalItems);
       setTotalPages(totalPages);
