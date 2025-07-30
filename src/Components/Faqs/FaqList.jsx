@@ -1,74 +1,55 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import SingleFaq from "./SingleFaq";
 import leftChev from "../../assets/svg/left-chev.svg";
 import rightChev from "../../assets/svg/right-chev.svg";
-function FaqList({ setPopupId, popupId }) {
-  const faqs = [
-    {
-      question: "Who can use the Mosque App?",
-      answer:
-        "The Mosque App is designed for both mosque managers and regular users who want to stay connected with their local mosques.",
-    },
-    {
-      question: "Is the Mosque App free to use?",
-      answer:
-        "Yes, the Mosque App is completely free to download and use for both mosque managers and users.",
-    },
-    {
-      question: "How secure is the Mosque App?",
-      answer:
-        "The Mosque App prioritizes user privacy and security. All personal data is encrypted, and we adhere to strict security protocols to safeguard user information.",
-    },
-    {
-      question: "How can users provide feedback or report issues with the app?",
-      answer:
-        "Users can provide feedback or report issues through the app's built-in feedback system.",
-    },
-  ];
+import { Pagination } from "@mui/material";
+import FaqAPI from "../../api/faq";
+function FaqList({
+  setPopupId,
+  popupId,
+  setSelectedFaq,
+  triggerFetchFaqs,
+  setDeleteFaq,
+}) {
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(5);
+  const [totalPages, setTotalPages] = useState(1);
+  const [faqs, setFaqs] = useState([]);
+  const fetchFaqs = () => {
+    FaqAPI.getFaqs(`page=${page}&limit=${limit}`).then((response) => {
+      setPage(response.data.currentPage);
+      setTotalPages(response.data.totalPages);
+      setFaqs(response.data.data);
+    });
+  };
+
+  useEffect(() => {
+    fetchFaqs();
+  }, [triggerFetchFaqs, page]);
   return (
     <div>
-      {faqs.map((faq, index) => {
+      {faqs?.map((faq, index) => {
         return (
           <SingleFaq
-            key={index}
+            key={faq._id}
             faq={faq}
             setPopupId={setPopupId}
             popupId={popupId}
+            setSelectedFaq={setSelectedFaq}
+            triggerFetchFaqs={triggerFetchFaqs}
+            setDeleteFaq={setDeleteFaq}
           />
         );
       })}
-      <div className="flex gap-2 justify-center mt-[68px]">
-        <div className="bg-[rgba(145,158,171,0.5)] flex h-[32px] w-[32px] justify-center items-center rounded-[4px]">
-          <img
-            src={leftChev}
-            className=""
-            alt="left-chev"
-            style={{ width: "12px", height: "17.41px" }}
-          />
-        </div>
-        <div className="border-black border flex h-[32px] w-[32px] justify-center items-center rounded-[4px]">
-          1
-        </div>
-        <div className="border-[#DFE3E8] border flex h-[32px] w-[32px] justify-center items-center rounded-[4px]">
-          2
-        </div>
-        <div className="border-[#DFE3E8] border flex h-[32px] w-[32px] justify-center items-center rounded-[4px]">
-          ...
-        </div>
-        <div className="border-[#DFE3E8] border flex h-[32px] w-[32px] justify-center items-center rounded-[4px]">
-          9
-        </div>
-        <div className="border-[#DFE3E8] border flex h-[32px] w-[32px] justify-center items-center rounded-[4px]">
-          10
-        </div>
-        <div className="border-[#DFE3E8] border flex h-[32px] w-[32px] justify-center items-center rounded-[4px]">
-          <img
-            src={rightChev}
-            className=""
-            alt="right-chev"
-            style={{ width: "12px", height: "17.41px" }}
-          />
-        </div>
+      <div className="flex justify-center mt-8">
+        <Pagination
+          count={totalPages}
+          page={page}
+          onChange={(_, value) => setPage(value)}
+          shape="rounded"
+          siblingCount={1}
+          boundaryCount={2}
+        />
       </div>
     </div>
   );

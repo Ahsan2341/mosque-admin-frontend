@@ -18,7 +18,7 @@ import MosquesAPI from "../../api/mosques";
 
 function ApprovedMosqueDetail() {
   const { id } = useParams();
-  console.log(id);
+
   const [popupId, setPopupId] = useState("");
   const [name, setName] = useState("");
   const [landmark, setLandmark] = useState("");

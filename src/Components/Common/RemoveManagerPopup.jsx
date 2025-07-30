@@ -1,8 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import ShowComponent from "./ShowComponent";
 import Popup from "./Popup";
+import MosquesAPI from "../../api/mosques";
 
-function RemoveManagerPopup({ setPopupId, popupId }) {
+function RemoveManagerPopup({
+  removeData,
+  setPopupId,
+  popupId,
+  setFetchManager,
+}) {
+  const [loading, setLoading] = useState(false);
+  const handleRemoveManager = () => {
+    setLoading(true);
+    MosquesAPI.removemanagerApi(removeData.manager, removeData.mosque).then(
+      (response) => {
+        console.log(response.data);
+        setFetchManager((state) => !state);
+        setPopupId("");
+        setLoading(false);
+      }
+    );
+  };
   return (
     <ShowComponent condition={popupId === "removeManager"}>
       <Popup setPopup={() => setPopupId("")} className="w-[507px] ">
@@ -26,8 +44,9 @@ function RemoveManagerPopup({ setPopupId, popupId }) {
           </button>
 
           <button
-            className="w-[137px] h-[41px] bg-[#21ABA5] text-white text-[13px] font-500 font-inter rounded-[7.31px] cursor-pointer"
-            // onClick={handleAddFacility}
+            disabled={loading ? true : false}
+            className="w-[137px] h-[41px] disabled:bg-[#a8ede9] disabled:cursor-not-allowed bg-[#21ABA5] text-white text-[13px] font-500 font-inter rounded-[7.31px] cursor-pointer"
+            onClick={handleRemoveManager}
           >
             Remove
           </button>

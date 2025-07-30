@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import edit from "../../assets/svg/pencil.svg";
 import deleteIcon from "../../assets/svg/trash.svg";
+import FaqPopup from "../Common/FaqPopup";
+import EditFaqPopup from "../Common/EditFaqPopup";
 
-function SingleFaq({ faq, setPopupId, popupId }) {
+function SingleFaq({ faq, setPopupId, popupId, setSelectedFaq, setDeleteFaq }) {
   return (
     <>
       <div className="border-[#949494] mt-[25px] border-[1px] flex justify-between items-start rounded-[10px] py-[25px] pl-[25px] pr-[22.53px]">
@@ -18,13 +20,16 @@ function SingleFaq({ faq, setPopupId, popupId }) {
           <img
             src={edit}
             alt="edit"
-            onClick={() => setPopupId("editFaq")}
+            onClick={() => setSelectedFaq(faq)}
             className="cursor-pointer"
           />
           <img
             src={deleteIcon}
             alt="delete"
-            onClick={() => setPopupId("deleteFaq")}
+            onClick={() => {
+              setDeleteFaq(faq);
+              setPopupId("deleteFaq");
+            }}
             className="cursor-pointer"
           />
         </div>

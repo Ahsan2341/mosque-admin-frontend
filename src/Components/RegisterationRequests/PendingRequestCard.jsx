@@ -6,53 +6,73 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Link } from "react-router-dom";
 import DeclineRequestPopup from "../Common/DeclineRequestPopup";
 import ApproveRequestPopup from "../Common/ApproveRequestPopup";
+import { format, parseISO } from "date-fns";
+function PendingRequestCard({ setFetchMosques, data }) {
+  const getOrdinalSuffix = (day) => {
+    const j = day % 10;
+    const k = day % 100;
+    if (j === 1 && k !== 11) return `${day}st`;
+    if (j === 2 && k !== 12) return `${day}nd`;
+    if (j === 3 && k !== 13) return `${day}rd`;
+    return `${day}th`;
+  };
 
-function PendingRequestCard({
-  id,
-  name,
-  email,
-  avatar,
-  date,
-  time,
+  // Function to format the date and time
+  const formatDateTime = (isoDate) => {
+    let date = parseISO(isoDate); // Parse ISO date string
+    let day = format(date, "d"); // Get day without leading zero
 
-  mosqueLink = "#",
-}) {
+    const formattedDate = format(date, "MMMM, yyyy");
+    const ordinalDate = `${getOrdinalSuffix(day)} ${formattedDate}`; // e.g., "28th August, 2024"
+    const time = format(date, "h:mm a"); // e.g., "2:15 PM"
+    return { ordinalDate, time };
+  };
   const [popupId, setPopupId] = useState("");
   return (
     <div className="flex items-center justify-between bg-[#EAEAEA] rounded-2xl px-8 pt-[23px] pb-[29px] w-full">
-      <DeclineRequestPopup setPopupId={setPopupId} popupId={popupId} />
-      <ApproveRequestPopup setPopupId={setPopupId} popupId={popupId} />
+      <DeclineRequestPopup
+        setPopupId={setPopupId}
+        popupId={popupId}
+        id={data._id}
+        setFetchMosques={setFetchMosques}
+      />
+      <ApproveRequestPopup
+        setPopupId={setPopupId}
+        popupId={popupId}
+        id={data._id}
+        setFetchMosques={setFetchMosques}
+      />
       {/* Left: Avatar and Info */}
       <div className="flex items-start gap-5">
         <img
-          src={avatar}
+          src={"https://avatar.iran.liara.run/public"}
           alt="avatar"
           className="w-14 h-14 rounded-full object-cover"
         />
         <div>
           <div className="text-[18px] font-semibold font-inter">
-            {name}{" "}
+            {data?.author ? data.author.name : "---"}
             <span className="font-normal">
-              sent a Mosque Registration Request.
+              &nbsp; sent a Mosque Registration Request.
             </span>
             <Link
-              to={`/registeration-requests/declined-mosque/${id}`}
+              to={`/dashboard/mosque/${data._id}`}
               className="ml-2 text-[#21ABA5] underline underline-offset-2 font-normal"
             >
               View Mosque.
             </Link>
           </div>
           <div className="text-[#000000] text-[16px] font-inter mt-1">
-            {email}
+            {data?.author ? data.author.email : "---"}&nbsp;
           </div>
           <div className="flex items-center gap-6 mt-2">
             <div className="flex items-center text-[#232323] text-[15px] font-inter">
               <CalendarMonthIcon sx={{ fontSize: 18, marginRight: 0.5 }} />
-              {date}
+              {formatDateTime(data.createdAt).ordinalDate}
             </div>
             <div className="flex items-center text-[#232323] text-[15px] font-inter">
               <AccessTimeIcon sx={{ fontSize: 18, marginRight: 0.5 }} />
-              {time}
+              {formatDateTime(data.createdAt).time}
             </div>
           </div>
         </div>

@@ -27,18 +27,16 @@ function RegisterationRequestsTop({ activeTab, setActiveTab }) {
       </div>
       <div
         className="flex flex-col items-center cursor-pointer relative flex-1"
-        onClick={() => setActiveTab("approved")}
+        onClick={() => setActiveTab("done")}
       >
         <p
           className={`mb-[10px] ${
-            activeTab === "approved"
-              ? "text-[#000000]"
-              : "text-[rgba(0,0,0,0.5)]"
+            activeTab === "done" ? "text-[#000000]" : "text-[rgba(0,0,0,0.5)]"
           }`}
         >
           Approval History
         </p>
-        {activeTab === "approved" && (
+        {activeTab === "done" && (
           <img
             src={activetTabLine}
             alt="active tab line"

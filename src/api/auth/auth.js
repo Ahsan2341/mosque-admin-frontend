@@ -37,6 +37,9 @@ class AuthAPI {
   static fetchUser(id) {
     return axiosClient.get(`/users/who-am-i?_id=${id}`);
   }
+  static inviteManager(email, mosque) {
+    return axiosClient.post(`/auth/invite`, { email, mosque });
+  }
 }
 
 export default AuthAPI;

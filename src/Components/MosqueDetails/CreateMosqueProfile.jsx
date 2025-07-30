@@ -5,6 +5,8 @@ import { toast } from "react-toastify";
 // import { useDispatch, useSelector } from "react-redux";
 // import Notifications from "../Common/Notifications";
 import dummyProfile from "../../assets/svg/dummy-profile.svg";
+import crossIcon from "../../assets/svg/cross-decline.svg";
+import approveIcon from "../../assets/svg/approve-tick.svg";
 import ShowComponent from "../Common/ShowComponent";
 import Popup from "../Common/Popup";
 import mosqueProfilePic from "../../assets/icons/mosque-profile-pic.jpg";
@@ -16,7 +18,8 @@ import RemoveManagerPopup from "../Common/RemoveManagerPopup";
 import { useParams } from "react-router-dom";
 import MosquesAPI from "../../api/mosques";
 // import mosqueProfileApi from "../../api/mosque/mosqueProfile";
-
+import doneIcon from "../../assets/icons/done.png";
+import AuthAPI from "../../api/auth/auth";
 function CreateMosqueProfile() {
   const { id } = useParams();
   const [popupId, setPopupId] = useState("");
@@ -31,6 +34,7 @@ function CreateMosqueProfile() {
   const [contact, setContact] = useState("");
   const [logo, setLogo] = useState(null);
   const [selectedFacilities, setSelectedFacilities] = useState([]);
+  const [removeData, setRemoveData] = useState({});
   //   const id = useSelector((state) => state.auth.currentUser.mosqueId);
   const [mosqueId, setMosqueId] = useState("");
   const [imageUrl, setImageUrl] = useState("");
@@ -39,6 +43,9 @@ function CreateMosqueProfile() {
   const [dataFetch, setDataFetch] = useState(false);
   const [buttonDisable, setButtonDisable] = useState(false);
   const [newFacility, setNewFacility] = useState("");
+  const [mosqueManagers, setMosqueManagers] = useState([]);
+  const [fetchManager, setFetchManager] = useState(false);
+  const [loading, setLoading] = useState(false);
   const initialFacilities = [
     "Parking",
     "Wuzu (Oblution)",
@@ -53,6 +60,7 @@ function CreateMosqueProfile() {
     "Wheelchair ramps",
   ];
   const [allFacilities, setAllFacilities] = useState(initialFacilities);
+  const [mosqueStatus, setMosqueStatus] = useState("");
   const handleAddFacility = () => {
     if (newFacility && !allFacilities.includes(newFacility)) {
       setAllFacilities((prev) => [...prev, newFacility]);
@@ -82,9 +90,10 @@ function CreateMosqueProfile() {
           setCountry(data?.address?.country);
           setState(data?.address?.state);
           setLandmark(data?.address?.nearestLandmark);
-          setContact(data.phoneNumber);
+          setContact(data?.mosque?.phoneNumber);
           setShowImage(data.coverImage);
           setLogo(data.coverImage);
+          setMosqueStatus(data.mosque.mosqueStatus);
         })
         .catch((error) => {
           console.log("error");
@@ -92,6 +101,14 @@ function CreateMosqueProfile() {
         });
     }
   }, [dataFetch]);
+  useEffect(() => {
+    if (id) {
+      MosquesAPI.fetchmanagersApi(id).then((response) => {
+        console.log(response.data);
+        setMosqueManagers(response.data.data);
+      });
+    }
+  }, [fetchManager]);
   useEffect(() => {
     if (imageUrl) {
       uploadFile();
@@ -135,6 +152,7 @@ function CreateMosqueProfile() {
       coverImage: imageUrl?.split("?")[0] || "",
       phoneNumber: contact,
       facilities: selectedFacilities,
+      phoneNumber: contact,
       address: {
         country,
         state,
@@ -177,18 +195,60 @@ function CreateMosqueProfile() {
         : [...prev, facility]
     );
   };
+  const handleSendInvite = () => {
+    if (email == "" || id == "") return;
+    AuthAPI.inviteManager(email, id).then((response) => {
+      console.log(response.data);
+      setPopupId("Invite-Success");
+    });
+  };
+  const handleApprove = () => {
+    setLoading(true);
+    MosquesAPI.approveMosques(id).then((response) => {
+      console.log(response.data);
+      setPopupId("");
+      setDataFetch((state) => !state);
+      setLoading(false);
+    });
+  };
+  const handleReject = () => {
+    MosquesAPI.rejectMosque(id).then((response) => {
+      console.log(response.data);
+      setDataFetch((state) => !state);
+      setLoading(false);
+      setPopupId("");
+    });
+  };
   return (
     <>
-      <RemoveManagerPopup setPopupId={setPopupId} popupId={popupId} />
+      <RemoveManagerPopup
+        setFetchManager={setFetchManager}
+        removeData={removeData}
+        setPopupId={setPopupId}
+        popupId={popupId}
+      />
       <ShowComponent condition={popupId === "Success"}>
         <Popup setPopup={() => setPopupId("")} className="w-[30%]">
           <div className="flex flex-col justify-center items-center w-full text-center mb-10">
             <div className="mb-4">
-              <img src="./icons/done.png" alt="done" />
+              <img src={doneIcon} alt="done" />
             </div>
             <div className="text-[20px] font-700 font-inter mb-2">Success!</div>
             <div className="text-[18px] font-500 font-inter px-5">
               Mosque info has been updated!
+            </div>
+          </div>
+        </Popup>
+      </ShowComponent>
+      <ShowComponent condition={popupId === "Invite-Success"}>
+        <Popup setPopup={() => setPopupId("")} className="w-[30%]">
+          <div className="flex flex-col justify-center items-center w-full text-center mb-10">
+            <div className="mb-4">
+              <img src={doneIcon} alt="done" />
+            </div>
+            <div className="text-[20px] font-700 font-inter mb-2">Success!</div>
+            <div className="text-[18px] font-500 font-inter px-5">
+              Invite Sent!
             </div>
           </div>
         </Popup>
@@ -252,7 +312,7 @@ function CreateMosqueProfile() {
             <div className="flex justify-center gap-10 ">
               <button
                 className="w-[137px] h-[41px] bg-[#21ABA5] text-white text-[13px] font-500 font-inter rounded-[7.31px] cursor-pointer"
-                onClick={handleAddFacility}
+                onClick={handleSendInvite}
               >
                 Send Invite
               </button>
@@ -304,7 +364,7 @@ function CreateMosqueProfile() {
                   id="fileInput"
                   className="hidden"
                   accept="image/*"
-                  //   onChange={handleFileChange}
+                  onChange={handleFileChange}
                 />
               </div>
             )}
@@ -321,42 +381,85 @@ function CreateMosqueProfile() {
             </div>
             <p className="w-[45%]"></p>
           </div>
+          {mosqueStatus !== "PENDING" && (
+            <div className="flex justify-end w-[96%]">
+              Request Status:&nbsp;
+              <span
+                className={`${
+                  mosqueStatus === "APPROVED"
+                    ? "text-[#007D1C]"
+                    : "text-red-500"
+                }`}
+              >
+                {mosqueStatus === "APPROVED" ? "Approved" : "Rejected"}
+              </span>
+            </div>
+          )}
 
-          <>
-            <div className="flex items-center justify-around">
-              <div className="flex w-[45%] items-center gap-[12px]">
-                <img src={dummyProfile} alt="" />
-                <p className="text-[#000000] font-inter font-normal text-[17px]">
-                  muhammadqasim@gmail.com
-                </p>
-              </div>
-              <div className="w-[45%]  flex justify-end">
+          {mosqueStatus === "PENDING" ? (
+            <div className="flex justify-end w-[98%]  ">
+              <div className="flex gap-[36px] ">
                 <button
-                  className="text-[#21ABA5] cursor-pointer border-[1.15px] rounded-[7.8px] text-[17.32px] font-normal font-inter py-3 px-[49.25px]"
-                  onClick={() => setPopupId("removeManager")}
+                  disabled={loading ? true : false}
+                  onClick={handleReject}
+                  className="text-[#000000] flex items-center gap-[15.05px]
+                font-inter cursor-pointer font-normal text-[19.63px] pt-[16.8px] pb-[17.2px] px-[31.2px] border-[1.09px] border-[#A4A4A4] rounded-[10.91px]"
                 >
-                  Remove
+                  <img
+                    // className="w-[9.4px] h-[25.04px]"
+                    style={{ height: "14px" }}
+                    src={crossIcon}
+                    alt="cross icon"
+                  />{" "}
+                  Decline
+                </button>
+                <button
+                  onClick={handleApprove}
+                  disabled={loading ? true : false}
+                  className="text-[#FFFFFF] disabled:bg-[#a8ede9] disabled:cursor-not-allowed bg-[#21ABA5] flex items-center gap-[15.05px]
+                font-inter font-normal cursor-pointer text-[19.63px] pt-[16.8px] pb-[17.2px] px-[31.2px] border-[1.09px] border-[#A4A4A4] rounded-[10.91px]"
+                >
+                  <img
+                    className="w-[12.27px] "
+                    style={{ height: "16px", width: "15px" }}
+                    src={approveIcon}
+                    alt="approve icon"
+                  />{" "}
+                  Approve
                 </button>
               </div>
             </div>
+          ) : (
+            <>
+              {mosqueManagers?.map((manager) => {
+                return (
+                  <div
+                    key={manager._id}
+                    className="flex items-center justify-around mt-5"
+                  >
+                    <div className="flex w-[45%] items-center gap-[12px]">
+                      <img src={dummyProfile} alt="" />
+                      <p className="text-[#000000] font-inter font-normal text-[17px]">
+                        {manager.email}
+                      </p>
+                    </div>
+                    <div className="w-[45%]  flex justify-end">
+                      <button
+                        className="text-[#21ABA5] cursor-pointer border-[1.15px] rounded-[7.8px] text-[17.32px] font-normal font-inter py-3 px-[49.25px]"
+                        onClick={() => {
+                          setRemoveData({ mosque: id, manager: manager.email });
+                          setPopupId("removeManager");
+                        }}
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </>
+          )}
 
-            <div className="flex mt-[50px] items-center justify-around">
-              <div className="flex w-[45%] items-center gap-[12px]">
-                <img src={dummyProfile} alt="" />
-                <p className="text-[#000000] font-inter font-normal text-[17px]">
-                  cameronW@gmail.com
-                </p>
-              </div>
-              <div className="w-[45%]  flex justify-end">
-                <button
-                  className="text-[#21ABA5] cursor-pointer border-[1.15px] rounded-[7.8px] text-[17.32px] font-normal font-inter py-3 px-[49.25px]"
-                  onClick={() => setPopupId("removeManager")}
-                >
-                  Remove
-                </button>
-              </div>
-            </div>
-          </>
           <div className="mb-6 mt-[70px]">
             <form onSubmit={handleSubmit} className=" space-y-6">
               <div className="flex w-full justify-around">

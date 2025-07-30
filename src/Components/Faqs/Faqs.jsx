@@ -5,12 +5,35 @@ import searchIcon from "../../assets/svg/searchIcon.svg";
 import FaqList from "./FaqList";
 import FaqPopup from "../Common/FaqPopup";
 import DeleteFaqPopup from "../Common/DeleteFaqPopup";
+import EditFaqPopup from "../Common/EditFaqPopup";
 function Faqs() {
   const [popupId, setPopupId] = useState("");
+  const [triggerFetchFaqs, setTriggerFetchFaqs] = useState(false);
+  const [selectedFaq, setSelectedFaq] = useState(null);
+  const [deleteFaq, setDeleteFaq] = useState(null);
   return (
     <MainLayout>
-      <FaqPopup setPopupId={setPopupId} popupId={popupId} title="Add New FAQ" />
-      <DeleteFaqPopup setPopupId={setPopupId} popupId={popupId} />
+      <FaqPopup
+        setPopupId={setPopupId}
+        popupId={popupId}
+        title="Add New FAQ"
+        setTrigger={setTriggerFetchFaqs}
+      />
+
+      <DeleteFaqPopup
+        setPopupId={setPopupId}
+        popupId={popupId}
+        deleteFaq={deleteFaq}
+        setTrigger={setTriggerFetchFaqs}
+      />
+      {selectedFaq && (
+        <EditFaqPopup
+          faq={selectedFaq}
+          setSelectedFaq={setSelectedFaq}
+          setTriggerFetchFaqs={setTriggerFetchFaqs}
+        />
+      )}
+
       <button
         onClick={() => setPopupId("faq")}
         className="flex items-center gap-[13px] cursor-pointer 
@@ -27,7 +50,13 @@ function Faqs() {
           className="outline-none border-none placeholder:text-[14px]  bg-transparent text-[#757575] text-[18px] w-full placeholder:text-[#000000]"
         />
       </div>
-      <FaqList setPopupId={setPopupId} popupId={popupId} />
+      <FaqList
+        setPopupId={setPopupId}
+        popupId={popupId}
+        setSelectedFaq={setSelectedFaq}
+        triggerFetchFaqs={triggerFetchFaqs}
+        setDeleteFaq={setDeleteFaq}
+      />
     </MainLayout>
   );
 }

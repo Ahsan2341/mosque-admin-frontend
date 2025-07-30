@@ -9,11 +9,16 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { IconButton } from "@mui/material";
 import TextField from "@mui/material/TextField";
 
-function SearchFilterBox({ filterBy = null }) {
+function SearchFilterBox({ filterBy = null, setDate }) {
   const [filterOpen, setFilterOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const filterBoxRef = useRef(null);
-
+  const handleDateChange = (e) => {
+    setSelectedDate(e);
+    const isoDate = e ? e.toISOString() : null;
+    setDate(isoDate);
+    console.log(isoDate);
+  };
   return (
     <div className="flex flex-row justify-between items-center mt-8 w-full ">
       {/* Search Box */}
@@ -43,7 +48,7 @@ function SearchFilterBox({ filterBy = null }) {
 
               <DatePicker
                 value={selectedDate}
-                onChange={setSelectedDate}
+                onChange={handleDateChange}
                 className="absolute right-9"
                 slots={{
                   openPickerIcon: () => (

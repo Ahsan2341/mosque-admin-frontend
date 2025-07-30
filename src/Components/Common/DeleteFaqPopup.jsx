@@ -1,8 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import ShowComponent from "./ShowComponent";
 import Popup from "./Popup";
+import FaqAPI from "../../api/faq";
 
-function DeleteFaqPopup({ setPopupId, popupId }) {
+function DeleteFaqPopup({ setPopupId, popupId, deleteFaq, setTrigger }) {
+  const [loading, setLoading] = useState(false);
+  const handleDelete = () => {
+    setLoading(true);
+    FaqAPI.deleteFaq(deleteFaq._id).then((response) => {
+      setTrigger((state) => !state);
+      setPopupId("");
+      setLoading(false);
+    });
+  };
   return (
     <ShowComponent condition={popupId === "deleteFaq"}>
       <Popup setPopup={() => setPopupId("")} className="  w-[507px] ">
@@ -18,7 +28,6 @@ function DeleteFaqPopup({ setPopupId, popupId }) {
           <button
             onClick={() => {
               setPopupId("");
-              //   setNewFacility("");
             }}
             className="w-[137px] h-[41px] text-[#8A8A8A] border border-[#8A8A8A] text-[13px] font-500 font-inter rounded-[7.31px] cursor-pointer"
           >
@@ -26,8 +35,9 @@ function DeleteFaqPopup({ setPopupId, popupId }) {
           </button>
 
           <button
-            className="w-[137px] h-[41px] bg-[#21ABA5] text-white text-[13px] font-500 font-inter rounded-[7.31px] cursor-pointer"
-            // onClick={handleAddFacility}
+            disabled={loading ? true : false}
+            className="w-[137px] h-[41px] disabled:bg-[#a4e4e1] disabled:cursor-not-allowed bg-[#21ABA5] text-white text-[13px] font-500 font-inter rounded-[7.31px] cursor-pointer"
+            onClick={handleDelete}
           >
             Delete
           </button>
