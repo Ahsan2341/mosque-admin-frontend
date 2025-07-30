@@ -1,6 +1,6 @@
 import React from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
-import Signup from "../Auth/SignUp";
+import Signup from "../Auth/Signup";
 import Login from "../Auth/Login";
 import ForgotPassword from "../Auth/ForgotPassword";
 import EnterCode from "../Auth/EnterCode";
