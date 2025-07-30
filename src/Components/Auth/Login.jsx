@@ -121,7 +121,7 @@ function Login() {
               </div>
             </div>
 
-            <div className="flex justify-between items-center mb-6">
+            {/* <div className="flex justify-between items-center mb-6">
               <label className="flex items-center ">
                 <input
                   type="checkbox"
@@ -137,7 +137,7 @@ function Login() {
               >
                 Forgot Password?
               </Link>
-            </div>
+            </div> */}
             <button
               type="submit"
               disabled={buttonDisable}
@@ -146,7 +146,7 @@ function Login() {
             >
               Sign In
             </button>
-            <div className="text-center text-sm mt-4">
+            {/* <div className="text-center text-sm mt-4">
               <span className="text-[12px] font-400 font-inter">
                 Don't have an account?{" "}
               </span>
@@ -156,8 +156,8 @@ function Login() {
               >
                 Sign up
               </Link>
-            </div>
-            <div
+            </div> */}
+            {/* <div
               className="mt-4 flex items-center justify-center font-inter bg-[rgba(138, 138, 138, 0.2)] h-[43px] border border-[#21ABA5] rounded-md cursor-pointer hover:bg-opacity-30 transition duration-150"
               //   onClick={login}
             >
@@ -165,7 +165,7 @@ function Login() {
               <span className="text-[#21ABA5] text-[14px] font-inter font-medium">
                 Continue with Google
               </span>
-            </div>
+            </div> */}
           </form>
         </div>
       </div>

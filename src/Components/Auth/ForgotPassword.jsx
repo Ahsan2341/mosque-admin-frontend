@@ -43,7 +43,7 @@ function ForgotPassword() {
         setButtonDisable(false);
       });
   };
-
+  const handleSendOtp = () => {};
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -79,7 +79,7 @@ function ForgotPassword() {
 
             <button
               type="submit"
-              disabled={buttonDisable}
+              onClick={handleSendOtp}
               className="w-full h-[43px] bg-[#21ABA5] text-white text-[16px] font-semibold rounded-md shadow-sm hover:bg-[#1b9c8f] transition duration-150"
             >
               Send Code
