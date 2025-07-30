@@ -11,6 +11,7 @@ function RegisteredMosques() {
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
   const [filteredMosques, setFilteredMosques] = useState([]);
+  const [mosqueStatus, setMosqueStatus] = useState("all");
   const fetchMosques = async (pageNum = 1) => {
     setLoading(true);
     try {
@@ -47,6 +48,19 @@ function RegisteredMosques() {
       );
     }
   }, [name]);
+  useEffect(() => {
+    if (mosqueStatus === "active") {
+      setFilteredMosques(
+        mosques.filter((mosque) => mosque.mosqueStatus === "APPROVED")
+      );
+    } else if (mosqueStatus === "inactive") {
+      setFilteredMosques(
+        mosques.filter((mosque) => mosque.mosqueStatus === "PENDING")
+      );
+    } else {
+      setFilteredMosques(mosques);
+    }
+  }, [mosqueStatus]);
   return (
     <div>
       <div className="total-users gap-[20.15px] w-[244px] pt-[25.89px] pb-[22.53px] pl-[21px] flex flex-col justify-between shadow-[0px_4.01px_7.01px_0px_rgba(0,0,0,0.15)] rounded-[8.79px]">
@@ -62,7 +76,11 @@ function RegisteredMosques() {
           Registered Mosques
         </p>
       </div>
-      <SearchFilterBox name={name} setName={setName} />
+      <SearchFilterBox
+        name={name}
+        setName={setName}
+        setUserStatus={setMosqueStatus}
+      />
       <MosqueTable
         rows={filteredMosques}
         page={page}

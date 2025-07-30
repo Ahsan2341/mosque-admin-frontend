@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import eyeOpen from "../../assets/icons/eyeopen.png";
 import eyeClose from "../../assets/icons/eyeclose.png";
 import AuthAPI from "../../api/auth/auth";
+import { toast } from "react-toastify";
 function PasswordSettings() {
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
@@ -21,10 +22,14 @@ function PasswordSettings() {
       currentPassword,
       newPassword,
       confirmNewPassword: confirmPassword,
-    }).then((response) => {
-      console.log(response.data);
-      alert("response");
-    });
+    })
+      .then((response) => {
+        console.log(response.data);
+        toast.success("Password Changed");
+      })
+      .catch((err) => {
+        toast.error(err);
+      });
   };
   return (
     <div className="mt-[22px] pt-[30px] pl-[30px]">

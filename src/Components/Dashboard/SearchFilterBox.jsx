@@ -9,7 +9,13 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { IconButton } from "@mui/material";
 import TextField from "@mui/material/TextField";
 
-function SearchFilterBox({ filterBy = null, setDate, name, setName }) {
+function SearchFilterBox({
+  filterBy = null,
+  setDate,
+  name,
+  setName,
+  setUserStatus,
+}) {
   const [filterOpen, setFilterOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const filterBoxRef = useRef(null);
@@ -28,6 +34,7 @@ function SearchFilterBox({ filterBy = null, setDate, name, setName }) {
           type="text"
           value={name}
           onChange={(e) => {
+            console.log(e.target.value);
             setName(e.target.value);
           }}
           placeholder="Search by Name"
@@ -121,13 +128,28 @@ function SearchFilterBox({ filterBy = null, setDate, name, setName }) {
         {/* Dropdown - only show when filterBy is not "date" */}
         {filterOpen && filterBy !== "date" && (
           <div className="absolute left-0 mt-2 w-full bg-white border border-[#BDBDBD] rounded-[12px] shadow-lg z-10">
-            <div className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+            <div
+              onClick={() => {
+                setUserStatus("all");
+              }}
+              className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+            >
               All
             </div>
-            <div className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+            <div
+              onClick={() => {
+                setUserStatus("active");
+              }}
+              className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+            >
               Active
             </div>
-            <div className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+            <div
+              onClick={() => {
+                setUserStatus("inactive");
+              }}
+              className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+            >
               Inactive
             </div>
           </div>

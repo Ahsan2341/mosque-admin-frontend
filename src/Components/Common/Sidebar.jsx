@@ -90,7 +90,7 @@ function Sidebar() {
           className="w-[18px] h-[18px]"
           alt="RegisterationRequests"
         />
-        <div className="mx-3">Registeration Requests</div>
+        <div className="mx-3">Registration Requests</div>
       </NavLink>
 
       <NavLink

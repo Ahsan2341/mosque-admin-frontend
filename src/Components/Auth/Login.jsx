@@ -55,10 +55,12 @@ function Login() {
           navigate("/dashboard");
           setButtonDisable(false);
         });
+
         setButtonDisable(false);
       })
       .catch((error) => {
-        toast.error(error?.response?.data.message?.message);
+        console.log(error);
+        toast.error(error?.response?.data.error);
         setButtonDisable(false);
       });
   };

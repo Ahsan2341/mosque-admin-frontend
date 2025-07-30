@@ -88,17 +88,20 @@ function RegisterationRequests() {
   const [approvedRejecctedMosquesDate, setApprovedRejecctedMosquesDate] =
     useState(null);
   const [pendingMosquesDate, setPendingMosquesDate] = useState(null);
+  const [filteredApprovedRequests, setFilteredApprovedRequests] = useState([]);
+  const [filteredPendingRequests, setFilteredPendingRequests] = useState([]);
+  const [name, setName] = useState("");
   const fetchPendingMosques = () => {
     MosquesAPI.getPendingMosques(`page=${page}&limit=5`).then((response) => {
       console.log(response.data);
       setPendingMosques(response.data.data);
+      setFilteredPendingRequests(response.data.data);
       setTotalPages(response.data.totalPages);
       setTotalItems(response.data.totalItems);
     });
   };
   const fetchApprovedRejectedMosques = () => {
     if (approvedRejecctedMosquesDate) {
-      console.log("inside if");
       const date = new Date(approvedRejecctedMosquesDate);
       const startOfDay = new Date(date.setUTCHours(0, 0, 0, 0)).toISOString();
       const endOfDay = new Date(
@@ -118,6 +121,7 @@ function RegisterationRequests() {
       MosquesAPI.approvalHistory(`page=${page}&limit=5`).then((response) => {
         console.log(response.data);
         setApprovedRejecctedMosques(response.data.data);
+        setFilteredApprovedRequests(response.data.data);
         setTotalPages(response.data.totalPages);
         setTotalItems(response.data.totalItems);
       });
@@ -133,6 +137,31 @@ function RegisterationRequests() {
       fetchApprovedRejectedMosques();
     }
   }, [activeTab, page, approvedRejecctedMosquesDate]);
+  useEffect(() => {
+    if (name !== "") {
+      setFilteredApprovedRequests(
+        approvedRejecctedMosques.filter((request) =>
+          request?.author?.name.toLowerCase().includes(name.toLowerCase())
+        )
+      );
+    } else {
+      setFilteredApprovedRequests(approvedRejecctedMosques);
+    }
+  }, [name]);
+  useEffect(() => {
+    if (name !== "") {
+      setFilteredPendingRequests(
+        pendingMosques.filter((request) => {
+          console.log(request);
+          return request?.author?.name
+            .toLowerCase()
+            .includes(name.toLowerCase());
+        })
+      );
+    } else {
+      setFilteredPendingRequests(pendingMosques);
+    }
+  }, [name]);
   return (
     <MainLayout>
       <RegisterationRequestsTop
@@ -143,14 +172,19 @@ function RegisterationRequests() {
         <SearchFilterBox
           filterBy={"date"}
           setDate={setApprovedRejecctedMosquesDate}
+          setName={setName}
         />
       ) : (
-        <SearchFilterBox filterBy={"date"} setDate={setPendingMosquesDate} />
+        <SearchFilterBox
+          filterBy={"date"}
+          setDate={setPendingMosquesDate}
+          setName={setName}
+        />
       )}
 
       {activeTab === "pending" && (
         <div className="all-requests mt-[35px] flex flex-col gap-6">
-          {pendingMosques?.map((req, idx) => (
+          {filteredPendingRequests?.map((req, idx) => (
             <PendingRequestCard
               setFetchMosques={setFetchMosques}
               key={idx}
@@ -161,7 +195,7 @@ function RegisterationRequests() {
       )}
       {activeTab === "done" && (
         <div className="all-requests mt-[35px] flex flex-col gap-6">
-          {approvedRejecctedMosques?.map((req, idx) => (
+          {filteredApprovedRequests?.map((req, idx) => (
             <ApprovedRequestCard key={idx} data={req} />
           ))}
         </div>
