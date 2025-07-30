@@ -21,7 +21,19 @@ function RegisteredMosques() {
       console.log(res.data);
       const { data, totalItems, totalPages, currentPage } = res.data;
       setMosques(data);
-      setFilteredMosques(data);
+      if (mosqueStatus !== "all") {
+        if (mosqueStatus === "active") {
+          setFilteredMosques(
+            mosques.filter((mosque) => mosque.isActive === true)
+          );
+        } else if (mosqueStatus === "inactive") {
+          setFilteredMosques(
+            mosques.filter((mosque) => mosque.isActive === false)
+          );
+        }
+      } else {
+        setFilteredusers(data);
+      }
       setTotalItems(totalItems);
       setTotalPages(totalPages);
       setPage(currentPage || 1);

@@ -21,8 +21,16 @@ function CommunityUsers() {
       console.log(res.data);
       const { data, totalItems, totalPages, currentPage } = res.data;
       setUsers(data);
-      setUserStatus("all");
-      setFilteredusers(data);
+      if (userStatus !== "all") {
+        if (userStatus === "active") {
+          setFilteredusers(users.filter((user) => user.isActive === true));
+        } else if (userStatus === "inactive") {
+          setFilteredusers(users.filter((user) => user.isActive === false));
+        }
+      } else {
+        setFilteredusers(data);
+      }
+
       setTotalItems(totalItems);
       setTotalPages(totalPages);
       setPage(currentPage);
