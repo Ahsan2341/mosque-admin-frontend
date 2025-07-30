@@ -2,7 +2,7 @@ import React from "react";
 import activetTabLine from "../../assets/icons/activeTabLine.png";
 function DashboardTop({ activeTab, setActiveTab }) {
   return (
-    <div className="main-container border-b border-[#232035] w-full flex justify-around relative mb-[35px]">
+    <div className="main-container border-b border-[#232035] w-full flex justify-around relative mb-[35px] mt-[30px]">
       <div
         className="flex flex-col items-center cursor-pointer relative flex-1"
         onClick={() => setActiveTab("communityUsers")}

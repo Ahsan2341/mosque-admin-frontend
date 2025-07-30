@@ -55,7 +55,12 @@ function Header() {
           <p className="font-inter font-normal text-[16px]">
             {currentUser.name}
           </p>
-          <img src={jb} alt="jb" className="w-[35px] h-[35px] ml-[15px]" />
+          <img
+            // src={`https://ui-avatars.com/api/?name=${currentUser.name}&size=128&background=108A85&color=FFFFFF`}
+            src={`https://ui-avatars.com/api/?name=A&size=128&background=108A85&color=FFFFFF`}
+            alt="jb"
+            className="w-[35px] rounded-full h-[35px] ml-[15px]"
+          />
         </div>
         <img
           onClick={handleLogout}

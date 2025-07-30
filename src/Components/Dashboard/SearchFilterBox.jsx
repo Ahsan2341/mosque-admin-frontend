@@ -9,7 +9,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { IconButton } from "@mui/material";
 import TextField from "@mui/material/TextField";
 
-function SearchFilterBox({ filterBy = null, setDate }) {
+function SearchFilterBox({ filterBy = null, setDate, name, setName }) {
   const [filterOpen, setFilterOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const filterBoxRef = useRef(null);
@@ -26,7 +26,11 @@ function SearchFilterBox({ filterBy = null, setDate }) {
         <img src={searchIcon} alt="search" className="mr-3 w-3 h-3 mt-1" />
         <input
           type="text"
-          placeholder="Search by Name/Email"
+          value={name}
+          onChange={(e) => {
+            setName(e.target.value);
+          }}
+          placeholder="Search by Name"
           className="outline-none border-none placeholder:text-[14px]  bg-transparent text-[#757575] text-[18px] w-full placeholder:text-[#000000]"
         />
       </div>

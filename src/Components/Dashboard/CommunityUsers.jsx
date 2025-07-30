@@ -10,7 +10,7 @@ function CommunityUsers() {
   const [totalItems, setTotalItems] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
-
+  const [filteredusers, setFilteredusers] = useState([]);
   const fetchUsers = async (pageNum = 1) => {
     setLoading(true);
     try {
@@ -20,6 +20,7 @@ function CommunityUsers() {
       console.log(res.data);
       const { data, totalItems, totalPages, currentPage } = res.data;
       setUsers(data);
+      setFilteredusers(data);
       setTotalItems(totalItems);
       setTotalPages(totalPages);
       setPage(currentPage);
@@ -33,25 +34,36 @@ function CommunityUsers() {
     fetchUsers(page);
     // eslint-disable-next-line
   }, [page, pageSize]);
-
+  const [name, setName] = useState("");
+  useEffect(() => {
+    if (name == "") {
+      setFilteredusers(users);
+    } else {
+      setFilteredusers(
+        users.filter((user) =>
+          user.name.toLowerCase().includes(name.toLowerCase())
+        )
+      );
+    }
+  }, [name]);
   return (
     <div>
-      <div className="total-users gap-[56.15px] w-[244px] pt-[25.89px] pb-[22.53px] pl-[21px] flex flex-col justify-between shadow-[0px_4.01px_7.01px_0px_rgba(0,0,0,0.15)] rounded-[8.79px]">
+      <div className="total-users gap-[20.15px] w-[244px] pt-[25.89px] pb-[22.53px] pl-[21px] flex flex-col justify-between shadow-[0px_4.01px_7.01px_0px_rgba(0,0,0,0.15)] rounded-[8.79px]">
         <div className="flex flex-col gap-[7.4px]">
-          <p className="font-inter text-[#989898] font-normal text-[18.96px]">
+          <p className="font-inter text-[#989898] font-normal text-[16.96px]">
             Total Users
           </p>
-          <p className="font-inter text-[#21ABA5] font-medium text-[26px]">
+          <p className="font-inter text-[#21ABA5] font-medium text-[20px]">
             {totalItems}
           </p>
         </div>
-        <p className="text-[#000000] font-inter text-[20px] font-medium">
+        <p className="text-[#000000] font-inter text-[18px] font-medium">
           Community
         </p>
       </div>
-      <SearchFilterBox />
+      <SearchFilterBox name={name} setName={setName} />
       <UserTable
-        rows={users}
+        rows={filteredusers}
         page={page}
         pageSize={pageSize}
         totalRows={totalItems}
