@@ -32,7 +32,9 @@ function AcceptInvite() {
       } else {
         setMessage(result.message || "Failed to accept invitation.");
       }
-      window.location.assign("http://localhost:5173/auth/invite-accepted");
+      window.location.assign(
+        "https://mosque-admin-frontend-two.vercel.app/auth/invite-accepted"
+      );
     } catch (error) {
       setMessage(`Error: ${error.message}`);
     } finally {
