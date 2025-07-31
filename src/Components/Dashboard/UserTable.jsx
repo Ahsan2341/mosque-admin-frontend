@@ -152,7 +152,6 @@ const UserTable = ({
               onChange={(e) => handleChangeStatus(params.row, e.target.value)}
               disabled={statusLoadingId === params.row.id}
             >
-              <MenuItem value="">Change Status</MenuItem>
               <MenuItem value="Active">Active</MenuItem>
               <MenuItem value="Blocked">Blocked</MenuItem>
             </Select>

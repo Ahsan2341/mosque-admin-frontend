@@ -196,11 +196,19 @@ function CreateMosqueProfile() {
     );
   };
   const handleSendInvite = () => {
-    if (email == "" || id == "") return;
-    AuthAPI.inviteManager(email, id).then((response) => {
-      console.log(response.data);
-      setPopupId("Invite-Success");
-    });
+    if (email == "" || id == "" || !email.includes("@")) {
+      toast.error("Invalid Email");
+      return;
+    }
+
+    AuthAPI.inviteManager(email, id)
+      .then((response) => {
+        setPopupId("Invite-Success");
+      })
+      .catch((error) => {
+        toast.error(error.response.data.message.message);
+        console.log(error);
+      });
   };
   const handleApprove = () => {
     setLoading(true);
