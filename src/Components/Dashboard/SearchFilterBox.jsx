@@ -18,11 +18,12 @@ function SearchFilterBox({
 }) {
   const [filterOpen, setFilterOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
+  const [calenderDate, setCalenderDate] = useState(null);
   const filterBoxRef = useRef(null);
   const handleDateChange = (e) => {
     const newDate = addDays(e, 1);
     setSelectedDate(newDate);
-
+    setCalenderDate(e);
     const isoDate = newDate ? newDate.toISOString() : null; // use in prod
     // const isoDate = e ? e.toISOString() : null; use in dev
     setDate(isoDate);
@@ -63,7 +64,7 @@ function SearchFilterBox({
               </div>
 
               <DatePicker
-                value={selectedDate}
+                value={calenderDate}
                 onChange={handleDateChange}
                 className="absolute right-9"
                 slots={{
