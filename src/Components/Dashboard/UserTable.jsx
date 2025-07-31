@@ -128,7 +128,7 @@ const UserTable = ({
           ...col,
           renderCell: (params) => (
             <Select
-              value={""}
+              value=""
               displayEmpty
               variant="standard"
               disableUnderline
@@ -137,9 +137,21 @@ const UserTable = ({
                 fontSize: 14,
                 color: "#757575",
                 minWidth: 120,
+                "& .MuiSelect-icon": {
+                  width: 16,
+                  height: 8,
+                  top: "calc(50% - 4px)",
+                },
               }}
-              IconComponent={() => (
-                <svg width="16" height="8" viewBox="0 0 16 8" fill="none">
+              IconComponent={(props) => (
+                <svg
+                  {...props}
+                  width="16"
+                  height="8"
+                  viewBox="0 0 16 8"
+                  fill="none"
+                  style={{ pointerEvents: "none" }}
+                >
                   <path
                     d="M1 1L8 7L15 1"
                     stroke="#757575"
@@ -152,6 +164,7 @@ const UserTable = ({
               onChange={(e) => handleChangeStatus(params.row, e.target.value)}
               disabled={statusLoadingId === params.row.id}
             >
+              <MenuItem value="">Change Status</MenuItem>
               <MenuItem value="Active">Active</MenuItem>
               <MenuItem value="Blocked">Blocked</MenuItem>
             </Select>
