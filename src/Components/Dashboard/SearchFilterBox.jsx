@@ -8,7 +8,7 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { IconButton } from "@mui/material";
 import TextField from "@mui/material/TextField";
-
+import { addDays } from "date-fns";
 function SearchFilterBox({
   filterBy = null,
   setDate,
@@ -20,11 +20,14 @@ function SearchFilterBox({
   const [selectedDate, setSelectedDate] = useState(null);
   const filterBoxRef = useRef(null);
   const handleDateChange = (e) => {
-    setSelectedDate(e);
-    const isoDate = e ? e.toISOString() : null;
+    const newDate = addDays(e, 1);
+    setSelectedDate(newDate);
+
+    const isoDate = newDate ? newDate.toISOString() : null; // use in prod
+    // const isoDate = e ? e.toISOString() : null; use in dev
     setDate(isoDate);
-    console.log(isoDate);
   };
+
   return (
     <div className="flex flex-row justify-between items-center mt-8 w-full ">
       {/* Search Box */}
@@ -53,7 +56,9 @@ function SearchFilterBox({
                   className="mr-3 w-[16px] h-[12px]"
                 />
                 <span className="text-[#000000] font-normal text-[16px]">
-                  Filter by Date
+                  {selectedDate
+                    ? selectedDate.toISOString().split("T")[0]
+                    : "Filter by Date"}
                 </span>
               </div>
 
