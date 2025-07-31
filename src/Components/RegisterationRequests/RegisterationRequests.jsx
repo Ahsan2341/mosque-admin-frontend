@@ -85,42 +85,51 @@ function RegisterationRequests() {
   const [fetchMosques, setFetchMosques] = useState(false);
   const [pendingMosques, setPendingMosques] = useState([]);
   const [approvedRejecctedMosques, setApprovedRejecctedMosques] = useState([]);
-  const [approvedRejecctedMosquesDate, setApprovedRejecctedMosquesDate] =
+  const [approvedRejectedMosquesDate, setApprovedRejectedMosquesDate] =
     useState(null);
   const [pendingMosquesDate, setPendingMosquesDate] = useState(null);
   const [filteredApprovedRequests, setFilteredApprovedRequests] = useState([]);
   const [filteredPendingRequests, setFilteredPendingRequests] = useState([]);
   const [name, setName] = useState("");
   const fetchPendingMosques = () => {
-    MosquesAPI.getPendingMosques(`page=${page}&limit=5`).then((response) => {
-      console.log(response.data);
-      setPendingMosques(response.data.data);
-      setFilteredPendingRequests(response.data.data);
-      setTotalPages(response.data.totalPages);
-      setTotalItems(response.data.totalItems);
-    });
+    if (pendingMosquesDate) {
+      MosquesAPI.getPendingMosques(
+        `page=${page}$limit=5&createdAt=${pendingMosquesDate}`
+      ).then((response) => {
+        console.log(response.data);
+        setFilteredPendingRequests(response.data.data);
+        setTotalPages(response.data.totalPages);
+        setTotalItems(response.data.totalItems);
+      });
+    } else {
+      MosquesAPI.getPendingMosques(`page=${page}&limit=5`).then((response) => {
+        console.log(response.data);
+        setPendingMosques(response.data.data);
+        setFilteredPendingRequests(response.data.data);
+        setTotalPages(response.data.totalPages);
+        setTotalItems(response.data.totalItems);
+      });
+    }
   };
   const fetchApprovedRejectedMosques = () => {
-    if (approvedRejecctedMosquesDate) {
-      const date = new Date(approvedRejecctedMosquesDate);
-      const startOfDay = new Date(date.setUTCHours(0, 0, 0, 0)).toISOString();
-      const endOfDay = new Date(
-        date.setUTCHours(23, 59, 59, 999)
-      ).toISOString();
+    if (approvedRejectedMosquesDate) {
       MosquesAPI.approvalHistory(
-        `page=${page}&limit=5${
-          approvedRejecctedMosquesDate ? `&createdAt=${date}` : ""
+        `page=${1}&limit=5${
+          approvedRejectedMosquesDate
+            ? `&createdAt=${approvedRejectedMosquesDate}`
+            : ""
         }`
       ).then((response) => {
         console.log(response.data);
         setApprovedRejecctedMosques(response.data.data);
+        setFilteredApprovedRequests(response.data.data);
         setTotalPages(response.data.totalPages);
         setTotalItems(response.data.totalItems);
       });
     } else {
       MosquesAPI.approvalHistory(`page=${page}&limit=5`).then((response) => {
         console.log(response.data);
-        setApprovedRejecctedMosques(response.data.data);
+        // setApprovedRejecctedMosques(response.data.data);
         setFilteredApprovedRequests(response.data.data);
         setTotalPages(response.data.totalPages);
         setTotalItems(response.data.totalItems);
@@ -132,12 +141,12 @@ function RegisterationRequests() {
       setPage(1);
       fetchPendingMosques();
     }
-  }, [activeTab, page, fetchMosques]);
+  }, [activeTab, page, fetchMosques, pendingMosquesDate]);
   useEffect(() => {
     if (activeTab === "done") {
       fetchApprovedRejectedMosques();
     }
-  }, [activeTab, page, approvedRejecctedMosquesDate]);
+  }, [activeTab, page, approvedRejectedMosquesDate]);
   useEffect(() => {
     if (name !== "") {
       setFilteredApprovedRequests(
@@ -172,7 +181,7 @@ function RegisterationRequests() {
       {activeTab === "done" ? (
         <SearchFilterBox
           filterBy={"date"}
-          setDate={setApprovedRejecctedMosquesDate}
+          setDate={setApprovedRejectedMosquesDate}
           setName={setName}
         />
       ) : (

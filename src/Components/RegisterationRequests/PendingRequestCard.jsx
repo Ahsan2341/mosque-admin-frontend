@@ -50,7 +50,7 @@ function PendingRequestCard({ setFetchMosques, data }) {
           className="w-14 h-14 rounded-full object-cover"
         />
         <div>
-          <div className="text-[18px] font-semibold font-inter">
+          <div className="text-[16px] font-semibold font-inter">
             {data?.author ? data.author.name : "---"}
             <span className="font-normal">
               &nbsp; sent a Mosque Registration Request.
@@ -62,15 +62,15 @@ function PendingRequestCard({ setFetchMosques, data }) {
               View Mosque.
             </Link>
           </div>
-          <div className="text-[#000000] text-[16px] font-inter mt-1">
+          <div className="text-[#000000] text-[12px] font-inter mt-1">
             {data?.author ? data.author.email : "---"}&nbsp;
           </div>
           <div className="flex items-center gap-6 mt-2">
-            <div className="flex items-center text-[#232323] text-[15px] font-inter">
+            <div className="flex items-center text-[#232323] text-[13px] font-inter">
               <CalendarMonthIcon sx={{ fontSize: 18, marginRight: 0.5 }} />
               {formatDateTime(data.createdAt).ordinalDate}
             </div>
-            <div className="flex items-center text-[#232323] text-[15px] font-inter">
+            <div className="flex items-center text-[#232323] text-[13px] font-inter">
               <AccessTimeIcon sx={{ fontSize: 18, marginRight: 0.5 }} />
               {formatDateTime(data.createdAt).time}
             </div>
@@ -81,14 +81,14 @@ function PendingRequestCard({ setFetchMosques, data }) {
       <div className="flex gap-4">
         <button
           onClick={() => setPopupId("declineRequest")}
-          className="flex gap-[13px] items-center border border-[#BDBDBD] rounded-lg px-6 py-2 text-[#232323] bg-transparent font-inter text-[16px] font-medium hover:bg-[#f5f5f5] transition"
+          className="flex gap-[13px] items-center border border-[#BDBDBD] rounded-lg px-6 py-2 text-[#232323] bg-transparent font-inter text-[14px] font-medium hover:bg-[#f5f5f5] transition"
         >
           <CloseIcon sx={{ fontSize: 20 }} />
           Decline
         </button>
         <button
           onClick={() => setPopupId("approveRequest")}
-          className="flex items-center gap-[13px] bg-[#21ABA5] rounded-lg px-6 py-2 text-white font-inter text-[16px] font-medium hover:bg-[#17908B] transition"
+          className="flex items-center gap-[13px] bg-[#21ABA5] rounded-lg px-6 py-2 text-white font-inter text-[14px] font-medium hover:bg-[#17908B] transition"
         >
           <CheckIcon sx={{ fontSize: 20 }} />
           Approve

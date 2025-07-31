@@ -28,7 +28,7 @@ function SearchFilterBox({
   return (
     <div className="flex flex-row justify-between items-center mt-8 w-full ">
       {/* Search Box */}
-      <div className="flex items-center border border-[#BDBDBD] rounded-[16px] pl-[21px] py-[20px] w-[471px] h-[52px] bg-white">
+      <div className="flex items-center border border-[#BDBDBD] rounded-[16px] pl-[21px] py-[20px] w-[471px] h-[42px] bg-white">
         <img src={searchIcon} alt="search" className="mr-3 w-3 h-3 mt-1" />
         <input
           type="text"
@@ -45,12 +45,12 @@ function SearchFilterBox({
       <div className="relative" ref={filterBoxRef}>
         {filterBy === "date" ? (
           <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <div className="flex items-center border border-[#BDBDBD] rounded-[16px] px-4 py-2 w-[304px] h-[56px] bg-white justify-between">
+            <div className="flex items-center border border-[#BDBDBD] rounded-[16px] px-4 py-2 w-[304px] h-[42px] bg-white justify-between">
               <div className="flex items-center">
                 <img
                   src={filtIcon}
                   alt="filter"
-                  className="mr-3 w-[16px] h-[16px]"
+                  className="mr-3 w-[16px] h-[12px]"
                 />
                 <span className="text-[#000000] font-normal text-[16px]">
                   Filter by Date
@@ -107,7 +107,7 @@ function SearchFilterBox({
         ) : (
           // Regular Dropdown
           <div
-            className="flex items-center border border-[#BDBDBD] rounded-[16px] px-4 py-2 w-[304px] h-[56px] bg-white justify-between cursor-pointer"
+            className="flex items-center border border-[#BDBDBD] rounded-[16px] px-4 py-2 w-[304px] h-[42px] bg-white justify-between cursor-pointer"
             onClick={() => setFilterOpen((prev) => !prev)}
           >
             <div className="flex items-center">
@@ -121,7 +121,7 @@ function SearchFilterBox({
               </span>
             </div>
             <div className="flex flex-col ml-2 gap-3">
-              <img src={filterArrows} alt="filter arrows" className="w-4 h-6" />
+              <img src={filterArrows} alt="filter arrows" className="w-4 h-5" />
             </div>
           </div>
         )}

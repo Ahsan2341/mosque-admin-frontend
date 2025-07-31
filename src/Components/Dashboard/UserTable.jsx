@@ -62,7 +62,7 @@ const columns = [
         value="Change Status"
         variant="standard"
         disableUnderline
-        sx={{ fontWeight: 500, fontSize: 16, color: "#757575", minWidth: 120 }}
+        sx={{ fontWeight: 500, fontSize: 14, color: "#757575", minWidth: 120 }}
         IconComponent={() => (
           <svg width="16" height="8" viewBox="0 0 16 8" fill="none">
             <path
@@ -134,7 +134,7 @@ const UserTable = ({
               disableUnderline
               sx={{
                 fontWeight: 500,
-                fontSize: 16,
+                fontSize: 14,
                 color: "#757575",
                 minWidth: 120,
               }}
@@ -204,7 +204,7 @@ const UserTable = ({
                 height: 44,
                 borderRadius: 2,
                 fontWeight: item.selected ? 700 : 500,
-                fontSize: 18,
+                fontSize: 16,
                 border: item.selected
                   ? "2px solid #232323"
                   : "1px solid #E0E0E0",
@@ -224,7 +224,7 @@ const UserTable = ({
                       minWidth: 32,
                       height: 44,
                       fontWeight: 500,
-                      fontSize: 18,
+                      fontSize: 16,
                       color: "#232323",
                     }
                   : {}),
@@ -237,7 +237,7 @@ const UserTable = ({
                       height: 44,
                       borderRadius: 2,
                       fontWeight: 700,
-                      fontSize: 22,
+                      fontSize: 18,
                     }
                   : {}),
               }}

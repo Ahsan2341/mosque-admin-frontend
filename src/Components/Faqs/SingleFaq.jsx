@@ -9,10 +9,10 @@ function SingleFaq({ faq, setPopupId, popupId, setSelectedFaq, setDeleteFaq }) {
     <>
       <div className="border-[#949494] mt-[25px] border-[1px] flex justify-between items-start rounded-[10px] py-[25px] pl-[25px] pr-[22.53px]">
         <div className="flex gap-3 flex-col">
-          <h2 className="text-[#000000] font-inter font-medium text-[18px]">
+          <h2 className="text-[#000000] font-inter font-medium text-[16px]">
             {faq.question}
           </h2>
-          <p className="text-[#000000] font-inter font-normal text-[16px]">
+          <p className="text-[#000000] font-inter font-normal text-[14px]">
             {faq.answer}
           </p>
         </div>

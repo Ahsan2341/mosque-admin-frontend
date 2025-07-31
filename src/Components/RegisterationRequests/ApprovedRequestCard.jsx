@@ -35,7 +35,7 @@ function ApprovedRequestCard({ data }) {
           className="w-14 h-14 rounded-full object-cover"
         />
         <div>
-          <div className="text-[18px] font-semibold font-inter">
+          <div className="text-[14px] font-semibold font-inter">
             {data?.author ? data.author.name : "---"}
             <span className="font-normal">
               sent a Mosque Registration Request.
@@ -47,15 +47,15 @@ function ApprovedRequestCard({ data }) {
               View Mosque.
             </Link>
           </div>
-          <div className="text-[#000000] text-[16px] font-inter mt-1">
+          <div className="text-[#000000] text-[12px] font-inter mt-1">
             {data?.author ? data.author.email : "---"}&nbsp;
           </div>
           <div className="flex items-center gap-6 mt-2">
-            <div className="flex items-center text-[#232323] text-[15px] font-inter">
+            <div className="flex items-center text-[#232323] text-[13px] font-inter">
               <CalendarMonthIcon sx={{ fontSize: 18, marginRight: 0.5 }} />
               {formatDateTime(data.updatedAt).ordinalDate}
             </div>
-            <div className="flex items-center text-[#232323] text-[15px] font-inter">
+            <div className="flex items-center text-[#232323] text-[13px] font-inter">
               <AccessTimeIcon sx={{ fontSize: 18, marginRight: 0.5 }} />
               {formatDateTime(data.updatedAt).time}
             </div>
@@ -64,7 +64,7 @@ function ApprovedRequestCard({ data }) {
       </div>
       {/* Right: Buttons */}
       <div className="flex flex-col items-end gap-4">
-        <p className="font-inter font-normal text-[16px] text-black">
+        <p className="font-inter font-normal text-[14px] text-black">
           Request State:
           {data.mosqueStatus === "APPROVED" ? (
             <span className="text-[#007D1C]">Approved!</span>

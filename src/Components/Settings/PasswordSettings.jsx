@@ -33,18 +33,18 @@ function PasswordSettings() {
   };
   return (
     <div className="mt-[22px] pt-[30px] pl-[30px]">
-      <h2 className="text-[#000000] font-inter font-medium text-[22px]">
+      <h2 className="text-[#000000] font-inter font-medium text-[18px]">
         Password
       </h2>
       <div className="mt-[40px] flex flex-col gap-[28px]">
         <div className="mt-2.5 relative">
           <label
             htmlFor="current-password"
-            className="block text-[18px] font-medium font-inter text-[#8A8A8A]"
+            className="block text-[16px] font-medium font-inter text-[#8A8A8A]"
           >
             Current Password
           </label>
-          <div className="relative h-[66px] w-[415px]">
+          <div className="relative h-[56px] w-[415px]">
             <input
               type={showCurrentPassword ? "text" : "password"}
               id="current-password"
@@ -69,11 +69,11 @@ function PasswordSettings() {
         <div className="mt-2.5 relative">
           <label
             htmlFor="new-password"
-            className="block text-[18px] font-medium font-inter text-[#8A8A8A]"
+            className="block text-[16px] font-medium font-inter text-[#8A8A8A]"
           >
             New Password
           </label>
-          <div className="relative h-[66px] w-[415px]">
+          <div className="relative h-[56px] w-[415px]">
             <input
               type={showNewPassword ? "text" : "password"}
               id="new-password"
@@ -99,11 +99,11 @@ function PasswordSettings() {
         <div className="mt-2.5 relative">
           <label
             htmlFor="confirm-new-password"
-            className="block text-[18px] font-medium font-inter text-[#8A8A8A]"
+            className="block text-[16px] font-medium font-inter text-[#8A8A8A]"
           >
             Confirm New Password
           </label>
-          <div className="relative h-[66px] w-[415px]">
+          <div className="relative h-[56px] w-[415px]">
             <input
               type={showConfirmPassword ? "text" : "password"}
               id="confirm-new-password"
@@ -128,7 +128,7 @@ function PasswordSettings() {
       </div>
       <button
         onClick={handleSubmit}
-        className="mt-[35px] font-inter font-medium text-[20px] cursor-pointer text-white bg-[#21ABA5] py-[16.5px] px-[95.5px] rounded-[6.75px]"
+        className="mt-[35px] font-inter font-medium text-[16px] cursor-pointer text-white bg-[#21ABA5] py-[14.5px] px-[95.5px] rounded-[6.75px]"
       >
         Save Changes
       </button>

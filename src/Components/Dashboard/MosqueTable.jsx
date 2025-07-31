@@ -47,7 +47,7 @@ const mosqueColumns = [
             color: "#21ABA5",
             fontWeight: 500,
             cursor: "pointer",
-            fontSize: 16,
+            fontSize: 14,
             textDecoration: "none",
           }}
         >
@@ -94,12 +94,12 @@ const MosqueTable = ({
         "& .MuiDataGrid-columnHeaders": {
           background: "#F7F6F9",
           fontWeight: 600,
-          fontSize: 18,
+          fontSize: 16,
           borderTopLeftRadius: 12,
           borderTopRightRadius: 12,
         },
         "& .MuiDataGrid-row": {
-          fontSize: 16,
+          fontSize: 14,
           minHeight: 60,
           maxHeight: 60,
         },
@@ -147,7 +147,7 @@ const MosqueTable = ({
                 height: 44,
                 borderRadius: 2,
                 fontWeight: item.selected ? 700 : 500,
-                fontSize: 18,
+                fontSize: 16,
                 border: item.selected
                   ? "2px solid #232323"
                   : "1px solid #E0E0E0",
@@ -167,7 +167,7 @@ const MosqueTable = ({
                       minWidth: 32,
                       height: 44,
                       fontWeight: 500,
-                      fontSize: 18,
+                      fontSize: 16,
                       color: "#232323",
                     }
                   : {}),
@@ -180,7 +180,7 @@ const MosqueTable = ({
                       height: 44,
                       borderRadius: 2,
                       fontWeight: 700,
-                      fontSize: 22,
+                      fontSize: 18,
                     }
                   : {}),
               }}

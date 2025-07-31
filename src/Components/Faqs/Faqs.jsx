@@ -39,12 +39,12 @@ function Faqs() {
       <button
         onClick={() => setPopupId("faq")}
         className="flex items-center gap-[13px] cursor-pointer 
-      font-inter font-medium text-[20px] text-white bg-[#21ABA5] rounded-[6.75px] py-[16px] px-[22px]"
+      font-inter font-medium text-[16px] text-white bg-[#21ABA5] rounded-[6.75px] py-[14px] px-[22px]"
       >
         <img src={add} alt="add" /> Add New FAQ
       </button>
       {/* Search Box */}
-      <div className="flex mt-[25px] items-center border border-[#BDBDBD] rounded-[16px] pl-[21px] py-[20px] w-full h-[52px] bg-white">
+      <div className="flex mt-[25px] items-center border border-[#BDBDBD] rounded-[16px] pl-[21px] py-[20px] w-full h-[42px] bg-white">
         <img src={searchIcon} alt="search" className="mr-3 w-3 h-3 mt-1" />
         <input
           type="text"

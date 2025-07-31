@@ -66,7 +66,7 @@ function Sidebar() {
       <NavLink
         to={"/dashboard"}
         // onClick={handleLinkClick}
-        className={`flex items-center  border-[#898989] text-[16px] font-inter font-normal pl-[19px] pt-[18px] pb-[14px] mt-4 rounded-[10px]  ${
+        className={`flex items-center  border-[#898989] text-[14px] font-inter font-normal pl-[19px] pt-[18px] pb-[14px] mt-4 rounded-[10px]  ${
           location.pathname.startsWith("/dashboard")
             ? "bg-[#DADADA]"
             : "text-black border-[0.5px]  border-[#898989]"
@@ -79,7 +79,7 @@ function Sidebar() {
       <NavLink
         to={"/registeration-requests"}
         // onClick={handleLinkClick}
-        className={`flex items-center border-[0.5px] border-[#898989] text-[16px] font-inter font-normal pl-[19px] pt-[18px] pb-[14px] mt-4 rounded-[10px]  ${
+        className={`flex items-center border-[0.5px] border-[#898989] text-[14px] font-inter font-normal pl-[19px] pt-[18px] pb-[14px] mt-4 rounded-[10px]  ${
           location.pathname.startsWith("/registeration-requests")
             ? "bg-[#DADADA]"
             : "text-black"
@@ -96,7 +96,7 @@ function Sidebar() {
       <NavLink
         to={"/settings"}
         // onClick={handleLinkClick}
-        className={`flex items-center border-[0.5px]  border-[#898989] text-[16px] font-inter font-normal pl-[19px] pt-[18px] pb-[14px] mt-4 rounded-[10px]  ${
+        className={`flex items-center border-[0.5px]  border-[#898989] text-[14px] font-inter font-normal pl-[19px] pt-[18px] pb-[14px] mt-4 rounded-[10px]  ${
           location.pathname === "/settings" ? "bg-[#DADADA]" : "text-black"
         }`}
       >
@@ -107,7 +107,7 @@ function Sidebar() {
       <NavLink
         to={"/faqs"}
         // onClick={handleLinkClick}
-        className={`flex items-center border-[0.5px]  border-[#898989] text-[16px] font-inter font-normal pl-[19px] pt-[18px] pb-[14px] mt-4 rounded-[10px]  ${
+        className={`flex items-center border-[0.5px]  border-[#898989] text-[14px] font-inter font-normal pl-[19px] pt-[18px] pb-[14px] mt-4 rounded-[10px]  ${
           location.pathname === "/faqs" ? "bg-[#DADADA]" : "text-black"
         }`}
       >

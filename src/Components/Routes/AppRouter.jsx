@@ -12,6 +12,8 @@ import ApprovedMosqueLayout from "../MosqueDetails/ApprovedMosqueLayout";
 import Settings from "../Settings/Settings";
 import Faqs from "../Faqs/Faqs";
 import ProtectedRoutes from "./ProtectedRoutes";
+import AcceptInvite from "../Auth/AcceptInvite";
+import AfterAccept from "../Auth/AfterAccept";
 function AppRouter() {
   return (
     <Routes>
@@ -77,6 +79,8 @@ function AppRouter() {
           </ProtectedRoutes>
         }
       />
+      <Route path="/auth/accept-invite/:token" element={<AcceptInvite />} />
+      <Route path="/auth/invite-accepted" element={<AfterAccept />} />
     </Routes>
   );
 }
