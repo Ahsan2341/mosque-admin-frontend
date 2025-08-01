@@ -5,7 +5,10 @@ function DashboardTop({ activeTab, setActiveTab }) {
     <div className="main-container border-b border-[#232035] w-full flex justify-around relative mb-[35px] mt-[30px]">
       <div
         className="flex flex-col items-center cursor-pointer relative flex-1"
-        onClick={() => setActiveTab("communityUsers")}
+        onClick={() => {
+          localStorage.setItem("activeTab", "communityUsers");
+          setActiveTab("communityUsers");
+        }}
       >
         <p
           className={`mb-[10px] ${
@@ -27,7 +30,10 @@ function DashboardTop({ activeTab, setActiveTab }) {
       </div>
       <div
         className="flex flex-col items-center cursor-pointer relative flex-1"
-        onClick={() => setActiveTab("mosqueManagers")}
+        onClick={() => {
+          localStorage.setItem("activeTab", "mosqueManagers");
+          setActiveTab("mosqueManagers");
+        }}
       >
         <p
           className={`mb-[10px] ${
