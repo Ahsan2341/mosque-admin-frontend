@@ -7,21 +7,21 @@ import EditFaqPopup from "../Common/EditFaqPopup";
 function SingleFaq({ faq, setPopupId, popupId, setSelectedFaq, setDeleteFaq }) {
   return (
     <>
-      <div className="border-[#949494] mt-[25px] border-[1px] flex justify-between items-start rounded-[10px] py-[25px] pl-[25px] pr-[22.53px]">
+      <div className="border-[#949494] mt-[12px] border-[1px] flex justify-between items-start rounded-[6px] py-[12px] pl-[12px] pr-[12px]">
         <div className="flex gap-3 flex-col">
-          <h2 className="text-[#000000] font-inter font-medium text-[16px]">
+          <h2 className="text-[#000000] font-inter font-medium text-[12px]">
             {faq.question}
           </h2>
-          <p className="text-[#000000] font-inter font-normal text-[14px]">
+          <p className="text-[#000000] font-inter font-normal text-[10px]">
             {faq.answer}
           </p>
         </div>
-        <div className="flex gap-[21px]">
+        <div className="flex gap-[12px]">
           <img
             src={edit}
             alt="edit"
             onClick={() => setSelectedFaq(faq)}
-            className="cursor-pointer"
+            className="cursor-pointer w-[16px] h-[16px]"
           />
           <img
             src={deleteIcon}
@@ -30,7 +30,7 @@ function SingleFaq({ faq, setPopupId, popupId, setSelectedFaq, setDeleteFaq }) {
               setDeleteFaq(faq);
               setPopupId("deleteFaq");
             }}
-            className="cursor-pointer"
+            className="cursor-pointer w-[16px] h-[16px]"
           />
         </div>
       </div>
