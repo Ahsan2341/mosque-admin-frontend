@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Popup from "./Popup";
 import FaqAPI from "../../api/faq";
+import { toast } from "react-toastify";
 
 function EditFaqPopup({
   faq = { question: "", answer: "" },
@@ -17,6 +18,7 @@ function EditFaqPopup({
       setTriggerFetchFaqs((state) => !state);
       setSelectedFaq(null);
       setLoading(false);
+      toast.success("Faq Updated");
     });
   };
   return (

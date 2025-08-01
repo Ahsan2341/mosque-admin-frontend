@@ -163,8 +163,8 @@ const UserTable = ({
               )}
               onChange={(e) => handleChangeStatus(params.row, e.target.value)}
               disabled={statusLoadingId === params.row.id}
+              renderValue={(value) => (value ? value : "Change Status")} // Display "Change Status" when closed
             >
-              <MenuItem value="">Change Status</MenuItem>
               <MenuItem value="Active">Active</MenuItem>
               <MenuItem value="Blocked">Blocked</MenuItem>
             </Select>
@@ -187,6 +187,7 @@ const UserTable = ({
       <DataGrid
         rows={mappedRows}
         columns={columnsWithActions}
+        disableColumnResize={true}
         pageSize={pageSize}
         rowsPerPageOptions={[pageSize]}
         autoHeight

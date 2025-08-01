@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import ShowComponent from "./ShowComponent";
 import Popup from "./Popup";
 import FaqAPI from "../../api/faq";
+import { toast } from "react-toastify";
 
 function FaqPopup({
   setPopupId,
@@ -20,6 +21,7 @@ function FaqPopup({
       setTrigger((state) => !state);
       setLoading(false);
       setPopupId("");
+      toast.success("Faq Added");
     });
   };
   return (

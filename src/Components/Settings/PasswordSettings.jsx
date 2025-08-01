@@ -18,7 +18,23 @@ function PasswordSettings() {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (currentPassword === "" || newPassword !== confirmPassword) return;
+    if (
+      currentPassword === "" ||
+      newPassword === "" ||
+      confirmPassword === ""
+    ) {
+      toast.error(
+        "Current Password, New Password and Confirm Password are required"
+      );
+      setLoading(false);
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      toast.error("Password and confirm password are not the same");
+      setLoading(false);
+      return;
+    }
     setLoading(true);
     AuthAPI.updatePassword({
       currentPassword,

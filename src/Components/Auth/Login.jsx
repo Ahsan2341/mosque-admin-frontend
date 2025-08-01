@@ -8,6 +8,7 @@ import eyeClose from "../../assets/icons/eyeclose.png";
 import googleLogo from "../../assets/icons/GoogleLogo.png";
 import { setAuthData } from "../../store/Auth";
 import { useDispatch } from "react-redux";
+import mosqueLogo from "../../assets/svg/mosque-logo.svg";
 function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -60,8 +61,11 @@ function Login() {
       })
       .catch((error) => {
         console.log(error);
-        toast.error(error?.response?.data.error);
-        setButtonDisable(false);
+        toast.error(error?.response?.data.error, {
+          onClose: () => {
+            setButtonDisable(false);
+          },
+        });
       });
   };
 
@@ -72,8 +76,11 @@ function Login() {
     setTermsChecked(e.target.checked);
   };
   return (
-    <div className="min-h-screen flex">
+    <div className="min-h-screen flex items-center gap-4 justify-center flex-col">
       {/* <CommonAuth /> */}
+      <div className="flex justify-center w-full">
+        <img src={mosqueLogo} alt="mosque logo" />
+      </div>
       <div className="w-full flex items-center justify-center">
         <div className="bg-white w-[400px]">
           <div className="text-center text-[30px] font-inter font-medium text-black mb-6">
@@ -144,7 +151,7 @@ function Login() {
               type="submit"
               disabled={buttonDisable}
               onClick={handleSubmit}
-              className="w-full h-[43px] bg-[#21ABA5] text-white text-[16px] font-semibold rounded-md shadow-sm hover:bg-[#1b9c8f] transition duration-150"
+              className="w-full h-[43px] disabled:opacity-50 disabled:cursor-not-allowed bg-[#21ABA5] text-white text-[16px] font-semibold rounded-md shadow-sm hover:bg-[#1b9c8f] transition duration-150"
             >
               Sign In
             </button>

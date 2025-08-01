@@ -11,6 +11,11 @@ function ProfileSettings({ user }) {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const handleSubmit = () => {
+    if (email === currentUser.email && name === currentUser.name) {
+      toast.error("No changes made");
+      setLoading(false);
+      return;
+    }
     setLoading(true);
     if (name === "" || email === "") {
       toast.error("Name and email are required");
@@ -23,7 +28,11 @@ function ProfileSettings({ user }) {
       return;
     }
     AuthAPI.updateUser({ name, email }).then((response) => {
-      toast.success(response.data.message);
+      toast.success(response.data.message, {
+        onClose: () => {
+          setLoading(false);
+        },
+      });
       dispatch(
         setAuthData({
           currentUser: {
@@ -33,7 +42,6 @@ function ProfileSettings({ user }) {
           },
         })
       );
-      setLoading(false);
     });
   };
   return (

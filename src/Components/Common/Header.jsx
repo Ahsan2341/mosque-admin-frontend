@@ -8,6 +8,7 @@ import jb from "../../assets/icons/jb.png";
 import logoutIcon from "../../assets/svg/logoutIcon.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { clearAllAuthData } from "../../store/Auth";
+import { toast } from "react-toastify";
 function Header() {
   const currentUser = useSelector((state) => state.auth.currentUser);
   const dispatch = useDispatch();
@@ -18,6 +19,7 @@ function Header() {
     dispatch(clearAllAuthData());
     localStorage.removeItem("token");
     navigate("/login");
+    toast.success("Logged Out");
   };
 
   const handleShowPopup = () => {

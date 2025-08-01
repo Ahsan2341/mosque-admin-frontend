@@ -121,6 +121,7 @@ const MosqueTable = ({
         rowsPerPageOptions={[pageSize]}
         autoHeight
         disableColumnMenu
+        disableColumnResize={true}
         hideFooterSelectedRowCount
         pagination
         page={page - 1}

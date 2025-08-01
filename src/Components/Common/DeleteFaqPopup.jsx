@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import ShowComponent from "./ShowComponent";
 import Popup from "./Popup";
 import FaqAPI from "../../api/faq";
+import { toast } from "react-toastify";
 
 function DeleteFaqPopup({ setPopupId, popupId, deleteFaq, setTrigger }) {
   const [loading, setLoading] = useState(false);
@@ -11,6 +12,7 @@ function DeleteFaqPopup({ setPopupId, popupId, deleteFaq, setTrigger }) {
       setTrigger((state) => !state);
       setPopupId("");
       setLoading(false);
+      toast.success("Faq Deleted");
     });
   };
   return (
