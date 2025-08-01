@@ -36,6 +36,23 @@ const mosqueColumns = [
     headerClassName: "super-app-theme--header",
   },
   {
+    field: "status",
+    headerName: "Status",
+    flex: 1,
+    renderCell: (params) => (
+      <span
+        style={{
+          color: params.value === "APPROVED" ? "#21ABA5" : "#E53935",
+          fontWeight: 500,
+        }}
+      >
+        {params.value}
+      </span>
+    ),
+    sortable: false,
+    headerClassName: "super-app-theme--header",
+  },
+  {
     field: "details",
     headerName: "",
     flex: 1,
@@ -68,13 +85,14 @@ const MosqueTable = ({
   onPageChange,
   loading,
 }) => {
-  // Map backend _id to id for DataGrid and calculate registeredUsers and managers
+  // Map backend _id to id for DataGrid and calculate registeredUsers, managers, and status
   const mappedRows = rows.map((mosque) => ({
     ...mosque,
     id: mosque._id,
     registeredUsers: mosque.followers ? mosque.followers.length : 0,
     managers: mosque.managers ? mosque.managers.length : 0,
     displayName: mosque.mosqueName ? mosque.mosqueName : "No Name",
+    status: mosque.mosqueStatus ? mosque.mosqueStatus : "Unknown", // Map mosqueStatus to status
   }));
 
   const pageCount = Math.ceil(totalRows / pageSize);

@@ -9,6 +9,7 @@ import Profile from "../../assets/svg/profile.svg";
 import Qr from "../../assets/svg/qr.svg";
 import DownArrow from "../../assets/svg/downArrow.svg";
 import RightArrow from "../../assets/svg/rightArrow.svg";
+import mosqueLogo from "../../assets/svg/mosque-logo.svg";
 // import { useSelector } from "react-redux";
 
 function Sidebar() {
@@ -38,8 +39,12 @@ function Sidebar() {
     location.pathname === "/mosque-info";
 
   return (
-    <div className="w-[266px] xl:w-[285px] md:w-[180px] lg:w-[220px] bg-white  border-r border-[#B9B9B9]  pl-[11px] pr-[11px] pt-[69px] sticky top-[0px] h-[calc(100vh-69px)] overflow-y-auto">
-      {/* <NavLink
+    <div className="flex flex-col border-r">
+      <div className="flex justify-center items-center border-b py-4 ">
+        <img src={mosqueLogo} alt="mosque-logo" className="h-[50px] mx-auto" />
+      </div>
+      <div className="w-[266px] xl:w-[285px] md:w-[180px] lg:w-[220px] bg-white   border-[#B9B9B9]  pl-[11px] pr-[11px] pt-[40px] sticky top-[0px] h-[calc(100vh-69px)] overflow-y-auto">
+        {/* <NavLink
         to={
           mosqueStatus === "null"
             ? "/"
@@ -63,57 +68,58 @@ function Sidebar() {
         )}
       </NavLink> */}
 
-      <NavLink
-        to={"/dashboard"}
-        // onClick={handleLinkClick}
-        className={`flex items-center  border-[#898989] text-[14px] font-inter font-normal pl-[19px] pt-[18px] pb-[14px] mt-4 rounded-[10px]  ${
-          location.pathname.startsWith("/dashboard")
-            ? "bg-[#DADADA]"
-            : "text-black border-[0.5px]  border-[#898989]"
-        }`}
-      >
-        <img src={Dashboard} className="w-[18px] h-[18px]" alt="Dashboard" />
-        <div className="mx-3">Dashboard</div>
-      </NavLink>
+        <NavLink
+          to={"/dashboard"}
+          // onClick={handleLinkClick}
+          className={`flex items-center  border-[#898989] text-[14px] font-inter font-normal pl-[19px] pt-[18px] pb-[14px] mt-4 rounded-[10px]  ${
+            location.pathname.startsWith("/dashboard")
+              ? "bg-[#DADADA]"
+              : "text-black border-[0.5px]  border-[#898989]"
+          }`}
+        >
+          <img src={Dashboard} className="w-[18px] h-[18px]" alt="Dashboard" />
+          <div className="mx-3">Dashboard</div>
+        </NavLink>
 
-      <NavLink
-        to={"/registeration-requests"}
-        // onClick={handleLinkClick}
-        className={`flex items-center border-[0.5px] border-[#898989] text-[14px] font-inter font-normal pl-[19px] pt-[18px] pb-[14px] mt-4 rounded-[10px]  ${
-          location.pathname.startsWith("/registeration-requests")
-            ? "bg-[#DADADA]"
-            : "text-black"
-        }`}
-      >
-        <img
-          src={RegisterationRequests}
-          className="w-[18px] h-[18px]"
-          alt="RegisterationRequests"
-        />
-        <div className="mx-3">Registration Requests</div>
-      </NavLink>
+        <NavLink
+          to={"/registeration-requests"}
+          // onClick={handleLinkClick}
+          className={`flex items-center border-[0.5px] border-[#898989] text-[14px] font-inter font-normal pl-[19px] pt-[18px] pb-[14px] mt-4 rounded-[10px]  ${
+            location.pathname.startsWith("/registeration-requests")
+              ? "bg-[#DADADA]"
+              : "text-black"
+          }`}
+        >
+          <img
+            src={RegisterationRequests}
+            className="w-[18px] h-[18px]"
+            alt="RegisterationRequests"
+          />
+          <div className="mx-3">Registration Requests</div>
+        </NavLink>
 
-      <NavLink
-        to={"/settings"}
-        // onClick={handleLinkClick}
-        className={`flex items-center border-[0.5px]  border-[#898989] text-[14px] font-inter font-normal pl-[19px] pt-[18px] pb-[14px] mt-4 rounded-[10px]  ${
-          location.pathname === "/settings" ? "bg-[#DADADA]" : "text-black"
-        }`}
-      >
-        <img src={Settings} className="w-[18px] h-[18px]" alt="Settings" />
-        <div className="mx-3">Settings</div>
-      </NavLink>
+        <NavLink
+          to={"/settings"}
+          // onClick={handleLinkClick}
+          className={`flex items-center border-[0.5px]  border-[#898989] text-[14px] font-inter font-normal pl-[19px] pt-[18px] pb-[14px] mt-4 rounded-[10px]  ${
+            location.pathname === "/settings" ? "bg-[#DADADA]" : "text-black"
+          }`}
+        >
+          <img src={Settings} className="w-[18px] h-[18px]" alt="Settings" />
+          <div className="mx-3">Settings</div>
+        </NavLink>
 
-      <NavLink
-        to={"/faqs"}
-        // onClick={handleLinkClick}
-        className={`flex items-center border-[0.5px]  border-[#898989] text-[14px] font-inter font-normal pl-[19px] pt-[18px] pb-[14px] mt-4 rounded-[10px]  ${
-          location.pathname === "/faqs" ? "bg-[#DADADA]" : "text-black"
-        }`}
-      >
-        <img src={Faqs} className="w-[18px] h-[18px]" alt="Faqs" />
-        <div className="mx-3">FAQs</div>
-      </NavLink>
+        <NavLink
+          to={"/faqs"}
+          // onClick={handleLinkClick}
+          className={`flex items-center border-[0.5px]  border-[#898989] text-[14px] font-inter font-normal pl-[19px] pt-[18px] pb-[14px] mt-4 rounded-[10px]  ${
+            location.pathname === "/faqs" ? "bg-[#DADADA]" : "text-black"
+          }`}
+        >
+          <img src={Faqs} className="w-[18px] h-[18px]" alt="Faqs" />
+          <div className="mx-3">FAQs</div>
+        </NavLink>
+      </div>
     </div>
   );
 }

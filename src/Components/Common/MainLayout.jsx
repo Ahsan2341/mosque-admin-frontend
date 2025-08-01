@@ -7,6 +7,7 @@ const MainLayout = ({ children }) => {
     <div className="flex flex-col h-screen">
       <div className="flex flex-1">
         <Sidebar />
+
         <div className="flex-1 bg-[#F8F8F8] p-6 overflow-y-auto">
           <Header />
           {children}

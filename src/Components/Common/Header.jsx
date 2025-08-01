@@ -52,7 +52,7 @@ function Header() {
           </div>
         </Popup>
       </ShowComponent>
-      <div className="flex justify-end items-center pr-[54px]">
+      <div className="flex justify-end items-center pr-[54px]  pb-5">
         <div className="flex items-center">
           <p className="font-inter font-normal text-[16px]">
             {currentUser.name}
