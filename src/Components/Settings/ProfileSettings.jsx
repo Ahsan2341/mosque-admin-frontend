@@ -11,13 +11,13 @@ function ProfileSettings({ user }) {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [showToast, setShowToast] = useState(true);
+
   const handleSubmit = () => {
     if (email === currentUser.email && name === currentUser.name) {
       if (showToast) {
         toast.error("No changes made");
         setShowToast(false);
       }
-
       setLoading(false);
       return;
     }
@@ -37,7 +37,6 @@ function ProfileSettings({ user }) {
         toast.success(response.data.message);
         setShowToast(false);
       }
-
       dispatch(
         setAuthData({
           currentUser: {
@@ -50,30 +49,30 @@ function ProfileSettings({ user }) {
       setLoading(false);
     });
   };
+
   useEffect(() => {
     if (!showToast) {
       const timer = setTimeout(() => {
         setShowToast(true);
-      }, 5000); // 5 seconds delay
-
-      // Cleanup function to clear timeout if component unmounts or isActive changes
+      }, 5000);
       return () => clearTimeout(timer);
     }
   }, [showToast]);
+
   return (
-    <div className="mt-[22px] pt-[30px] pl-[30px]">
-      <h2 className="text-[#000000] font-inter font-medium text-[18px]">
+    <div className="mt-[12px] pt-[16px] pl-[16px]">
+      <h2 className="text-[#000000] font-inter font-medium text-[14px]">
         Profile
       </h2>
-      <div className="mt-[40px] flex flex-col gap-[28px]">
-        <div className="">
+      <div className="mt-[16px] flex flex-col gap-[16px]">
+        <div>
           <label
-            className="font-400 font-inter text-[16px] text-[#8A8A8A]"
+            className="font-400 font-inter text-[12px] text-[#8A8A8A]"
             htmlFor="name"
           >
             Name
           </label>
-          <div className="h-[56px]  mt-2.5">
+          <div className="h-[40px] mt-1">
             <input
               type="text"
               id="name"
@@ -81,18 +80,18 @@ function ProfileSettings({ user }) {
               required
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-[415px] h-full border-[#C7C7C7] focus:outline-[#21ABA5] border-[1px] rounded-[10px] text-[#2F2F2F] text-[16px] font-inter font-400 pl-3 my-focus"
+              className="w-[300px] h-full border-[#C7C7C7] focus:outline-[#21ABA5] border-[1px] rounded-[6px] text-[#2F2F2F] text-[12px] font-inter font-400 pl-2 my-focus"
             />
           </div>
         </div>
-        <div className="">
+        <div>
           <label
-            className="font-400 font-inter text-[16px] text-[#8A8A8A]"
+            className="font-400 font-inter text-[12px] text-[#8A8A8A]"
             htmlFor="email"
           >
             Email
           </label>
-          <div className="h-[56px]  mt-2.5">
+          <div className="h-[40px] mt-1">
             <input
               type="text"
               id="email"
@@ -100,7 +99,7 @@ function ProfileSettings({ user }) {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-[415px] h-full border-[#C7C7C7] focus:outline-[#21ABA5] border-[1px] rounded-[10px] text-[#2F2F2F] text-[18px] font-inter font-400 pl-3 my-focus"
+              className="w-[300px] h-full border-[#C7C7C7] focus:outline-[#21ABA5] border-[1px] rounded-[6px] text-[#2F2F2F] text-[12px] font-inter font-400 pl-2 my-focus"
             />
           </div>
         </div>
@@ -108,7 +107,7 @@ function ProfileSettings({ user }) {
       <button
         disabled={loading}
         onClick={handleSubmit}
-        className="mt-[35px] disabled:opacity-50 disabled:cursor-not-allowed font-inter font-medium text-[16px] cursor-pointer text-white bg-[#21ABA5] py-[14.5px] px-[95.5px] rounded-[6.75px]"
+        className="mt-[16px] disabled:opacity-50 disabled:cursor-not-allowed font-inter font-medium text-[12px] cursor-pointer text-white bg-[#21ABA5] py-[8px] px-[48px] rounded-[6px]"
       >
         Save Changes
       </button>

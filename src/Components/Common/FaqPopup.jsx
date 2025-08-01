@@ -14,6 +14,7 @@ function FaqPopup({
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
   const [loading, setLoading] = useState(false);
+
   const handleAddFaq = () => {
     setLoading(true);
     FaqAPI.addFaq({ question, answer }).then((response) => {
@@ -24,39 +25,50 @@ function FaqPopup({
       toast.success("Faq Added");
     });
   };
+
   return (
     <ShowComponent condition={popupId === "faq"}>
       <Popup
         setPopup={() => setPopupId("")}
-        className="lg:w-[988px] w-[507px] pl-[70px]"
+        className="lg:w-[600px] w-[300px] pl-[30px]" // Reduced width
       >
-        <div className="flex flex-col justify-center items-center w-full text-center mb-10 ">
-          <h2 className="text-[#17908B] font-inter font-medium text-[26px]">
+        <div className="flex flex-col justify-center items-center w-full text-center mb-4">
+          {" "}
+          {/* Reduced margin */}
+          <h2 className="text-[#17908B] font-inter font-medium text-[18px]">
+            {" "}
+            {/* Reduced font size */}
             {title}
           </h2>
         </div>
-        <div className="font-inter font-400 text-[18px] mb-[20px]">
+        <div className="font-inter font-400 text-[14px] mb-[8px]">
+          {" "}
+          {/* Reduced font size and margin */}
           <input
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
-            className="border placeholder:text-[#A7A7A7] pl-[20px] p-2 rounded-[10px] w-full h-[66px] border-[#C7C7C7] text-[#A7A7A7] focus:outline-none"
+            className="border placeholder:text-[#A7A7A7] pl-[10px] p-1 rounded-[6px] w-full h-[40px] border-[#C7C7C7] text-[#A7A7A7] focus:outline-none" // Reduced height, padding, and radius
             placeholder="Question"
           />
         </div>
 
-        <div className="font-inter font-400 text-[18px] ">
+        <div className="font-inter font-400 text-[14px]">
+          {" "}
+          {/* Reduced font size */}
           <textarea
             value={answer}
             onChange={(e) => setAnswer(e.target.value)}
-            className="border placeholder:text-[#A7A7A7] pl-[20px] pt-[16px] rounded-[10px] w-full h-[207px] border-[#C7C7C7] text-[#2F2F2F] focus:outline-none resize-none"
+            className="border placeholder:text-[#A7A7A7] pl-[10px] pt-[8px] rounded-[6px] w-full h-[120px] border-[#C7C7C7] text-[#2F2F2F] focus:outline-none resize-none" // Reduced height, padding, and radius
             placeholder="Answer"
           />
         </div>
 
-        <div className="flex justify-center gap-10 mt-[56px] pb-[64px]">
+        <div className="flex justify-center gap-4 mt-[16px] pb-[16px]">
+          {" "}
+          {/* Reduced gap, margin, and padding */}
           <button
-            disabled={loading ? true : false}
-            className=" px-[140.6px] disabled:bg-[#a4d6d4] disabled:cursor-not-allowed py-[16.67px] bg-[#21ABA5] text-white text-[20px] font-500 font-inter rounded-[7.31px] cursor-pointer"
+            disabled={loading}
+            className="px-[80px] py-[8px] disabled:bg-[#a4d6d4] disabled:cursor-not-allowed bg-[#21ABA5] text-white text-[16px] font-500 font-inter rounded-[6px] cursor-pointer" // Reduced padding, font size, and radius
             onClick={handleAddFaq}
           >
             Save

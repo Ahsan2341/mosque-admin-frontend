@@ -21,7 +21,7 @@ const columns = [
         <Avatar
           src={params.row.avatar || ""}
           alt={params.value}
-          sx={{ width: 32, height: 32 }}
+          sx={{ width: 24, height: 24 }} // Reduced avatar size
         />
         <span>{params.value}</span>
       </Box>
@@ -55,20 +55,22 @@ const columns = [
   },
   {
     field: "changeStatus",
-    headerName: "",
+    headerName: "Actions", // Changed title to "Actions"
     flex: 1,
     renderCell: () => (
       <Select
         value="Change Status"
         variant="standard"
         disableUnderline
-        sx={{ fontWeight: 500, fontSize: 14, color: "#757575", minWidth: 120 }}
+        sx={{ fontWeight: 500, fontSize: 12, color: "#757575", minWidth: 100 }} // Reduced font size and minWidth
         IconComponent={() => (
-          <svg width="16" height="8" viewBox="0 0 16 8" fill="none">
+          <svg width="12" height="6" viewBox="0 0 12 6" fill="none">
+            {" "}
+            {/* Reduced SVG size */}
             <path
-              d="M1 1L8 7L15 1"
+              d="M1 1L6 5L11 1"
               stroke="#757575"
-              strokeWidth="2"
+              strokeWidth="1.5"
               strokeLinecap="round"
               strokeLinejoin="round"
             />
@@ -107,21 +109,6 @@ const UserTable = ({
 
   const pageCount = Math.ceil(totalRows / pageSize);
 
-  const handleChangeStatus = async (user, newStatus) => {
-    setStatusLoadingId(user.id);
-    try {
-      if (newStatus === "Active") {
-        await UsersAPI.activateUser(user.id);
-      } else if (newStatus === "Blocked") {
-        await UsersAPI.deactivateUser(user.id);
-      }
-      if (onStatusChange) onStatusChange();
-    } catch (err) {
-      console.log(err);
-    }
-    setStatusLoadingId(null);
-  };
-
   const columnsWithActions = columns.map((col) =>
     col.field === "changeStatus"
       ? {
@@ -134,28 +121,28 @@ const UserTable = ({
               disableUnderline
               sx={{
                 fontWeight: 500,
-                fontSize: 14,
+                fontSize: 12, // Reduced font size
                 color: "#757575",
-                minWidth: 120,
+                minWidth: 100, // Reduced minWidth
                 "& .MuiSelect-icon": {
-                  width: 16,
-                  height: 8,
-                  top: "calc(50% - 4px)",
+                  width: 12,
+                  height: 6,
+                  top: "calc(50% - 3px)",
                 },
               }}
               IconComponent={(props) => (
                 <svg
                   {...props}
-                  width="16"
-                  height="8"
-                  viewBox="0 0 16 8"
+                  width="12"
+                  height="6"
+                  viewBox="0 0 12 6"
                   fill="none"
                   style={{ pointerEvents: "none" }}
                 >
                   <path
-                    d="M1 1L8 7L15 1"
+                    d="M1 1L6 5L11 1"
                     stroke="#757575"
-                    strokeWidth="2"
+                    strokeWidth="1.5"
                     strokeLinecap="round"
                     strokeLinejoin="round"
                   />
@@ -163,7 +150,7 @@ const UserTable = ({
               )}
               onChange={(e) => handleChangeStatus(params.row, e.target.value)}
               disabled={statusLoadingId === params.row.id}
-              renderValue={(value) => (value ? value : "Change Status")} // Display "Change Status" when closed
+              renderValue={(value) => (value ? value : "Change Status")}
             >
               <MenuItem value="Active">Active</MenuItem>
               <MenuItem value="Blocked">Blocked</MenuItem>
@@ -180,8 +167,8 @@ const UserTable = ({
         background: "#fff",
         borderRadius: 3,
         boxShadow: "0 1px 4px rgba(0,0,0,0.04)",
-        p: 2,
-        mt: 4,
+        p: 1, // Reduced padding
+        mt: 2, // Reduced margin-top
       }}
     >
       <DataGrid
@@ -200,10 +187,20 @@ const UserTable = ({
         sx={{
           border: "none",
           fontFamily: "Inter, sans-serif",
+          "& .MuiDataGrid-row": {
+            fontSize: 12, // Reduced font size
+            minHeight: 48, // Reduced row height
+            maxHeight: 48,
+          },
+          "& .MuiDataGrid-columnHeaders": {
+            fontSize: 14, // Slightly reduced header font size
+          },
         }}
         hideFooter
       />
-      <Box display="flex" justifyContent="center" mt={3}>
+      <Box display="flex" justifyContent="center" mt={2}>
+        {" "}
+        {/* Reduced margin-top */}
         <Pagination
           count={pageCount}
           page={page}
@@ -213,11 +210,11 @@ const UserTable = ({
             <PaginationItem
               {...item}
               sx={{
-                minWidth: 44,
-                height: 44,
+                minWidth: 36, // Reduced size
+                height: 36, // Reduced size
                 borderRadius: 2,
                 fontWeight: item.selected ? 700 : 500,
-                fontSize: 16,
+                fontSize: 14, // Reduced font size
                 border: item.selected
                   ? "2px solid #232323"
                   : "1px solid #E0E0E0",
@@ -234,10 +231,10 @@ const UserTable = ({
                   ? {
                       border: "none",
                       background: "transparent",
-                      minWidth: 32,
-                      height: 44,
+                      minWidth: 24, // Reduced size
+                      height: 36,
                       fontWeight: 500,
-                      fontSize: 16,
+                      fontSize: 14,
                       color: "#232323",
                     }
                   : {}),
@@ -246,11 +243,11 @@ const UserTable = ({
                       border: "1px solid #E0E0E0",
                       background: item.disabled ? "#E5E8EB" : "#fff",
                       color: "#B0B0B0",
-                      minWidth: 44,
-                      height: 44,
+                      minWidth: 36,
+                      height: 36,
                       borderRadius: 2,
                       fontWeight: 700,
-                      fontSize: 18,
+                      fontSize: 16, // Reduced font size
                     }
                   : {}),
               }}
