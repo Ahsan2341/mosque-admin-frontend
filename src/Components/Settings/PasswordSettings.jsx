@@ -10,6 +10,7 @@ function PasswordSettings() {
   const [newPassword, setNewPassword] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const togglePasswordVisibility = (set) => {
     set((state) => {
       return !state;
@@ -18,6 +19,7 @@ function PasswordSettings() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (currentPassword === "" || newPassword !== confirmPassword) return;
+    setLoading(true);
     AuthAPI.updatePassword({
       currentPassword,
       newPassword,
@@ -30,6 +32,7 @@ function PasswordSettings() {
       .catch((err) => {
         toast.error(err);
       });
+    setLoading(false);
   };
   return (
     <div className="mt-[22px] pt-[30px] pl-[30px]">
@@ -128,7 +131,8 @@ function PasswordSettings() {
       </div>
       <button
         onClick={handleSubmit}
-        className="mt-[35px] font-inter font-medium text-[16px] cursor-pointer text-white bg-[#21ABA5] py-[14.5px] px-[95.5px] rounded-[6.75px]"
+        disabled={loading}
+        className="mt-[35px] disabled:opacity-50 disabled:cursor-not-allowed font-inter font-medium text-[16px] cursor-pointer text-white bg-[#21ABA5] py-[14.5px] px-[95.5px] rounded-[6.75px]"
       >
         Save Changes
       </button>

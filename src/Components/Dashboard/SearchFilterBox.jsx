@@ -15,6 +15,8 @@ function SearchFilterBox({
   name,
   setName,
   setUserStatus,
+  setPage,
+  isMosque = false,
 }) {
   const [filterOpen, setFilterOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
@@ -136,6 +138,7 @@ function SearchFilterBox({
           <div className="absolute left-0 mt-2 w-full bg-white border border-[#BDBDBD] rounded-[12px] shadow-lg z-10">
             <div
               onClick={() => {
+                setPage(1);
                 setUserStatus("all");
               }}
               className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
@@ -144,19 +147,21 @@ function SearchFilterBox({
             </div>
             <div
               onClick={() => {
+                setPage(1);
                 setUserStatus("active");
               }}
               className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
             >
-              Active
+              {isMosque ? "APPROVED" : "Active"}
             </div>
             <div
               onClick={() => {
+                setPage(1);
                 setUserStatus("inactive");
               }}
               className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
             >
-              Blocked
+              {isMosque ? "PENDING" : "Blocked"}
             </div>
           </div>
         )}

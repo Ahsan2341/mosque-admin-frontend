@@ -2,14 +2,28 @@ import React, { useState } from "react";
 import AuthAPI from "../../api/auth/auth";
 import { setAuthData } from "../../store/Auth";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 function ProfileSettings({ user }) {
   const [email, setEmail] = useState(user.email);
   const [name, setName] = useState(user.name);
   const currentUser = useSelector((state) => state.auth.currentUser);
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
   const handleSubmit = () => {
+    setLoading(true);
+    if (name === "" || email === "") {
+      toast.error("Name and email are required");
+      setLoading(false);
+      return;
+    }
+    if (!email.includes("@")) {
+      toast.error("Invalid email");
+      setLoading(false);
+      return;
+    }
     AuthAPI.updateUser({ name, email }).then((response) => {
+      toast.success(response.data.message);
       dispatch(
         setAuthData({
           currentUser: {
@@ -19,6 +33,7 @@ function ProfileSettings({ user }) {
           },
         })
       );
+      setLoading(false);
     });
   };
   return (
@@ -67,8 +82,9 @@ function ProfileSettings({ user }) {
         </div>
       </div>
       <button
+        disabled={loading}
         onClick={handleSubmit}
-        className="mt-[35px] font-inter font-medium text-[16px] cursor-pointer text-white bg-[#21ABA5] py-[14.5px] px-[95.5px] rounded-[6.75px]"
+        className="mt-[35px] disabled:opacity-50 disabled:cursor-not-allowed font-inter font-medium text-[16px] cursor-pointer text-white bg-[#21ABA5] py-[14.5px] px-[95.5px] rounded-[6.75px]"
       >
         Save Changes
       </button>

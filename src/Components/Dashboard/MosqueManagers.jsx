@@ -14,21 +14,20 @@ function MosqueManagers() {
   const [userStatus, setUserStatus] = useState("all");
   const fetchUsers = async (pageNum = 1) => {
     setLoading(true);
+    let status = null;
+    if (userStatus !== "all") {
+      status = userStatus === "active" ? true : false;
+    }
     try {
       const res = await UsersAPI.getUsers(
-        `page=${pageNum}&limit=${pageSize}&isManagerEnabled=true`
+        `page=${pageNum}&limit=${pageSize}&isManagerEnabled=true${
+          status !== null ? `&isActive=${status}` : ""
+        }`
       );
       const { data, totalItems, totalPages, currentPage } = res.data;
       setUsers(data);
-      if (userStatus !== "all") {
-        if (userStatus === "active") {
-          setFilteredusers(users.filter((user) => user.isActive === true));
-        } else if (userStatus === "inactive") {
-          setFilteredusers(users.filter((user) => user.isActive === false));
-        }
-      } else {
-        setFilteredusers(data);
-      }
+
+      setFilteredusers(data);
 
       setTotalItems(totalItems);
       setTotalPages(totalPages);
@@ -42,7 +41,7 @@ function MosqueManagers() {
   useEffect(() => {
     fetchUsers(page);
     // eslint-disable-next-line
-  }, [page, pageSize]);
+  }, [page, pageSize, userStatus]);
   const [name, setName] = useState("");
   useEffect(() => {
     if (name == "") {
@@ -55,15 +54,7 @@ function MosqueManagers() {
       );
     }
   }, [name]);
-  useEffect(() => {
-    if (userStatus === "active") {
-      setFilteredusers(users.filter((user) => user.isActive === true));
-    } else if (userStatus === "inactive") {
-      setFilteredusers(users.filter((user) => user.isActive === false));
-    } else {
-      setFilteredusers(users);
-    }
-  }, [userStatus]);
+
   return (
     <div>
       <div className="total-users gap-[20.15px] w-[244px] pt-[25.89px] pb-[22.53px] pl-[21px] flex flex-col justify-between shadow-[0px_4.01px_7.01px_0px_rgba(0,0,0,0.15)] rounded-[8.79px]">
@@ -83,6 +74,7 @@ function MosqueManagers() {
         name={name}
         setName={setName}
         setUserStatus={setUserStatus}
+        setPage={setPage}
       />
       <UserTable
         rows={filteredusers}

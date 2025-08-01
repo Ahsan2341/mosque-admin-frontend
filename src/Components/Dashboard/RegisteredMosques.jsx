@@ -13,27 +13,24 @@ function RegisteredMosques() {
   const [filteredMosques, setFilteredMosques] = useState([]);
   const [mosqueStatus, setMosqueStatus] = useState("all");
   const fetchMosques = async (pageNum = 1) => {
+    console.log("inisde fetch");
     setLoading(true);
+    let status = null;
+    if (mosqueStatus !== "all") {
+      status = mosqueStatus === "active" ? "APPROVED" : "PENDING";
+    }
     try {
       const res = await MosquesAPI.getMosques(
-        `page=${pageNum}&limit=${pageSize}`
+        `page=${pageNum}&limit=${pageSize}${
+          status ? `&mosqueStatus=${status}` : ""
+        }`
       );
       console.log(res.data);
       const { data, totalItems, totalPages, currentPage } = res.data;
       setMosques(data);
-      if (mosqueStatus !== "all") {
-        if (mosqueStatus === "active") {
-          setFilteredMosques(
-            mosques.filter((mosque) => mosque.isActive === true)
-          );
-        } else if (mosqueStatus === "inactive") {
-          setFilteredMosques(
-            mosques.filter((mosque) => mosque.isActive === false)
-          );
-        }
-      } else {
-        setFilteredMosques(data);
-      }
+
+      setFilteredMosques(data);
+
       setTotalItems(totalItems);
       setTotalPages(totalPages);
       setPage(currentPage || 1);
@@ -46,7 +43,7 @@ function RegisteredMosques() {
   useEffect(() => {
     fetchMosques(page);
     // eslint-disable-next-line
-  }, [page, pageSize]);
+  }, [page, pageSize, mosqueStatus]);
 
   const [name, setName] = useState("");
   useEffect(() => {
@@ -60,19 +57,7 @@ function RegisteredMosques() {
       );
     }
   }, [name]);
-  useEffect(() => {
-    if (mosqueStatus === "active") {
-      setFilteredMosques(
-        mosques.filter((mosque) => mosque.mosqueStatus === "APPROVED")
-      );
-    } else if (mosqueStatus === "inactive") {
-      setFilteredMosques(
-        mosques.filter((mosque) => mosque.mosqueStatus === "PENDING")
-      );
-    } else {
-      setFilteredMosques(mosques);
-    }
-  }, [mosqueStatus]);
+
   return (
     <div>
       <div className="total-users gap-[20.15px] w-[244px] pt-[25.89px] pb-[22.53px] pl-[21px] flex flex-col justify-between shadow-[0px_4.01px_7.01px_0px_rgba(0,0,0,0.15)] rounded-[8.79px]">
@@ -90,8 +75,10 @@ function RegisteredMosques() {
       </div>
       <SearchFilterBox
         name={name}
+        setPage={setPage}
         setName={setName}
         setUserStatus={setMosqueStatus}
+        isMosque={true}
       />
       <MosqueTable
         rows={filteredMosques}

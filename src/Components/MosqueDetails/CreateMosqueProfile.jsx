@@ -309,12 +309,12 @@ function CreateMosqueProfile() {
                 className="border placeholder:text-[#A7A7A7] pl-[20px] p-2 rounded-[10px] w-[829px] h-[66px] border-[#C7C7C7] text-[#A7A7A7] focus:outline-none"
                 placeholder="Enter email to send invite"
               />
-              <div className="flex w-[45%] items-center gap-[12px] mt-[10px]">
+              {/* <div className="flex w-[45%] items-center gap-[12px] mt-[10px]">
                 <img src={dummyProfile} alt="" />
                 <p className="text-[#8A8A8A] font-inter font-normal text-[17px]">
                   muhammadqasim@gmail.com
                 </p>
-              </div>
+              </div> */}
             </div>
 
             <div className="flex justify-center gap-10 ">
