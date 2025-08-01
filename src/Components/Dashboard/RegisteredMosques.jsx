@@ -17,7 +17,12 @@ function RegisteredMosques() {
     setLoading(true);
     let status = null;
     if (mosqueStatus !== "all") {
-      status = mosqueStatus === "active" ? "APPROVED" : "PENDING";
+      status =
+        mosqueStatus === "active"
+          ? "APPROVED"
+          : mosqueStatus === "rejected"
+          ? "REJECTED"
+          : "PENDING";
     }
     try {
       const res = await MosquesAPI.getMosques(

@@ -163,6 +163,17 @@ function SearchFilterBox({
             >
               {isMosque ? "PENDING" : "Blocked"}
             </div>
+            {isMosque && (
+              <div
+                onClick={() => {
+                  setPage(1);
+                  setUserStatus("rejected");
+                }}
+                className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+              >
+                {isMosque ? "REJECTED" : "Blocked"}
+              </div>
+            )}
           </div>
         )}
       </div>
