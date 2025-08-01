@@ -11,7 +11,9 @@ import MosqueManagers from "./Dashboard/MosqueManagers";
 import RegisteredMosques from "./Dashboard/RegisteredMosques";
 
 function Dashboard() {
-  const [activeTab, setActiveTab] = useState("communityUsers");
+  const [activeTab, setActiveTab] = useState(
+    localStorage.getItem("activeTab") || "communityUsers"
+  );
   //   const currentUser = useSelector((state) => state.auth.currentUser);
   //   const hijriDate = getHijriDate();
   return (

@@ -49,7 +49,10 @@ function DashboardTop({ activeTab, setActiveTab }) {
       </div>
       <div
         className="flex flex-col items-center cursor-pointer relative flex-1"
-        onClick={() => setActiveTab("registeredMosques")}
+        onClick={() => {
+          setActiveTab("registeredMosques");
+          localStorage.setItem("activeTab", "registeredMosques");
+        }}
       >
         <p
           className={`mb-[10px] ${
