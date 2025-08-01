@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import eyeOpen from "../../assets/icons/eyeopen.png";
 import eyeClose from "../../assets/icons/eyeclose.png";
 import AuthAPI from "../../api/auth/auth";
@@ -11,6 +11,7 @@ function PasswordSettings() {
   const [currentPassword, setCurrentPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showToast, setShowToast] = useState(true);
   const togglePasswordVisibility = (set) => {
     set((state) => {
       return !state;
@@ -23,15 +24,21 @@ function PasswordSettings() {
       newPassword === "" ||
       confirmPassword === ""
     ) {
-      toast.error(
-        "Current Password, New Password and Confirm Password are required"
-      );
+      if (showToast) {
+        toast.error(
+          "Current Password, New Password and Confirm Password are required"
+        );
+        setShowToast(false);
+      }
       setLoading(false);
       return;
     }
 
     if (newPassword !== confirmPassword) {
-      toast.error("Password and confirm password are not the same");
+      if (showToast) {
+        toast.error("Password and confirm password are not the same");
+        setShowToast(false);
+      }
       setLoading(false);
       return;
     }
@@ -43,13 +50,29 @@ function PasswordSettings() {
     })
       .then((response) => {
         console.log(response.data);
-        toast.success("Password Changed");
+        if (showToast) {
+          toast.success("Password Changed");
+          setShowToast(false);
+        }
       })
       .catch((err) => {
-        toast.error(err);
+        if (showToast) {
+          toast.error(err);
+          setShowToast(false);
+        }
       });
     setLoading(false);
   };
+  useEffect(() => {
+    if (!showToast) {
+      const timer = setTimeout(() => {
+        setShowToast(true);
+      }, 5000); // 5 seconds delay
+
+      // Cleanup function to clear timeout if component unmounts or isActive changes
+      return () => clearTimeout(timer);
+    }
+  }, [showToast]);
   return (
     <div className="mt-[22px] pt-[30px] pl-[30px]">
       <h2 className="text-[#000000] font-inter font-medium text-[18px]">

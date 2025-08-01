@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AuthAPI from "../../api/auth/auth";
 import { setAuthData } from "../../store/Auth";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,9 +10,14 @@ function ProfileSettings({ user }) {
   const currentUser = useSelector((state) => state.auth.currentUser);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
+  const [showToast, setShowToast] = useState(true);
   const handleSubmit = () => {
     if (email === currentUser.email && name === currentUser.name) {
-      toast.error("No changes made");
+      if (showToast) {
+        toast.error("No changes made");
+        setShowToast(false);
+      }
+
       setLoading(false);
       return;
     }
@@ -28,11 +33,11 @@ function ProfileSettings({ user }) {
       return;
     }
     AuthAPI.updateUser({ name, email }).then((response) => {
-      toast.success(response.data.message, {
-        onClose: () => {
-          setLoading(false);
-        },
-      });
+      if (showToast) {
+        toast.success(response.data.message);
+        setShowToast(false);
+      }
+
       dispatch(
         setAuthData({
           currentUser: {
@@ -42,8 +47,19 @@ function ProfileSettings({ user }) {
           },
         })
       );
+      setLoading(false);
     });
   };
+  useEffect(() => {
+    if (!showToast) {
+      const timer = setTimeout(() => {
+        setShowToast(true);
+      }, 5000); // 5 seconds delay
+
+      // Cleanup function to clear timeout if component unmounts or isActive changes
+      return () => clearTimeout(timer);
+    }
+  }, [showToast]);
   return (
     <div className="mt-[22px] pt-[30px] pl-[30px]">
       <h2 className="text-[#000000] font-inter font-medium text-[18px]">

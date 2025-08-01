@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthAPI from "../../api/auth/auth";
 import { toast } from "react-toastify";
@@ -22,6 +22,7 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [buttonDisable, setButtonDisable] = useState(false);
   const [termsChecked, setTermsChecked] = useState(false);
+  const [isActive, setIsActive] = useState(true);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -61,13 +62,24 @@ function Login() {
       })
       .catch((error) => {
         console.log(error);
-        toast.error(error?.response?.data.error, {
-          onClose: () => {
-            setButtonDisable(false);
-          },
-        });
+        if (isActive) {
+          toast.error(error?.response?.data.error);
+        }
+        setIsActive(false);
+        setButtonDisable(false);
       });
   };
+
+  useEffect(() => {
+    if (!isActive) {
+      const timer = setTimeout(() => {
+        setIsActive(true);
+      }, 5000); // 5 seconds delay
+
+      // Cleanup function to clear timeout if component unmounts or isActive changes
+      return () => clearTimeout(timer);
+    }
+  }, [isActive]);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
