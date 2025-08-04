@@ -124,7 +124,20 @@ const UserTable = ({
   }));
 
   const pageCount = Math.ceil(totalRows / pageSize);
-
+  const handleChangeStatus = async (user, newStatus) => {
+    setStatusLoadingId(user.id);
+    try {
+      if (newStatus === "Active") {
+        await UsersAPI.activateUser(user.id);
+      } else if (newStatus === "Blocked") {
+        await UsersAPI.deactivateUser(user.id);
+      }
+      if (onStatusChange) onStatusChange();
+    } catch (err) {
+      console.log(err);
+    }
+    setStatusLoadingId(null);
+  };
   const columnsWithActions = columns.map((col) =>
     col.field === "changeStatus"
       ? {
