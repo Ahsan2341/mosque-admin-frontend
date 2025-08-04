@@ -5,6 +5,7 @@ import {
   Box,
   Pagination,
   PaginationItem,
+  Typography,
   IconButton,
 } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -17,8 +18,6 @@ const mosqueColumns = [
     flex: 1.5,
     renderCell: (params) => (
       <Box display="flex" alignItems="center" marginLeft={"40%"} gap={1}>
-        {" "}
-        {/* Center content */}
         <Avatar
           src={params.row.avatar}
           alt={params.value}
@@ -29,8 +28,8 @@ const mosqueColumns = [
     ),
     sortable: false,
     headerClassName: "super-app-theme--header",
-    align: "center", // Center cell content
-    headerAlign: "center", // Center header text
+    align: "center",
+    headerAlign: "center",
   },
   {
     field: "registeredUsers",
@@ -75,8 +74,6 @@ const mosqueColumns = [
     flex: 1,
     renderCell: (params) => (
       <Box width="100%" display="flex" justifyContent="center" gap={1}>
-        {" "}
-        {/* Center icons */}
         <Link
           to={`/dashboard/mosque/${params.row.id}`}
           style={{ textDecoration: "none" }}
@@ -101,6 +98,22 @@ const mosqueColumns = [
     headerAlign: "center",
   },
 ];
+
+// Custom No Rows Overlay Component
+const CustomNoRowsOverlay = () => (
+  <Box
+    sx={{
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      height: "100%",
+    }}
+  >
+    <Typography variant="body1" color="text.secondary">
+      No mosques found
+    </Typography>
+  </Box>
+);
 
 const MosqueTable = ({
   rows,
@@ -170,6 +183,7 @@ const MosqueTable = ({
         page={page - 1}
         loading={loading}
         onPageChange={(params) => onPageChange(params + 1)}
+        slots={{ noRowsOverlay: CustomNoRowsOverlay }} // Add custom no rows overlay
         sx={{
           border: "none",
           fontFamily: "Inter, sans-serif",

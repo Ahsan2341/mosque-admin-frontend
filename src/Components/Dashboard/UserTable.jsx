@@ -7,6 +7,7 @@ import {
   Box,
   Pagination,
   PaginationItem,
+  Typography,
 } from "@mui/material";
 import UsersAPI from "../../api/users";
 import { useState } from "react";
@@ -21,7 +22,7 @@ const columns = [
         <Avatar
           src={params.row.avatar || ""}
           alt={params.value}
-          sx={{ width: 24, height: 24 }} // Reduced avatar size
+          sx={{ width: 24, height: 24 }}
         />
         <span>{params.value}</span>
       </Box>
@@ -55,18 +56,16 @@ const columns = [
   },
   {
     field: "changeStatus",
-    headerName: "Actions", // Changed title to "Actions"
+    headerName: "Actions",
     flex: 1,
     renderCell: () => (
       <Select
         value="Change Status"
         variant="standard"
         disableUnderline
-        sx={{ fontWeight: 500, fontSize: 12, color: "#757575", minWidth: 100 }} // Reduced font size and minWidth
+        sx={{ fontWeight: 500, fontSize: 12, color: "#757575", minWidth: 100 }}
         IconComponent={() => (
           <svg width="12" height="6" viewBox="0 0 12 6" fill="none">
-            {" "}
-            {/* Reduced SVG size */}
             <path
               d="M1 1L6 5L11 1"
               stroke="#757575"
@@ -89,6 +88,22 @@ const columns = [
   },
 ];
 
+// Custom No Rows Overlay Component
+const CustomNoRowsOverlay = ({ type }) => (
+  <Box
+    sx={{
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      height: "100%",
+    }}
+  >
+    <Typography variant="body1" color="text.secondary">
+      {type === "managers" ? "No managers found" : "No users found"}
+    </Typography>
+  </Box>
+);
+
 const UserTable = ({
   rows,
   page,
@@ -97,6 +112,7 @@ const UserTable = ({
   onPageChange,
   loading,
   onStatusChange,
+  type, // New prop to determine the user type
 }) => {
   const [statusLoadingId, setStatusLoadingId] = useState(null);
 
@@ -121,9 +137,9 @@ const UserTable = ({
               disableUnderline
               sx={{
                 fontWeight: 500,
-                fontSize: 12, // Reduced font size
+                fontSize: 12,
                 color: "#757575",
-                minWidth: 100, // Reduced minWidth
+                minWidth: 100,
                 "& .MuiSelect-icon": {
                   width: 12,
                   height: 6,
@@ -167,8 +183,8 @@ const UserTable = ({
         background: "#fff",
         borderRadius: 3,
         boxShadow: "0 1px 4px rgba(0,0,0,0.04)",
-        p: 1, // Reduced padding
-        mt: 2, // Reduced margin-top
+        p: 1,
+        mt: 2,
       }}
     >
       <DataGrid
@@ -184,23 +200,22 @@ const UserTable = ({
         page={page - 1}
         loading={loading}
         onPageChange={(params) => onPageChange(params + 1)}
+        slots={{ noRowsOverlay: () => <CustomNoRowsOverlay type={type} /> }} // Pass type prop to CustomNoRowsOverlay
         sx={{
           border: "none",
           fontFamily: "Inter, sans-serif",
           "& .MuiDataGrid-row": {
-            fontSize: 12, // Reduced font size
-            minHeight: 48, // Reduced row height
+            fontSize: 12,
+            minHeight: 48,
             maxHeight: 48,
           },
           "& .MuiDataGrid-columnHeaders": {
-            fontSize: 14, // Slightly reduced header font size
+            fontSize: 14,
           },
         }}
         hideFooter
       />
       <Box display="flex" justifyContent="center" mt={2}>
-        {" "}
-        {/* Reduced margin-top */}
         <Pagination
           count={pageCount}
           page={page}
@@ -210,11 +225,11 @@ const UserTable = ({
             <PaginationItem
               {...item}
               sx={{
-                minWidth: 36, // Reduced size
-                height: 36, // Reduced size
+                minWidth: 36,
+                height: 36,
                 borderRadius: 2,
                 fontWeight: item.selected ? 700 : 500,
-                fontSize: 14, // Reduced font size
+                fontSize: 14,
                 border: item.selected
                   ? "2px solid #232323"
                   : "1px solid #E0E0E0",
@@ -231,7 +246,7 @@ const UserTable = ({
                   ? {
                       border: "none",
                       background: "transparent",
-                      minWidth: 24, // Reduced size
+                      minWidth: 24,
                       height: 36,
                       fontWeight: 500,
                       fontSize: 14,
@@ -247,7 +262,7 @@ const UserTable = ({
                       height: 36,
                       borderRadius: 2,
                       fontWeight: 700,
-                      fontSize: 16, // Reduced font size
+                      fontSize: 16,
                     }
                   : {}),
               }}

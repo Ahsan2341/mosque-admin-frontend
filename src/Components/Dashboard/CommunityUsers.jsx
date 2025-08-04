@@ -85,6 +85,7 @@ function CommunityUsers() {
         onPageChange={(newPage) => setPage(newPage)}
         loading={loading}
         onStatusChange={() => fetchUsers(page)}
+        type={"users"}
       />
     </div>
   );

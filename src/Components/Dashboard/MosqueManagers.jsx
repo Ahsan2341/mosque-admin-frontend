@@ -84,6 +84,7 @@ function MosqueManagers() {
         onPageChange={(newPage) => setPage(newPage)}
         loading={loading}
         onStatusChange={() => fetchUsers(page)}
+        type={"managers"}
       />
     </div>
   );

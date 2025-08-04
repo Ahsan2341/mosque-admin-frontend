@@ -37,6 +37,7 @@ function DeclineRequestPopup({ setFetchMosques, setPopupId, popupId, id }) {
 
           <button
             disabled={loading}
+            onClick={handleRejectMosque}
             className="w-[100px] h-[32px] disabled:bg-[#a8ede9] disabled:cursor-not-allowed bg-[#21ABA5] text-white text-[12px] font-500 font-inter rounded-[6px] cursor-pointer"
           >
             Decline
