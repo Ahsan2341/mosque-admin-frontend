@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import MainLayout from "../Common/MainLayout";
 import { toast } from "react-toastify";
 import dummyProfile from "../../assets/svg/dummy-profile.svg";
@@ -16,8 +16,26 @@ import { useParams } from "react-router-dom";
 import MosquesAPI from "../../api/mosques";
 import doneIcon from "../../assets/icons/done.png";
 import AuthAPI from "../../api/auth/auth";
-
+import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
+import locationIcon from "../../assets/svg/location-icon.svg";
 function CreateMosqueProfile() {
+  const [selected, setSelected] = useState(null);
+  const mapContainerStyle = {
+    width: "100%",
+    height: "500px",
+  };
+  const center = {
+    lat: 33.6844, // default center (e.g., Islamabad)
+    lng: 73.0479,
+  };
+  const toggleMap = () => {
+    setShowMap((prev) => !prev);
+  };
+  const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: "AIzaSyB6GpskHKDeSaoRJ4wMPvcSlsmGEiLqUwg", // Ensure API key is in .env
+    libraries: ["places"],
+  });
+  const [addressFromGoogle, setAddressFromGoogle] = useState("");
   const { id } = useParams();
   const [popupId, setPopupId] = useState("");
   const [email, setEmail] = useState("");
@@ -42,6 +60,8 @@ function CreateMosqueProfile() {
   const [mosqueManagers, setMosqueManagers] = useState([]);
   const [fetchManager, setFetchManager] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [showMap, setShowMap] = useState(false);
+
   const initialFacilities = [
     "Parking",
     "Wuzu (Oblution)",
@@ -67,7 +87,26 @@ function CreateMosqueProfile() {
       toast.error("Facility already exists or is empty");
     }
   };
+  const [latitude, setLatitude] = useState("");
+  const [longitude, setLongitude] = useState("");
+  const onMapClick = useCallback(async (event) => {
+    setLatitude(event.latLng.lat());
+    setLongitude(event.latLng.lat());
+    setSelected({
+      lat: event.latLng.lat(),
+      lng: event.latLng.lng(),
+    });
+    const response = await fetch(
+      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${event.latLng.lat()},${event.latLng.lng()}&key=AIzaSyB6GpskHKDeSaoRJ4wMPvcSlsmGEiLqUwg`
+    );
+    const data = await response.json();
 
+    if (data.status === "OK") {
+      setAddressFromGoogle(data.results[0].formatted_address);
+    } else {
+      console.error("Geocoding error:", data.status);
+    }
+  }, []);
   useEffect(() => {
     setDataFetch(false);
     if (id) {
@@ -162,9 +201,16 @@ function CreateMosqueProfile() {
         streetAddress: address,
         nearestLandmark: landmark,
       },
+      locationAddress: {
+        locationType: "123",
+        coordinates: [latitude, longitude],
+      },
     };
-    console.log(Data);
 
+    if (!latitude || !latitude) {
+      toast.error("Select Location");
+      return;
+    }
     MosquesAPI.updateMosque(id, Data)
       .then((response) => {
         setButtonDisable(false);
@@ -580,24 +626,61 @@ function CreateMosqueProfile() {
                   </div>
                 </div>
               </div>
-              <div className="w-[95%] mx-auto">
-                <label
-                  className="font-400 font-inter text-[14px] text-[#8A8A8A]"
-                  htmlFor="address"
-                >
-                  Street Address
-                </label>
-                <div className="h-[40px] mt-1">
-                  <input
-                    type="text"
-                    id="address"
-                    name="address"
-                    value={address}
-                    onChange={(e) => setAddress(e.target.value)}
-                    className="w-full h-full focus:outline-[#21ABA5] border-[#C7C7C7] border-[1px] rounded-[6px] text-[#2F2F2F] text-[14px] font-inter font-400 pl-2 focus:border-green-custom-green"
-                  />
+              <div className="flex items-center justify-around  ">
+                <div className="w-[50%] px-3  ">
+                  <label
+                    className="font-400 font-inter text-[14px] text-[#8A8A8A]"
+                    htmlFor="address"
+                  >
+                    Street Address
+                  </label>
+                  <div className="h-[50px] mt-1">
+                    <input
+                      type="text"
+                      id="address"
+                      name="address"
+                      required
+                      value={address}
+                      onChange={(e) => setAddress(e.target.value)}
+                      className="w-full h-full border-[#C7C7C7] border-[1px] rounded-[8px] text-[#2F2F2F] text-[14px] font-inter font-400 pl-2 focus:border-green-custom-green focus:outline-none"
+                    />
+                  </div>
+                </div>
+
+                <div className=" w-[50%] px-3 mt-1 ">
+                  <label
+                    htmlFor=""
+                    className="font-400 font-inter text-[14px]  text-[#8A8A8A]"
+                  >
+                    Select Location
+                  </label>
+                  <div className="border-[#C7C7C7] relative mt-1 flex items-center justify-end h-[50px] border-[1px] rounded-[8px] text-[#2F2F2F] text-[14px] ">
+                    <p className="font-400 font-inter text-[14px] text-[#8A8A8A] absolute left-4">
+                      {addressFromGoogle
+                        ? addressFromGoogle
+                        : "Select Location"}
+                    </p>
+                    <button type="button" onClick={toggleMap}>
+                      <img src={locationIcon} alt="" className="w-8 mr-3" />
+                    </button>
+                  </div>
                 </div>
               </div>
+
+              {showMap && (
+                <GoogleMap
+                  mapContainerStyle={mapContainerStyle}
+                  zoom={10}
+                  center={center}
+                  onClick={onMapClick}
+                >
+                  {selected && (
+                    <Marker
+                      position={{ lat: selected.lat, lng: selected.lng }}
+                    />
+                  )}
+                </GoogleMap>
+              )}
               <div className="flex w-[95%] mx-auto">
                 <div className="w-[47%]">
                   <label

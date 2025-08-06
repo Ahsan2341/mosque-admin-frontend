@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import ShowComponent from "./ShowComponent";
 import Popup from "./Popup";
 import MosquesAPI from "../../api/mosques";
+import { toast } from "react-toastify";
 
 function RemoveManagerPopup({
   removeData,
@@ -12,14 +13,18 @@ function RemoveManagerPopup({
   const [loading, setLoading] = useState(false);
   const handleRemoveManager = () => {
     setLoading(true);
-    MosquesAPI.removemanagerApi(removeData.manager, removeData.mosque).then(
-      (response) => {
+    MosquesAPI.removemanagerApi(removeData.manager, removeData.mosque)
+      .then((response) => {
         console.log(response.data);
         setFetchManager((state) => !state);
         setPopupId("");
         setLoading(false);
-      }
-    );
+      })
+      .catch((error) => {
+        console.log(error.response.data.error);
+        toast.error(error.response.data.error);
+        setLoading(false);
+      });
   };
   return (
     <ShowComponent condition={popupId === "removeManager"}>
