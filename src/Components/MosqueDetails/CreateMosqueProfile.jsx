@@ -131,6 +131,8 @@ function CreateMosqueProfile() {
           setShowImage(data.coverImage);
           setLogo(data.coverImage);
           setMosqueStatus(data.mosque.mosqueStatus);
+          setLatitude(data.mosque.locationAddress.coordinates[0]);
+          setLongitude(data.mosque.locationAddress.coordinates[1]);
         })
         .catch((error) => {
           console.log("error");
@@ -656,9 +658,10 @@ function CreateMosqueProfile() {
                   </label>
                   <div className="border-[#C7C7C7] relative mt-1 flex items-center justify-end h-[50px] border-[1px] rounded-[8px] text-[#2F2F2F] text-[14px] ">
                     <p className="font-400 font-inter text-[14px] text-[#8A8A8A] absolute left-4">
-                      {addressFromGoogle
+                      {/* {addressFromGoogle
                         ? addressFromGoogle
-                        : "Select Location"}
+                        : "Select Location"} */}
+                      {latitude}&nbsp;{longitude}
                     </p>
                     <button type="button" onClick={toggleMap}>
                       <img src={locationIcon} alt="" className="w-8 mr-3" />
