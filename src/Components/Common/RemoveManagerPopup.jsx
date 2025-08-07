@@ -28,7 +28,7 @@ function RemoveManagerPopup({
   };
   return (
     <ShowComponent condition={popupId === "removeManager"}>
-      <Popup setPopup={() => setPopupId("")} className="w-[507px] ">
+      <Popup setPopup={() => setPopupId("")} className="w-[30%] 2xl:w-[40%] ">
         <div className="flex flex-col justify-center items-center w-full text-center mb-10 ">
           <h2 className="text-[#17908B] font-inter font-medium text-[26px]">
             Remove Manager

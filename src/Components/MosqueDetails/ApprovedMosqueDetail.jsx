@@ -178,7 +178,7 @@ function ApprovedMosqueDetail() {
   return (
     <>
       <ShowComponent condition={popupId === "Success"}>
-        <Popup setPopup={() => setPopupId("")} className="w-[30%]">
+        <Popup setPopup={() => setPopupId("")} className="w-[30%] 2xl:w-[40%]">
           <div className="flex flex-col justify-center items-center w-full text-center mb-10">
             <div className="mb-4">
               <img src="./icons/done.png" alt="done" />

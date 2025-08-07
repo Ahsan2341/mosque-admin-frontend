@@ -291,7 +291,10 @@ function CreateMosqueProfile() {
         popupId={popupId}
       />
       <ShowComponent condition={popupId === "Success"}>
-        <Popup setPopup={() => setPopupId("")} className="w-[300px] pl-[30px]">
+        <Popup
+          setPopup={() => setPopupId("")}
+          className="w-[30%] 2xl:w-[40%] pl-[30px]"
+        >
           <div className="flex flex-col justify-center items-center w-full text-center mb-4">
             <div className="mb-2">
               <img src={doneIcon} alt="done" className="w-[40px] h-[40px]" />
@@ -351,7 +354,10 @@ function CreateMosqueProfile() {
         </Popup>
       </ShowComponent>
       <ShowComponent condition={popupId === "inviteManager"}>
-        <Popup setPopup={() => setPopupId("")} className="w-[300px] pl-[30px]">
+        <Popup
+          setPopup={() => setPopupId("")}
+          className="w-[30%] 2xl:w-[40%] pl-[30px]"
+        >
           <div className="px-3 pb-3 text-center">
             <div className="font-inter font-700 text-[18px] text-[#17908B]">
               Invite Manager

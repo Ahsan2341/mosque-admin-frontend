@@ -19,7 +19,10 @@ function DeleteFaqPopup({ setPopupId, popupId, deleteFaq, setTrigger }) {
 
   return (
     <ShowComponent condition={popupId === "deleteFaq"}>
-      <Popup setPopup={() => setPopupId("")} className="w-[300px] pl-[30px]">
+      <Popup
+        setPopup={() => setPopupId("")}
+        className="w-[30%] 2xl:w-[40%] pl-[30px]"
+      >
         {" "}
         {/* Reduced width and added padding */}
         <div className="flex flex-col justify-center items-center w-full text-center mb-4">
