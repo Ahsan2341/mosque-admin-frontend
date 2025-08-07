@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import ShowComponent from "./ShowComponent";
 import Popup from "./Popup";
 import MosquesAPI from "../../api/mosques";
+import { toast } from "react-toastify";
 
 function ApproveRequestPopup({ setFetchMosques, setPopupId, popupId, id }) {
   const [loading, setLoading] = useState(false);
@@ -13,6 +14,7 @@ function ApproveRequestPopup({ setFetchMosques, setPopupId, popupId, id }) {
       setPopupId("");
       setFetchMosques((state) => !state);
       setLoading(false);
+      toast.success("Mosque Approved Successfully");
     });
   };
 
