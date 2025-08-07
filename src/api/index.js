@@ -43,7 +43,10 @@ axiosClient.interceptors.response.use(
     return res;
   },
   function (error) {
-    if (error.response.status === 401) {
+    if (
+      error.response.status === 401 &&
+      error.response.data.message !== "Incorrect Password"
+    ) {
       localStorage.removeItem("token");
       store.dispatch(
         setAuthData({

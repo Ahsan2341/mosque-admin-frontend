@@ -671,7 +671,7 @@ function CreateMosqueProfile() {
                 <GoogleMap
                   mapContainerStyle={mapContainerStyle}
                   zoom={10}
-                  center={center}
+                  center={selected}
                   onClick={onMapClick}
                 >
                   {selected && (

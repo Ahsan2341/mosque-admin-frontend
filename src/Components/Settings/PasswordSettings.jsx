@@ -57,8 +57,9 @@ function PasswordSettings() {
         }
       })
       .catch((err) => {
+        console.log(err.response.data.message);
         if (showToast) {
-          toast.error(err);
+          toast.error(err.response.data.message);
           setShowToast(false);
         }
       });
