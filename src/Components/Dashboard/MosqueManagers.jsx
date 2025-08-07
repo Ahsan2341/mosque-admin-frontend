@@ -22,7 +22,7 @@ function MosqueManagers() {
       const res = await UsersAPI.getUsers(
         `page=${pageNum}&limit=${pageSize}&isManagerEnabled=true${
           status !== null ? `&isActive=${status}` : ""
-        }`
+        }&sort=-createdAt`
       );
       const { data, totalItems, totalPages, currentPage } = res.data;
       setUsers(data);

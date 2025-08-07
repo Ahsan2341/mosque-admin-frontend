@@ -28,7 +28,7 @@ function RegisteredMosques() {
       const res = await MosquesAPI.getMosques(
         `page=${pageNum}&limit=${pageSize}${
           status ? `&mosqueStatus=${status}` : ""
-        }`
+        }&sort=-createdAt`
       );
       console.log(res.data);
       const { data, totalItems, totalPages, currentPage } = res.data;
