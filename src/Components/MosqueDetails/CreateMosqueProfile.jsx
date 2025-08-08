@@ -91,7 +91,7 @@ function CreateMosqueProfile() {
   const [longitude, setLongitude] = useState("");
   const onMapClick = useCallback(async (event) => {
     setLatitude(event.latLng.lat());
-    setLongitude(event.latLng.lat());
+    setLongitude(event.latLng.lng());
     setSelected({
       lat: event.latLng.lat(),
       lng: event.latLng.lng(),
@@ -103,6 +103,7 @@ function CreateMosqueProfile() {
 
     if (data.status === "OK") {
       setAddressFromGoogle(data.results[0].formatted_address);
+      setAddress(data.results[0].formatted_address);
     } else {
       console.error("Geocoding error:", data.status);
     }
@@ -649,7 +650,7 @@ function CreateMosqueProfile() {
                       name="address"
                       required
                       value={address}
-                      onChange={(e) => setAddress(e.target.value)}
+                      // onChange={(e) => setAddress(e.target.value)}
                       className="w-full h-full border-[#C7C7C7] border-[1px] rounded-[8px] text-[#2F2F2F] text-[14px] font-inter font-400 pl-2 focus:border-green-custom-green focus:outline-none"
                     />
                   </div>
@@ -676,17 +677,18 @@ function CreateMosqueProfile() {
                 </div>
               </div>
 
-              {showMap && (
+              {showMap && latitude && longitude && (
                 <GoogleMap
                   mapContainerStyle={mapContainerStyle}
                   zoom={10}
-                  center={selected}
+                  center={{
+                    lat: latitude,
+                    lng: longitude,
+                  }}
                   onClick={onMapClick}
                 >
                   {selected && (
-                    <Marker
-                      position={{ lat: selected.lat, lng: selected.lng }}
-                    />
+                    <Marker position={{ lat: latitude, lng: longitude }} />
                   )}
                 </GoogleMap>
               )}
