@@ -14,6 +14,8 @@ import Faqs from "../Faqs/Faqs";
 import ProtectedRoutes from "./ProtectedRoutes";
 import AcceptInvite from "../Auth/AcceptInvite";
 import AfterAccept from "../Auth/AfterAccept";
+import Feedback from "../Feedback/Feedback";
+
 function AppRouter() {
   return (
     <Routes>
@@ -76,6 +78,14 @@ function AppRouter() {
         element={
           <ProtectedRoutes>
             <Faqs />
+          </ProtectedRoutes>
+        }
+      />
+      <Route
+        path="/feedback"
+        element={
+          <ProtectedRoutes>
+            <Feedback />
           </ProtectedRoutes>
         }
       />
