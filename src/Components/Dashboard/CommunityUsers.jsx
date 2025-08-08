@@ -22,7 +22,7 @@ function CommunityUsers() {
       const res = await UsersAPI.getUsers(
         `page=${page}&limit=${pageSize}&isManagerEnabled=false${
           status !== null ? `&isActive=${status}` : ""
-        }&sort=-createdAt`
+        }&sort=createdAt`
       );
       console.log(res.data);
       const { data, totalItems, totalPages, currentPage } = res.data;
