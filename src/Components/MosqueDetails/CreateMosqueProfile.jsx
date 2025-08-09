@@ -636,14 +636,14 @@ function CreateMosqueProfile() {
                 </div>
               </div>
               <div className="flex items-center justify-around  ">
-                <div className="w-[50%] px-3  ">
+                <div className="w-[45%]   ">
                   <label
                     className="font-400 font-inter text-[14px] text-[#8A8A8A]"
                     htmlFor="address"
                   >
                     Street Address
                   </label>
-                  <div className="h-[50px] mt-1">
+                  <div className="h-[40px] mt-1">
                     <input
                       type="text"
                       id="address"
@@ -656,14 +656,14 @@ function CreateMosqueProfile() {
                   </div>
                 </div>
 
-                <div className=" w-[50%] px-3 mt-1 ">
+                <div className=" w-[45%]  mt-1 ">
                   <label
                     htmlFor=""
                     className="font-400 font-inter text-[14px]  text-[#8A8A8A]"
                   >
                     Select Location
                   </label>
-                  <div className="border-[#C7C7C7] relative mt-1 flex items-center justify-end h-[50px] border-[1px] rounded-[8px] text-[#2F2F2F] text-[14px] ">
+                  <div className="border-[#C7C7C7] relative mt-1 flex items-center justify-end h-[40px] border-[1px] rounded-[8px] text-[#2F2F2F] text-[14px] ">
                     <p className="font-400 font-inter text-[14px] text-[#8A8A8A] absolute left-4">
                       {/* {addressFromGoogle
                         ? addressFromGoogle
