@@ -30,7 +30,7 @@ function ApprovedRequestCard({ data }) {
       {/* Left: Avatar and Info */}
       <div className="flex items-start gap-5">
         <img
-          src={"https://avatar.iran.liara.run/public"}
+          src={"https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&s=150"}
           alt="avatar"
           className="w-14 h-14 rounded-full object-cover"
         />
