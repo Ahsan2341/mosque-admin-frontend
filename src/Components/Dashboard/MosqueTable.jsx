@@ -17,7 +17,7 @@ const mosqueColumns = [
     headerName: "Mosque Name",
     flex: 1.5,
     renderCell: (params) => (
-      <Box display="flex" alignItems="center" marginLeft={"40%"} gap={1}>
+      <Box display="flex" alignItems="center" marginLeft={"35%"} gap={1}>
         <Avatar
           src={params.row.avatar}
           alt={params.value}
