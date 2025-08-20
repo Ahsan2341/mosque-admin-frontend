@@ -15,7 +15,7 @@ import ProtectedRoutes from "./ProtectedRoutes";
 import AcceptInvite from "../Auth/AcceptInvite";
 import AfterAccept from "../Auth/AfterAccept";
 import Feedback from "../Feedback/Feedback";
-
+import AllBlogs from "../Blogs/AllBlogs";
 function AppRouter() {
   return (
     <Routes>
@@ -89,6 +89,7 @@ function AppRouter() {
           </ProtectedRoutes>
         }
       />
+      <Route path="/blogs" element={<AllBlogs />} />
       <Route path="/auth/accept-invite/:token" element={<AcceptInvite />} />
       <Route path="/auth/invite-accepted" element={<AfterAccept />} />
     </Routes>

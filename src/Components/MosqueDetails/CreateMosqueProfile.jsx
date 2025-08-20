@@ -61,7 +61,7 @@ function CreateMosqueProfile() {
   const [fetchManager, setFetchManager] = useState(false);
   const [loading, setLoading] = useState(false);
   const [showMap, setShowMap] = useState(false);
-
+  const [inviteName, setInviteName] = useState("");
   const initialFacilities = [
     "Parking",
     "Wuzu (Oblution)",
@@ -253,8 +253,12 @@ function CreateMosqueProfile() {
       toast.error("Invalid Email");
       return;
     }
+    if (name == "") {
+      toast.error("Name cannot be empty");
+      return;
+    }
 
-    AuthAPI.inviteManager(email, id)
+    AuthAPI.inviteManager(email, inviteName, id)
       .then((response) => {
         setPopupId("Invite-Success");
       })
@@ -362,6 +366,14 @@ function CreateMosqueProfile() {
           <div className="px-3 pb-3 text-center">
             <div className="font-inter font-700 text-[18px] text-[#17908B]">
               Invite Manager
+            </div>
+            <div className="font-inter font-400 text-[14px] py-8">
+              <input
+                value={inviteName}
+                onChange={(e) => setInviteName(e.target.value)}
+                className="border placeholder:text-[#A7A7A7] pl-[10px] p-1 rounded-[6px] w-full h-[40px] border-[#C7C7C7] text-[#A7A7A7] focus:outline-none"
+                placeholder="Enter Name"
+              />
             </div>
             <div className="font-inter font-400 text-[14px] py-8">
               <input

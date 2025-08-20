@@ -129,6 +129,16 @@ function Sidebar() {
           <img src={Faqs} className="w-[18px] h-[18px]" alt="Faqs" />
           <div className="mx-3">Feedback</div>
         </NavLink>
+        <NavLink
+          to={"/blogs"}
+          // onClick={handleLinkClick}
+          className={`flex items-center border-[0.5px]  border-[#898989] text-[14px] font-inter font-normal pl-[19px] pt-[18px] pb-[14px] mt-4 rounded-[10px]  ${
+            location.pathname === "/blogs" ? "bg-[#DADADA]" : "text-black"
+          }`}
+        >
+          <img src={Faqs} className="w-[18px] h-[18px]" alt="Faqs" />
+          <div className="mx-3">Blogs</div>
+        </NavLink>
       </div>
     </div>
   );
