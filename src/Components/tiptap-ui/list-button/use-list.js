@@ -1,45 +1,50 @@
 "use client";
-import * as React from "react"
-import { useHotkeys } from "react-hotkeys-hook"
-import { NodeSelection, TextSelection } from "@tiptap/pm/state"
+import * as React from "react";
+import { useHotkeys } from "react-hotkeys-hook";
+import { NodeSelection, TextSelection } from "@tiptap/pm/state";
 
 // --- Hooks ---
-import { useTiptapEditor } from "@/hooks/use-tiptap-editor"
-import { useIsMobile } from "@/hooks/use-mobile"
+import { useTiptapEditor } from "@/hooks/use-tiptap-editor";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 // --- Icons ---
-import { ListIcon } from "@/components/tiptap-icons/list-icon"
-import { ListOrderedIcon } from "@/components/tiptap-icons/list-ordered-icon"
-import { ListTodoIcon } from "@/components/tiptap-icons/list-todo-icon"
+import { ListIcon } from "@/Components/tiptap-icons/list-icon";
+import { ListOrderedIcon } from "@/Components/tiptap-icons/list-ordered-icon";
+import { ListTodoIcon } from "@/Components/tiptap-icons/list-todo-icon";
 
 // --- Lib ---
-import { findNodePosition, isNodeInSchema, isNodeTypeSelected, isValidPosition } from "@/lib/tiptap-utils";
+import {
+  findNodePosition,
+  isNodeInSchema,
+  isNodeTypeSelected,
+  isValidPosition,
+} from "@/lib/tiptap-utils";
 
 export const listIcons = {
   bulletList: ListIcon,
   orderedList: ListOrderedIcon,
   taskList: ListTodoIcon,
-}
+};
 
 export const listLabels = {
   bulletList: "Bullet List",
   orderedList: "Ordered List",
   taskList: "Task List",
-}
+};
 
 export const LIST_SHORTCUT_KEYS = {
   bulletList: "mod+shift+8",
   orderedList: "mod+shift+7",
   taskList: "mod+shift+9",
-}
+};
 
 /**
  * Checks if a list can be toggled in the current editor state
  */
 export function canToggleList(editor, type, turnInto = true) {
-  if (!editor || !editor.isEditable) return false
+  if (!editor || !editor.isEditable) return false;
   if (!isNodeInSchema(type, editor) || isNodeTypeSelected(editor, ["image"]))
-    return false
+    return false;
 
   if (!turnInto) {
     switch (type) {
@@ -50,26 +55,26 @@ export function canToggleList(editor, type, turnInto = true) {
       case "taskList":
         return editor.can().toggleList("taskList", "taskItem");
       default:
-        return false
+        return false;
     }
   }
 
   try {
-    const view = editor.view
-    const state = view.state
-    const selection = state.selection
+    const view = editor.view;
+    const state = view.state;
+    const selection = state.selection;
 
     if (selection.empty || selection instanceof TextSelection) {
       const pos = findNodePosition({
         editor,
         node: state.selection.$anchor.node(1),
-      })?.pos
-      if (!isValidPosition(pos)) return false
+      })?.pos;
+      if (!isValidPosition(pos)) return false;
     }
 
-    return true
+    return true;
   } catch {
-    return false
+    return false;
   }
 }
 
@@ -77,7 +82,7 @@ export function canToggleList(editor, type, turnInto = true) {
  * Checks if list is currently active
  */
 export function isListActive(editor, type) {
-  if (!editor || !editor.isEditable) return false
+  if (!editor || !editor.isEditable) return false;
 
   switch (type) {
     case "bulletList":
@@ -87,7 +92,7 @@ export function isListActive(editor, type) {
     case "taskList":
       return editor.isActive("taskList");
     default:
-      return false
+      return false;
   }
 }
 
@@ -95,45 +100,45 @@ export function isListActive(editor, type) {
  * Toggles list in the editor
  */
 export function toggleList(editor, type) {
-  if (!editor || !editor.isEditable) return false
-  if (!canToggleList(editor, type)) return false
+  if (!editor || !editor.isEditable) return false;
+  if (!canToggleList(editor, type)) return false;
 
   try {
-    const view = editor.view
-    let state = view.state
-    let tr = state.tr
+    const view = editor.view;
+    let state = view.state;
+    let tr = state.tr;
 
     // No selection, find the the cursor position
     if (state.selection.empty || state.selection instanceof TextSelection) {
       const pos = findNodePosition({
         editor,
         node: state.selection.$anchor.node(1),
-      })?.pos
-      if (!isValidPosition(pos)) return false
+      })?.pos;
+      if (!isValidPosition(pos)) return false;
 
-      tr = tr.setSelection(NodeSelection.create(state.doc, pos))
-      view.dispatch(tr)
-      state = view.state
+      tr = tr.setSelection(NodeSelection.create(state.doc, pos));
+      view.dispatch(tr);
+      state = view.state;
     }
 
-    const selection = state.selection
+    const selection = state.selection;
 
-    let chain = editor.chain().focus()
+    let chain = editor.chain().focus();
 
     // Handle NodeSelection
     if (selection instanceof NodeSelection) {
-      const firstChild = selection.node.firstChild?.firstChild
-      const lastChild = selection.node.lastChild?.lastChild
+      const firstChild = selection.node.firstChild?.firstChild;
+      const lastChild = selection.node.lastChild?.lastChild;
 
       const from = firstChild
         ? selection.from + firstChild.nodeSize
-        : selection.from + 1
+        : selection.from + 1;
 
       const to = lastChild
         ? selection.to - lastChild.nodeSize
-        : selection.to - 1
+        : selection.to - 1;
 
-      chain = chain.setTextSelection({ from, to }).clearNodes()
+      chain = chain.setTextSelection({ from, to }).clearNodes();
     }
 
     if (editor.isActive(type)) {
@@ -143,26 +148,26 @@ export function toggleList(editor, type) {
         .lift("bulletList")
         .lift("orderedList")
         .lift("taskList")
-        .run()
+        .run();
     } else {
       // Wrap in specific list type
       const toggleMap = {
         bulletList: () => chain.toggleBulletList(),
         orderedList: () => chain.toggleOrderedList(),
         taskList: () => chain.toggleList("taskList", "taskItem"),
-      }
+      };
 
-      const toggle = toggleMap[type]
-      if (!toggle) return false
+      const toggle = toggleMap[type];
+      if (!toggle) return false;
 
-      toggle().run()
+      toggle().run();
     }
 
-    editor.chain().focus().selectTextblockEnd().run()
+    editor.chain().focus().selectTextblockEnd().run();
 
-    return true
+    return true;
   } catch {
-    return false
+    return false;
   }
 }
 
@@ -170,16 +175,16 @@ export function toggleList(editor, type) {
  * Determines if the list button should be shown
  */
 export function shouldShowButton(props) {
-  const { editor, type, hideWhenUnavailable } = props
+  const { editor, type, hideWhenUnavailable } = props;
 
-  if (!editor || !editor.isEditable) return false
-  if (!isNodeInSchema(type, editor)) return false
+  if (!editor || !editor.isEditable) return false;
+  if (!isNodeInSchema(type, editor)) return false;
 
   if (hideWhenUnavailable && !editor.isActive("code")) {
     return canToggleList(editor, type);
   }
 
-  return true
+  return true;
 }
 
 /**
@@ -225,48 +230,52 @@ export function useList(config) {
     type,
     hideWhenUnavailable = false,
     onToggled,
-  } = config
+  } = config;
 
-  const { editor } = useTiptapEditor(providedEditor)
-  const isMobile = useIsMobile()
-  const [isVisible, setIsVisible] = React.useState(true)
-  const canToggle = canToggleList(editor, type)
-  const isActive = isListActive(editor, type)
+  const { editor } = useTiptapEditor(providedEditor);
+  const isMobile = useIsMobile();
+  const [isVisible, setIsVisible] = React.useState(true);
+  const canToggle = canToggleList(editor, type);
+  const isActive = isListActive(editor, type);
 
   React.useEffect(() => {
-    if (!editor) return
+    if (!editor) return;
 
     const handleSelectionUpdate = () => {
-      setIsVisible(shouldShowButton({ editor, type, hideWhenUnavailable }))
-    }
+      setIsVisible(shouldShowButton({ editor, type, hideWhenUnavailable }));
+    };
 
-    handleSelectionUpdate()
+    handleSelectionUpdate();
 
-    editor.on("selectionUpdate", handleSelectionUpdate)
+    editor.on("selectionUpdate", handleSelectionUpdate);
 
     return () => {
-      editor.off("selectionUpdate", handleSelectionUpdate)
+      editor.off("selectionUpdate", handleSelectionUpdate);
     };
-  }, [editor, type, hideWhenUnavailable])
+  }, [editor, type, hideWhenUnavailable]);
 
   const handleToggle = React.useCallback(() => {
-    if (!editor) return false
+    if (!editor) return false;
 
-    const success = toggleList(editor, type)
+    const success = toggleList(editor, type);
     if (success) {
-      onToggled?.()
+      onToggled?.();
     }
-    return success
-  }, [editor, type, onToggled])
+    return success;
+  }, [editor, type, onToggled]);
 
-  useHotkeys(LIST_SHORTCUT_KEYS[type], (event) => {
-    event.preventDefault()
-    handleToggle()
-  }, {
-    enabled: isVisible && canToggle,
-    enableOnContentEditable: !isMobile,
-    enableOnFormTags: true,
-  })
+  useHotkeys(
+    LIST_SHORTCUT_KEYS[type],
+    (event) => {
+      event.preventDefault();
+      handleToggle();
+    },
+    {
+      enabled: isVisible && canToggle,
+      enableOnContentEditable: !isMobile,
+      enableOnFormTags: true,
+    }
+  );
 
   return {
     isVisible,
@@ -276,5 +285,5 @@ export function useList(config) {
     label: listLabels[type],
     shortcutKeys: LIST_SHORTCUT_KEYS[type],
     Icon: listIcons[type],
-  }
+  };
 }

@@ -1,39 +1,39 @@
 "use client";
-import * as React from "react"
-import { useHotkeys } from "react-hotkeys-hook"
+import * as React from "react";
+import { useHotkeys } from "react-hotkeys-hook";
 
 // --- Hooks ---
-import { useTiptapEditor } from "@/hooks/use-tiptap-editor"
-import { useIsMobile } from "@/hooks/use-mobile"
+import { useTiptapEditor } from "@/hooks/use-tiptap-editor";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 // --- Lib ---
-import { isNodeTypeSelected } from "@/lib/tiptap-utils"
+import { isNodeTypeSelected } from "@/lib/tiptap-utils";
 
 // --- Icons ---
-import { Redo2Icon } from "@/components/tiptap-icons/redo2-icon"
-import { Undo2Icon } from "@/components/tiptap-icons/undo2-icon";
+import { Redo2Icon } from "@/Components/tiptap-icons/redo2-icon";
+import { Undo2Icon } from "@/Components/tiptap-icons/undo2-icon";
 
 export const UNDO_REDO_SHORTCUT_KEYS = {
   undo: "mod+z",
   redo: "mod+shift+z",
-}
+};
 
 export const historyActionLabels = {
   undo: "Undo",
   redo: "Redo",
-}
+};
 
 export const historyIcons = {
   undo: Undo2Icon,
   redo: Redo2Icon,
-}
+};
 
 /**
  * Checks if a history action can be executed
  */
 export function canExecuteUndoRedoAction(editor, action) {
-  if (!editor || !editor.isEditable) return false
-  if (isNodeTypeSelected(editor, ["image"])) return false
+  if (!editor || !editor.isEditable) return false;
+  if (isNodeTypeSelected(editor, ["image"])) return false;
 
   return action === "undo" ? editor.can().undo() : editor.can().redo();
 }
@@ -42,10 +42,10 @@ export function canExecuteUndoRedoAction(editor, action) {
  * Executes a history action on the editor
  */
 export function executeUndoRedoAction(editor, action) {
-  if (!editor || !editor.isEditable) return false
-  if (!canExecuteUndoRedoAction(editor, action)) return false
+  if (!editor || !editor.isEditable) return false;
+  if (!canExecuteUndoRedoAction(editor, action)) return false;
 
-  const chain = editor.chain().focus()
+  const chain = editor.chain().focus();
   return action === "undo" ? chain.undo().run() : chain.redo().run();
 }
 
@@ -53,15 +53,15 @@ export function executeUndoRedoAction(editor, action) {
  * Determines if the history button should be shown
  */
 export function shouldShowButton(props) {
-  const { editor, hideWhenUnavailable, action } = props
+  const { editor, hideWhenUnavailable, action } = props;
 
-  if (!editor || !editor.isEditable) return false
+  if (!editor || !editor.isEditable) return false;
 
   if (hideWhenUnavailable && !editor.isActive("code")) {
     return canExecuteUndoRedoAction(editor, action);
   }
 
-  return true
+  return true;
 }
 
 /**
@@ -106,47 +106,51 @@ export function useUndoRedo(config) {
     action,
     hideWhenUnavailable = false,
     onExecuted,
-  } = config
+  } = config;
 
-  const { editor } = useTiptapEditor(providedEditor)
-  const isMobile = useIsMobile()
-  const [isVisible, setIsVisible] = React.useState(true)
-  const canExecute = canExecuteUndoRedoAction(editor, action)
+  const { editor } = useTiptapEditor(providedEditor);
+  const isMobile = useIsMobile();
+  const [isVisible, setIsVisible] = React.useState(true);
+  const canExecute = canExecuteUndoRedoAction(editor, action);
 
   React.useEffect(() => {
-    if (!editor) return
+    if (!editor) return;
 
     const handleUpdate = () => {
-      setIsVisible(shouldShowButton({ editor, hideWhenUnavailable, action }))
-    }
+      setIsVisible(shouldShowButton({ editor, hideWhenUnavailable, action }));
+    };
 
-    handleUpdate()
+    handleUpdate();
 
-    editor.on("transaction", handleUpdate)
+    editor.on("transaction", handleUpdate);
 
     return () => {
-      editor.off("transaction", handleUpdate)
+      editor.off("transaction", handleUpdate);
     };
-  }, [editor, hideWhenUnavailable, action])
+  }, [editor, hideWhenUnavailable, action]);
 
   const handleAction = React.useCallback(() => {
-    if (!editor) return false
+    if (!editor) return false;
 
-    const success = executeUndoRedoAction(editor, action)
+    const success = executeUndoRedoAction(editor, action);
     if (success) {
-      onExecuted?.()
+      onExecuted?.();
     }
-    return success
-  }, [editor, action, onExecuted])
+    return success;
+  }, [editor, action, onExecuted]);
 
-  useHotkeys(UNDO_REDO_SHORTCUT_KEYS[action], (event) => {
-    event.preventDefault()
-    handleAction()
-  }, {
-    enabled: isVisible && canExecute,
-    enableOnContentEditable: !isMobile,
-    enableOnFormTags: true,
-  })
+  useHotkeys(
+    UNDO_REDO_SHORTCUT_KEYS[action],
+    (event) => {
+      event.preventDefault();
+      handleAction();
+    },
+    {
+      enabled: isVisible && canExecute,
+      enableOnContentEditable: !isMobile,
+      enableOnFormTags: true,
+    }
+  );
 
   return {
     isVisible,
@@ -155,5 +159,5 @@ export function useUndoRedo(config) {
     label: historyActionLabels[action],
     shortcutKeys: UNDO_REDO_SHORTCUT_KEYS[action],
     Icon: historyIcons[action],
-  }
+  };
 }

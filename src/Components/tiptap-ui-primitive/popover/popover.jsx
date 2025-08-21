@@ -1,17 +1,13 @@
-import * as React from "react"
-import * as PopoverPrimitive from "@radix-ui/react-popover"
-import { cn } from "@/lib/tiptap-utils"
-import "@/components/tiptap-ui-primitive/popover/popover.scss"
+import * as React from "react";
+import * as PopoverPrimitive from "@radix-ui/react-popover";
+import { cn } from "@/lib/tiptap-utils";
+import "@/Components/tiptap-ui-primitive/popover/popover.scss";
 
-function Popover({
-  ...props
-}) {
+function Popover({ ...props }) {
   return <PopoverPrimitive.Root {...props} />;
 }
 
-function PopoverTrigger({
-  ...props
-}) {
+function PopoverTrigger({ ...props }) {
   return <PopoverPrimitive.Trigger {...props} />;
 }
 
@@ -27,9 +23,10 @@ function PopoverContent({
         align={align}
         sideOffset={sideOffset}
         className={cn("tiptap-popover", className)}
-        {...props} />
+        {...props}
+      />
     </PopoverPrimitive.Portal>
   );
 }
 
-export { Popover, PopoverTrigger, PopoverContent }
+export { Popover, PopoverTrigger, PopoverContent };

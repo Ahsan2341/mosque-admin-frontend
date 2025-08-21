@@ -1,24 +1,24 @@
-import * as React from "react"
+import * as React from "react";
 
 // --- Hooks ---
-import { useTiptapEditor } from "@/hooks/use-tiptap-editor"
+import { useTiptapEditor } from "@/hooks/use-tiptap-editor";
 
 // --- Icons ---
-import { ChevronDownIcon } from "@/components/tiptap-icons/chevron-down-icon"
+import { ChevronDownIcon } from "@/Components/tiptap-icons/chevron-down-icon";
 
 // --- Tiptap UI ---
-import { ListButton } from "@/components/tiptap-ui/list-button";
+import { ListButton } from "@/Components/tiptap-ui/list-button";
 
-import { useListDropdownMenu } from "./use-list-dropdown-menu"
+import { useListDropdownMenu } from "./use-list-dropdown-menu";
 
-import { Button, ButtonGroup } from "@/components/tiptap-ui-primitive/button"
+import { Button, ButtonGroup } from "@/Components/tiptap-ui-primitive/button";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
-} from "@/components/tiptap-ui-primitive/dropdown-menu"
-import { Card, CardBody } from "@/components/tiptap-ui-primitive/card"
+} from "@/Components/tiptap-ui-primitive/dropdown-menu";
+import { Card, CardBody } from "@/Components/tiptap-ui-primitive/card";
 
 export function ListDropdownMenu({
   editor: providedEditor,
@@ -28,23 +28,26 @@ export function ListDropdownMenu({
   portal = false,
   ...props
 }) {
-  const { editor } = useTiptapEditor(providedEditor)
-  const [isOpen, setIsOpen] = React.useState(false)
+  const { editor } = useTiptapEditor(providedEditor);
+  const [isOpen, setIsOpen] = React.useState(false);
 
   const { filteredLists, canToggle, isActive, isVisible, Icon } =
     useListDropdownMenu({
       editor,
       types,
       hideWhenUnavailable,
-    })
+    });
 
-  const handleOnOpenChange = React.useCallback((open) => {
-    setIsOpen(open)
-    onOpenChange?.(open)
-  }, [onOpenChange])
+  const handleOnOpenChange = React.useCallback(
+    (open) => {
+      setIsOpen(open);
+      onOpenChange?.(open);
+    },
+    [onOpenChange]
+  );
 
   if (!isVisible || !editor || !editor.isEditable) {
-    return null
+    return null;
   }
 
   return (
@@ -60,7 +63,8 @@ export function ListDropdownMenu({
           data-disabled={!canToggle}
           aria-label="List options"
           tooltip="List"
-          {...props}>
+          {...props}
+        >
           <Icon className="tiptap-button-icon" />
           <ChevronDownIcon className="tiptap-button-dropdown-small" />
         </Button>
@@ -75,7 +79,8 @@ export function ListDropdownMenu({
                     editor={editor}
                     type={option.type}
                     text={option.label}
-                    showTooltip={false} />
+                    showTooltip={false}
+                  />
                 </DropdownMenuItem>
               ))}
             </ButtonGroup>
@@ -86,4 +91,4 @@ export function ListDropdownMenu({
   );
 }
 
-export default ListDropdownMenu
+export default ListDropdownMenu;

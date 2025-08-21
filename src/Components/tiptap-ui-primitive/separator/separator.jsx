@@ -1,14 +1,15 @@
 "use client";
-import * as React from "react"
-import "@/components/tiptap-ui-primitive/separator/separator.scss"
-import { cn } from "@/lib/tiptap-utils"
+import * as React from "react";
+import "@/Components/tiptap-ui-primitive/separator/separator.scss";
+import { cn } from "@/lib/tiptap-utils";
 
 export const Separator = React.forwardRef(
   ({ decorative, orientation = "vertical", className, ...divProps }, ref) => {
-    const ariaOrientation = orientation === "vertical" ? orientation : undefined
+    const ariaOrientation =
+      orientation === "vertical" ? orientation : undefined;
     const semanticProps = decorative
       ? { role: "none" }
-      : { "aria-orientation": ariaOrientation, role: "separator" }
+      : { "aria-orientation": ariaOrientation, role: "separator" };
 
     return (
       <div
@@ -16,9 +17,10 @@ export const Separator = React.forwardRef(
         data-orientation={orientation}
         {...semanticProps}
         {...divProps}
-        ref={ref} />
+        ref={ref}
+      />
     );
   }
-)
+);
 
-Separator.displayName = "Separator"
+Separator.displayName = "Separator";
