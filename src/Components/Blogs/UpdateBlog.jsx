@@ -15,13 +15,14 @@ import {
 } from "@mui/material";
 // import ReactQuill from "react-quill";
 // import "react-quill/dist/quill.snow.css";
-import ReactQuill from "react-quill-new"; // Change this line
-import "react-quill-new/dist/quill.snow.css"; // Update the CSS import
+// import ReactQuill from "react-quill-new"; // Change this line
+// import "react-quill-new/dist/quill.snow.css"; // Update the CSS import
 import BlogAPI from "../../api/blog";
 import { toast } from "react-toastify";
 import Cropper from "react-easy-crop";
 import getCroppedImg from "../../utils/cropImage";
 import useImageCompression from "../../hooks/useImageCompression";
+import { SimpleEditor } from "../tiptap-templates/simple/simple-editor";
 
 function UpdateBlog({ fetchBlogs, handleCloseModal, id }) {
   const [formValues, setFormValues] = useState({
@@ -308,7 +309,8 @@ function UpdateBlog({ fetchBlogs, handleCloseModal, id }) {
           <Typography variant="subtitle1" gutterBottom>
             Content
           </Typography>
-          <ReactQuill
+          <SimpleEditor content={content} setContent={setContent} />
+          {/* <ReactQuill
             theme="snow"
             value={content}
             onChange={setContent}
@@ -328,7 +330,7 @@ function UpdateBlog({ fetchBlogs, handleCloseModal, id }) {
                 ["clean"],
               ],
             }}
-          />
+          /> */}
         </FormControl>
 
         <Typography variant="caption" sx={{ mb: 2, display: "block" }}>

@@ -13,8 +13,9 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import ReactQuill from "react-quill-new";
-import "react-quill-new/dist/quill.snow.css";
+// import ReactQuill from "react-quill-new";
+// import "react-quill-new/dist/quill.snow.css";
+import { SimpleEditor } from "../tiptap-templates/simple/simple-editor";
 import BlogAPI from "../../api/blog";
 import { toast } from "react-toastify";
 import Cropper from "react-easy-crop";
@@ -209,6 +210,10 @@ function CreateBlog({ fetchBlogs, handleCloseModal }) {
         .ql-snow .ql-tooltip {
           left: 9px !important;
         }
+        .simple-editor-wrapper {
+          width: auto !important;
+          height: auto !important;
+        }
       `}</style>
       <Box sx={{ maxHeight: 550, overflowY: "auto", p: 2 }}>
         <FormControl fullWidth sx={{ mb: 2 }}>
@@ -282,27 +287,7 @@ function CreateBlog({ fetchBlogs, handleCloseModal }) {
           <Typography variant="subtitle1" gutterBottom>
             Content
           </Typography>
-          <ReactQuill
-            theme="snow"
-            value={content}
-            onChange={setContent}
-            style={{ height: 350, overflowY: "auto" }}
-            modules={{
-              toolbar: [
-                [{ header: [1, 2, 3, false] }],
-                [{ font: [] }],
-                ["bold", "italic", "underline", "strike"],
-                [{ color: [] }, { background: [] }],
-                [{ script: "sub" }, { script: "super" }],
-                [{ list: "ordered" }, { list: "bullet" }],
-                [{ indent: "-1" }, { indent: "+1" }],
-                [{ align: [] }],
-                ["link", "image", "video"],
-                ["blockquote", "code-block"],
-                ["clean"],
-              ],
-            }}
-          />
+          <SimpleEditor content={content} setContent={setContent} />
         </FormControl>
 
         <Typography variant="caption" sx={{ mb: 2, display: "block" }}>

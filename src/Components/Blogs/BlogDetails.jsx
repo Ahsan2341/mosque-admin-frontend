@@ -9,11 +9,12 @@ import {
   Chip,
 } from "@mui/material";
 // import ReactQuill from "react-quill";
-import ReactQuill from "react-quill-new"; // Change this line
-import "react-quill-new/dist/quill.snow.css"; // Update the CSS import
+// import ReactQuill from "react-quill-new"; // Change this line
+// import "react-quill-new/dist/quill.snow.css"; // Update the CSS import
 import dayjs from "dayjs";
 import BlogAPI from "../../api/blog";
 import { toast } from "react-toastify";
+import { SimpleEditor } from "../tiptap-templates/simple/simple-editor";
 
 function BlogDetails({ id }) {
   const [loading, setLoading] = useState(true);
@@ -131,7 +132,8 @@ function BlogDetails({ id }) {
               Content
             </Typography>
             <Box sx={{ maxWidth: "100%" }}>
-              <ReactQuill
+              <SimpleEditor content={blog?.content} />
+              {/* <ReactQuill
                 value={blog?.content}
                 readOnly={true}
                 modules={{ toolbar: false }}
@@ -142,7 +144,7 @@ function BlogDetails({ id }) {
                   overflowY: "auto",
                 }}
                 theme="snow"
-              />
+              /> */}
             </Box>
           </Box>
 
