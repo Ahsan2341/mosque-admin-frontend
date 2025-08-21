@@ -9,7 +9,7 @@ import { useTiptapEditor } from "@/hooks/use-tiptap-editor";
 import {
   MARK_SHORTCUT_KEYS,
   useMark,
-} from "@/components/tiptap-ui/mark-button";
+} from "@/Components/tiptap-ui/mark-button";
 
 import { Button } from "@/Components/tiptap-ui-primitive/button";
 import { Badge } from "@/Components/tiptap-ui-primitive/badge";
