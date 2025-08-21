@@ -24,10 +24,6 @@ function CreateMosqueProfile() {
     width: "100%",
     height: "500px",
   };
-  const center = {
-    lat: 33.6844, // default center (e.g., Islamabad)
-    lng: 73.0479,
-  };
   const toggleMap = () => {
     setShowMap((prev) => !prev);
   };
@@ -62,6 +58,12 @@ function CreateMosqueProfile() {
   const [loading, setLoading] = useState(false);
   const [showMap, setShowMap] = useState(false);
   const [inviteName, setInviteName] = useState("");
+  const [latitude, setLatitude] = useState("");
+  const [longitude, setLongitude] = useState("");
+  const [center, setCenter] = useState({
+    lat: 33.648156629240255,
+    lng: 73.54173005465246,
+  });
   const initialFacilities = [
     "Parking",
     "Wuzu (Oblution)",
@@ -87,11 +89,14 @@ function CreateMosqueProfile() {
       toast.error("Facility already exists or is empty");
     }
   };
-  const [latitude, setLatitude] = useState("");
-  const [longitude, setLongitude] = useState("");
+
   const onMapClick = useCallback(async (event) => {
     setLatitude(event.latLng.lat());
     setLongitude(event.latLng.lng());
+    setCenter({
+      lat: event.latLng.lat(),
+      lng: event.latLng.lng(),
+    });
     setSelected({
       lat: event.latLng.lat(),
       lng: event.latLng.lng(),
@@ -210,7 +215,7 @@ function CreateMosqueProfile() {
       },
     };
 
-    if (!latitude || !latitude) {
+    if (!latitude || !longitude) {
       toast.error("Select Location");
       return;
     }
@@ -692,15 +697,17 @@ function CreateMosqueProfile() {
               {showMap && latitude && longitude && (
                 <GoogleMap
                   mapContainerStyle={mapContainerStyle}
-                  zoom={10}
-                  center={{
-                    lat: latitude,
-                    lng: longitude,
-                  }}
+                  zoom={6}
+                  center={center}
                   onClick={onMapClick}
                 >
                   {selected && (
-                    <Marker position={{ lat: latitude, lng: longitude }} />
+                    <Marker
+                      position={{
+                        lat: Number(latitude),
+                        lng: Number(longitude),
+                      }}
+                    />
                   )}
                 </GoogleMap>
               )}

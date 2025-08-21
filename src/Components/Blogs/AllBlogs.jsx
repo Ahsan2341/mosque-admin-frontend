@@ -217,12 +217,35 @@ const AllBlogs = () => {
             </Button>
           }
         </Box>
-        <TableContainer component={Paper}>
-          <Table>
+        <TableContainer
+          component={Paper}
+          sx={{
+            "& .MuiTableCell-root": {
+              padding: "4px 8px", // Reduced padding
+              fontSize: "0.875rem", // Smaller font size (14px by default)
+            },
+            "& .MuiTableHead-root": {
+              "& .MuiTableCell-root": {
+                fontWeight: "bold", // Keep bold headers
+                backgroundColor: "#f5f5f5", // Optional: light background for headers
+              },
+            },
+            "& .MuiTableBody-root": {
+              "& .MuiTableCell-root": {
+                verticalAlign: "middle", // Center content vertically
+              },
+            },
+          }}
+        >
+          <Table size="small">
             <TableHead>
               <TableRow>
                 {columns.map((column) => (
-                  <TableCell key={column.id} align={column.align || "left"}>
+                  <TableCell
+                    key={column.id}
+                    align={column.align || "left"}
+                    style={{ fontWeight: "bold" }}
+                  >
                     {column.label}
                   </TableCell>
                 ))}

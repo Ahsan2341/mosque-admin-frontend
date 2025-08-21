@@ -29,6 +29,7 @@ function CreateBlog({ fetchBlogs, handleCloseModal }) {
     description: "",
     paraLink: "",
   });
+  const [showToast, setShowToast] = useState(true);
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
   const [isPopular, setIsPopular] = useState(false);
@@ -44,41 +45,70 @@ function CreateBlog({ fetchBlogs, handleCloseModal }) {
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
   const [rawCoverFile, setRawCoverFile] = useState(null);
   const { compressImage, isCompressing } = useImageCompression();
-
+  useEffect(() => {
+    if (!showToast) {
+      const timer = setTimeout(() => {
+        setShowToast(true);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [showToast]);
   useEffect(() => {
     setContentCounters(content.replace(/<[^>]*>/g, "").length);
   }, [content]);
 
   const handleCreateBlog = async () => {
     if (!formValues.title) {
-      toast.error("Please enter the Title!");
+      if (showToast) {
+        setShowToast(false);
+        toast.error("Please enter the Title!");
+      }
       return;
     }
     if (!formValues.paraLink) {
-      toast.error("Please enter the Parma Link!");
+      if (showToast) {
+        setShowToast(false);
+        toast.error("Please enter the Parma Link!");
+      }
+
       return;
     }
     if (formValues.metaTitle.length < 50 || formValues.metaTitle.length > 60) {
-      toast.error("Meta Title must be 50–60 characters");
+      if (showToast) {
+        setShowToast(false);
+        toast.error("Meta Title must be 50–60 characters");
+      }
       return;
     }
     if (
       formValues.description.length < 5 ||
       formValues.description.length > 160
     ) {
-      toast.error("Meta Description must be 5–160 characters");
+      if (showToast) {
+        setShowToast(false);
+        toast.error("Meta Description must be 5–160 characters");
+      }
       return;
     }
     if (!content) {
-      toast.error("Please enter the blog content!");
+      if (showToast) {
+        setShowToast(false);
+        toast.error("Please enter the blog content!");
+      }
       return;
     }
     if (!thumbnailFile) {
-      toast.error("Please upload the blog thumbnail!");
+      if (showToast) {
+        setShowToast(false);
+        toast.error("Please upload the blog thumbnail!");
+      }
       return;
     }
     if (!coverFile && !coverPreview) {
-      toast.error("Please upload the blog cover image!");
+      if (showToast) {
+        setShowToast(false);
+        toast.error("Please upload the blog cover image!");
+      }
       return;
     }
     setLoading(true);
