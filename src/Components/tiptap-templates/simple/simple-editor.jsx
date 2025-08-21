@@ -66,7 +66,7 @@ import { useCursorVisibility } from "@/hooks/use-cursor-visibility";
 import { ThemeToggle } from "@/components/tiptap-templates/simple/theme-toggle";
 
 // --- Lib ---
-// import { handleImageUpload, MAX_FILE_SIZE } from "@/lib/tiptap-utils";
+import { handleImageUpload, MAX_FILE_SIZE } from "@/lib/tiptap-utils";
 
 // --- Styles ---
 import "@/components/tiptap-templates/simple/simple-editor.scss";
@@ -118,9 +118,9 @@ const MainToolbarContent = ({ onHighlighterClick, onLinkClick, isMobile }) => {
         <TextAlignButton align="justify" />
       </ToolbarGroup>
       <ToolbarSeparator />
-      {/* <ToolbarGroup>
+      <ToolbarGroup>
         <ImageUploadButton text="Add" />
-      </ToolbarGroup> */}
+      </ToolbarGroup>
       <Spacer />
       {isMobile && <ToolbarSeparator />}
       {/* <ToolbarGroup>
@@ -189,13 +189,13 @@ export function SimpleEditor({ content, setContent }) {
       Superscript,
       Subscript,
       // Selection,
-      // ImageUploadNode.configure({
-      //   accept: "image/*",
-      //   maxSize: MAX_FILE_SIZE,
-      //   limit: 3,
-      //   upload: handleImageUpload,
-      //   onError: (error) => console.error("Upload failed:", error),
-      // }),
+      ImageUploadNode.configure({
+        accept: "image/*",
+        maxSize: MAX_FILE_SIZE,
+        limit: 3,
+        upload: handleImageUpload,
+        onError: (error) => console.error("Upload failed:", error),
+      }),
     ],
     content: content,
     onUpdate: ({ editor }) => setContent(editor.getHTML()),
