@@ -178,17 +178,24 @@ const AllBlogs = () => {
       id: "actions",
       label: "Actions",
       render: (_, record) => (
-        <Box sx={{ display: "flex", gap: 0 }}>
-          <IconButton onClick={() => handleOpenModal("view", record._id)}>
+        <Box sx={{ display: "flex", gap: 1.5, alignItems: "center" }}>
+          <IconButton
+            style={{ width: "8px", height: "8px" }}
+            onClick={() => handleOpenModal("view", record._id)}
+          >
             <Visibility />
           </IconButton>
           {
-            <IconButton onClick={() => handleOpenModal("edit", record._id)}>
+            <IconButton
+              style={{ width: "8px", height: "8px" }}
+              onClick={() => handleOpenModal("edit", record._id)}
+            >
               <Edit />
             </IconButton>
           }
           {
             <IconButton
+              style={{ width: "8px", height: "8px" }}
               color="error"
               onClick={() => handleOpenDeleteModal(record._id)}
             >
