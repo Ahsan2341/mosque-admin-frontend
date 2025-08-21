@@ -201,7 +201,7 @@ const AllBlogs = () => {
 
   return (
     <MainLayout>
-      <Box sx={{ p: 3 }}>
+      <Box sx={{ p: 10 }}>
         <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
           <Typography variant="h5" fontWeight="bold">
             All Blogs
