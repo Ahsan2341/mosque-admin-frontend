@@ -19,18 +19,18 @@ import {
   Toolbar,
   ToolbarGroup,
   ToolbarSeparator,
-} from "@/components/tiptap-ui-primitive/toolbar";
+} from "@/Components/tiptap-ui-primitive/toolbar";
 
 // --- Tiptap Node ---
 import { ImageUploadNode } from "@/Components/tiptap-node/image-upload-node/image-upload-node-extension";
 import { HorizontalRule } from "@/Components/tiptap-node/horizontal-rule-node/horizontal-rule-node-extension";
-import "@/components/tiptap-node/blockquote-node/blockquote-node.scss";
-import "@/components/tiptap-node/code-block-node/code-block-node.scss";
-import "@/components/tiptap-node/horizontal-rule-node/horizontal-rule-node.scss";
-import "@/components/tiptap-node/list-node/list-node.scss";
-import "@/components/tiptap-node/image-node/image-node.scss";
-import "@/components/tiptap-node/heading-node/heading-node.scss";
-import "@/components/tiptap-node/paragraph-node/paragraph-node.scss";
+import "@/Components/tiptap-node/blockquote-node/blockquote-node.scss";
+import "@/Components/tiptap-node/code-block-node/code-block-node.scss";
+import "@/Components/tiptap-node/horizontal-rule-node/horizontal-rule-node.scss";
+import "@/Components/tiptap-node/list-node/list-node.scss";
+import "@/Components/tiptap-node/image-node/image-node.scss";
+import "@/Components/tiptap-node/heading-node/heading-node.scss";
+import "@/Components/tiptap-node/paragraph-node/paragraph-node.scss";
 
 // --- Tiptap UI ---
 import { HeadingDropdownMenu } from "@/Components/tiptap-ui/heading-dropdown-menu";
@@ -42,12 +42,12 @@ import {
   ColorHighlightPopover,
   ColorHighlightPopoverContent,
   ColorHighlightPopoverButton,
-} from "@/components/tiptap-ui/color-highlight-popover";
+} from "@/Components/tiptap-ui/color-highlight-popover";
 import {
   LinkPopover,
   LinkContent,
   LinkButton,
-} from "@/components/tiptap-ui/link-popover";
+} from "@/Components/tiptap-ui/link-popover";
 import { MarkButton } from "@/Components/tiptap-ui/mark-button";
 import { TextAlignButton } from "@/Components/tiptap-ui/text-align-button";
 import { UndoRedoButton } from "@/Components/tiptap-ui/undo-redo-button";
