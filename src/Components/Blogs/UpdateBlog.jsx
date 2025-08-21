@@ -454,12 +454,13 @@ function UpdateBlog({ fetchBlogs, handleCloseModal, id }) {
           </Typography>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => handleConfirmAction("no")} sx={{ px: 4 }}>
-            No
-          </Button>
           <Button onClick={() => handleConfirmAction("cancel")} sx={{ px: 4 }}>
             Cancel
           </Button>
+          <Button onClick={() => handleConfirmAction("no")} sx={{ px: 4 }}>
+            No
+          </Button>
+
           <Button
             style={{ backgroundColor: "#21ABA5", color: "white" }}
             onClick={() => handleConfirmAction("yes")}

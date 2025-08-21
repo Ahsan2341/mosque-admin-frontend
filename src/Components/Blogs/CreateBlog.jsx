@@ -50,6 +50,10 @@ function CreateBlog({ fetchBlogs, handleCloseModal }) {
   }, [content]);
 
   const handleCreateBlog = async () => {
+    if (!formValues.title) {
+      toast.error("Please enter the Title!");
+      return;
+    }
     if (!formValues.paraLink) {
       toast.error("Please enter the Parma Link!");
       return;
@@ -222,6 +226,7 @@ function CreateBlog({ fetchBlogs, handleCloseModal }) {
             name="title"
             value={formValues.title}
             onChange={handleInputChange}
+            required
             variant="outlined"
             placeholder="Enter blog title"
             inputProps={{ maxLength: 100 }}
@@ -236,6 +241,7 @@ function CreateBlog({ fetchBlogs, handleCloseModal }) {
             value={formValues.metaTitle}
             onChange={handleInputChange}
             variant="outlined"
+            required
             placeholder="Enter blog title (50–60 characters)"
             inputProps={{ maxLength: 60, minLength: 50 }}
             helperText={`${formValues.metaTitle.length}/60 characters`}
@@ -252,6 +258,7 @@ function CreateBlog({ fetchBlogs, handleCloseModal }) {
             label="Meta Description"
             name="description"
             value={formValues.description}
+            required
             onChange={handleInputChange}
             variant="outlined"
             placeholder="Enter blog description (5–160 characters)"
@@ -279,7 +286,7 @@ function CreateBlog({ fetchBlogs, handleCloseModal }) {
                 ? `${formValues.paraLink.length} characters`
                 : "Required"
             }
-            error={!formValues.paraLink}
+            // error={!formValues.paraLink}
           />
         </FormControl>
 
@@ -407,12 +414,13 @@ function CreateBlog({ fetchBlogs, handleCloseModal }) {
           </Typography>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => handleConfirmAction("no")} sx={{ px: 4 }}>
-            No
-          </Button>
           <Button onClick={() => handleConfirmAction("cancel")} sx={{ px: 4 }}>
             Cancel
           </Button>
+          <Button onClick={() => handleConfirmAction("no")} sx={{ px: 4 }}>
+            No
+          </Button>
+
           <Button
             style={{ backgroundColor: "#21ABA5", color: "white" }}
             onClick={() => handleConfirmAction("yes")}

@@ -117,17 +117,19 @@ const AllBlogs = () => {
   const columns = [
     {
       id: "_id",
-      label: "# No",
+      label: "No",
       align: "center",
       render: (_serialNumber, _blog, index) => <span>{index + 1}</span>,
     },
     {
       id: "title",
       label: "Title",
+      render: (text) => <span>{text.slice(0, 15)}</span>,
     },
     {
       id: "metaTitle",
       label: "Meta Title",
+      render: (text) => <span>{text.slice(0, 15)}</span>,
     },
     {
       id: "blogThumbnailUrl",
@@ -143,12 +145,12 @@ const AllBlogs = () => {
     {
       id: "description",
       label: "Description",
-      render: (text) => <span>{text}</span>,
+      render: (text) => <span>{text.slice(0, 20)}</span>,
     },
     {
       id: "paraLink",
       label: "ParaLink",
-      render: (link) => <span>{link}</span>,
+      render: (link) => <span>{link.slice(0, 20)}</span>,
     },
     {
       id: "blogStatus",
