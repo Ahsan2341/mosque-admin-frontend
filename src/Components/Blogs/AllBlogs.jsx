@@ -164,6 +164,7 @@ const AllBlogs = () => {
             : status;
         return (
           <Typography
+            style={{ fontSize: "12px" }}
             color={
               displayStatus === "PUBLISHED" ? "success.main" : "warning.main"
             }
@@ -177,7 +178,7 @@ const AllBlogs = () => {
       id: "actions",
       label: "Actions",
       render: (_, record) => (
-        <Box sx={{ display: "flex", gap: 1 }}>
+        <Box sx={{ display: "flex", gap: 0 }}>
           <IconButton onClick={() => handleOpenModal("view", record._id)}>
             <Visibility />
           </IconButton>
