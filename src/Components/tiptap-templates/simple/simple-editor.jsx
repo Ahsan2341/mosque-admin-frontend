@@ -22,15 +22,24 @@ import {
 } from "@/Components/tiptap-ui-primitive/toolbar";
 
 // --- Tiptap Node ---
-import { ImageUploadNode } from "@/Components/tiptap-node/image-upload-node/image-upload-node-extension";
-import { HorizontalRule } from "@/Components/tiptap-node/horizontal-rule-node/horizontal-rule-node-extension";
-import "@/Components/tiptap-node/blockquote-node/blockquote-node.scss";
-import "@/Components/tiptap-node/code-block-node/code-block-node.scss";
-import "@/Components/tiptap-node/horizontal-rule-node/horizontal-rule-node.scss";
-import "@/Components/tiptap-node/list-node/list-node.scss";
-import "@/Components/tiptap-node/image-node/image-node.scss";
-import "@/Components/tiptap-node/heading-node/heading-node.scss";
-import "@/Components/tiptap-node/paragraph-node/paragraph-node.scss";
+// import { ImageUploadNode } from "@/Components/tiptap-node/image-upload-node/image-upload-node-extension";
+import { ImageUploadNode } from "../../tiptap-node/image-upload-node/image-upload-node-extension";
+// import { HorizontalRule } from "@/Components/tiptap-node/horizontal-rule-node/horizontal-rule-node-extension";
+import { HorizontalRule } from "../../tiptap-node/horizontal-rule-node/horizontal-rule-node-extension";
+// import "@/Components/tiptap-node/blockquote-node/blockquote-node.scss";
+// import "@/Components/tiptap-node/code-block-node/code-block-node.scss";
+// import "@/Components/tiptap-node/horizontal-rule-node/horizontal-rule-node.scss";
+// import "@/Components/tiptap-node/list-node/list-node.scss";
+// import "@/Components/tiptap-node/image-node/image-node.scss";
+// import "@/Components/tiptap-node/heading-node/heading-node.scss";
+// import "@/Components/tiptap-node/paragraph-node/paragraph-node.scss";
+import "../../tiptap-node/blockquote-node/blockquote-node.scss";
+import "../../tiptap-node/code-block-node/code-block-node.scss";
+import "../../tiptap-node/horizontal-rule-node/horizontal-rule-node.scss";
+import "../../tiptap-node/list-node/list-node.scss";
+import "../../tiptap-node/image-node/image-node.scss";
+import "../../tiptap-node/heading-node/heading-node.scss";
+import "../../tiptap-node/paragraph-node/paragraph-node.scss";
 
 // --- Tiptap UI ---
 import { HeadingDropdownMenu } from "@/Components/tiptap-ui/heading-dropdown-menu";
