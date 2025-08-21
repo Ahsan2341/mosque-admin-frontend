@@ -13,8 +13,8 @@ import { Superscript } from "@tiptap/extension-superscript";
 import { Selection } from "@tiptap/extensions";
 
 // --- UI Primitives ---
-import { Button } from "@/components/tiptap-ui-primitive/button";
-import { Spacer } from "@/components/tiptap-ui-primitive/spacer";
+import { Button } from "@/Components/tiptap-ui-primitive/button";
+import { Spacer } from "@/Components/tiptap-ui-primitive/spacer";
 import {
   Toolbar,
   ToolbarGroup,
@@ -22,8 +22,8 @@ import {
 } from "@/components/tiptap-ui-primitive/toolbar";
 
 // --- Tiptap Node ---
-import { ImageUploadNode } from "@/components/tiptap-node/image-upload-node/image-upload-node-extension";
-import { HorizontalRule } from "@/components/tiptap-node/horizontal-rule-node/horizontal-rule-node-extension";
+import { ImageUploadNode } from "@/Components/tiptap-node/image-upload-node/image-upload-node-extension";
+import { HorizontalRule } from "@/Components/tiptap-node/horizontal-rule-node/horizontal-rule-node-extension";
 import "@/components/tiptap-node/blockquote-node/blockquote-node.scss";
 import "@/components/tiptap-node/code-block-node/code-block-node.scss";
 import "@/components/tiptap-node/horizontal-rule-node/horizontal-rule-node.scss";
@@ -33,11 +33,11 @@ import "@/components/tiptap-node/heading-node/heading-node.scss";
 import "@/components/tiptap-node/paragraph-node/paragraph-node.scss";
 
 // --- Tiptap UI ---
-import { HeadingDropdownMenu } from "@/components/tiptap-ui/heading-dropdown-menu";
-import { ImageUploadButton } from "@/components/tiptap-ui/image-upload-button";
-import { ListDropdownMenu } from "@/components/tiptap-ui/list-dropdown-menu";
-import { BlockquoteButton } from "@/components/tiptap-ui/blockquote-button";
-import { CodeBlockButton } from "@/components/tiptap-ui/code-block-button";
+import { HeadingDropdownMenu } from "@/Components/tiptap-ui/heading-dropdown-menu";
+import { ImageUploadButton } from "@/Components/tiptap-ui/image-upload-button";
+import { ListDropdownMenu } from "@/Components/tiptap-ui/list-dropdown-menu";
+import { BlockquoteButton } from "@/Components/tiptap-ui/blockquote-button";
+import { CodeBlockButton } from "@/Components/tiptap-ui/code-block-button";
 import {
   ColorHighlightPopover,
   ColorHighlightPopoverContent,
@@ -48,14 +48,14 @@ import {
   LinkContent,
   LinkButton,
 } from "@/components/tiptap-ui/link-popover";
-import { MarkButton } from "@/components/tiptap-ui/mark-button";
-import { TextAlignButton } from "@/components/tiptap-ui/text-align-button";
-import { UndoRedoButton } from "@/components/tiptap-ui/undo-redo-button";
+import { MarkButton } from "@/Components/tiptap-ui/mark-button";
+import { TextAlignButton } from "@/Components/tiptap-ui/text-align-button";
+import { UndoRedoButton } from "@/Components/tiptap-ui/undo-redo-button";
 
 // --- Icons ---
-import { ArrowLeftIcon } from "@/components/tiptap-icons/arrow-left-icon";
-import { HighlighterIcon } from "@/components/tiptap-icons/highlighter-icon";
-import { LinkIcon } from "@/components/tiptap-icons/link-icon";
+import { ArrowLeftIcon } from "@/Components/tiptap-icons/arrow-left-icon";
+import { HighlighterIcon } from "@/Components/tiptap-icons/highlighter-icon";
+import { LinkIcon } from "@/Components/tiptap-icons/link-icon";
 
 // --- Hooks ---
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -63,13 +63,12 @@ import { useWindowSize } from "@/hooks/use-window-size";
 import { useCursorVisibility } from "@/hooks/use-cursor-visibility";
 
 // --- Components ---
-import { ThemeToggle } from "@/components/tiptap-templates/simple/theme-toggle";
 
 // --- Lib ---
 import { handleImageUpload, MAX_FILE_SIZE } from "@/lib/tiptap-utils";
 
 // --- Styles ---
-import "@/components/tiptap-templates/simple/simple-editor.scss";
+import "@/Components/tiptap-templates/simple/simple-editor.scss";
 
 // import content from "@/components/tiptap-templates/simple/data/content.json";
 
