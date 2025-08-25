@@ -139,6 +139,10 @@ function CreateMosqueProfile() {
           setMosqueStatus(data.mosque.mosqueStatus);
           setLatitude(data.mosque.locationAddress.coordinates[0]);
           setLongitude(data.mosque.locationAddress.coordinates[1]);
+          setCenter({
+            lat: data.mosque.locationAddress.coordinates[0],
+            lng: data.mosque.locationAddress.coordinates[1],
+          });
         })
         .catch((error) => {
           console.log("error");
@@ -701,14 +705,12 @@ function CreateMosqueProfile() {
                   center={center}
                   onClick={onMapClick}
                 >
-                  {selected && (
-                    <Marker
-                      position={{
-                        lat: Number(latitude),
-                        lng: Number(longitude),
-                      }}
-                    />
-                  )}
+                  <Marker
+                    position={{
+                      lat: parseFloat(latitude),
+                      lng: parseFloat(longitude),
+                    }}
+                  />
                 </GoogleMap>
               )}
               <div className="flex w-[95%] mx-auto">
