@@ -61,7 +61,7 @@ const AllBlogs = () => {
       setBlogs(response?.data?.data?.blogs || []);
       setTotalPages(response?.data?.data?.totalPages);
     } catch (error) {
-      toast.error("Failed to fetch blogs. Please try again.");
+      // toast.error("Failed to fetch blogs. Please try again.");
     } finally {
       setFetchLoading(false);
     }

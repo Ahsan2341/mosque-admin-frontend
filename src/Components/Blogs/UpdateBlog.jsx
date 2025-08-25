@@ -67,7 +67,7 @@ function UpdateBlog({ fetchBlogs, handleCloseModal, id }) {
           setCoverFile(blogData.blogCoverUrl);
         }
       } catch (error) {
-        toast.error("Failed to fetch blog details.");
+        // toast.error("Failed to fetch blog details.");
       } finally {
         setLoading(false);
       }

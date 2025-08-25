@@ -27,7 +27,7 @@ function BlogDetails({ id }) {
         const response = await BlogAPI.getBlog(id);
         setBlog(response.data.data);
       } catch (error) {
-        toast.error("Failed to fetch blog details.");
+        // toast.error("Failed to fetch blog details.");
       } finally {
         setLoading(false);
       }
