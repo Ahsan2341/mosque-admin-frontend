@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "http://13.127.132.131/:path*"
+      "destination": "https://api.masjidmate.org/:path*"
     },
     {
       "source": "/(.*)",
