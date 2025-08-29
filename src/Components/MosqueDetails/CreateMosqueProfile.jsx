@@ -16,8 +16,14 @@ import { useParams } from "react-router-dom";
 import MosquesAPI from "../../api/mosques";
 import doneIcon from "../../assets/icons/done.png";
 import AuthAPI from "../../api/auth/auth";
-import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
+import {
+  GoogleMap,
+  useJsApiLoader,
+  Marker,
+  Autocomplete,
+} from "@react-google-maps/api";
 import locationIcon from "../../assets/svg/location-icon.svg";
+import { countries } from "../constants";
 function CreateMosqueProfile() {
   const [selected, setSelected] = useState(null);
   const mapContainerStyle = {
@@ -31,7 +37,10 @@ function CreateMosqueProfile() {
     googleMapsApiKey: "AIzaSyB6GpskHKDeSaoRJ4wMPvcSlsmGEiLqUwg", // Ensure API key is in .env
     libraries: ["places"],
   });
+
   const [addressFromGoogle, setAddressFromGoogle] = useState("");
+  const [mapSearch, setMapSearch] = useState("");
+  const [autocomplete, setAutocomplete] = useState(null);
   const { id } = useParams();
   const [popupId, setPopupId] = useState("");
   const [email, setEmail] = useState("");
@@ -60,6 +69,7 @@ function CreateMosqueProfile() {
   const [inviteName, setInviteName] = useState("");
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
+  const [countryCode, setCountryCode] = useState("");
   const [center, setCenter] = useState({
     lat: 33.648156629240255,
     lng: 73.54173005465246,
@@ -109,6 +119,7 @@ function CreateMosqueProfile() {
     if (data.status === "OK") {
       setAddressFromGoogle(data.results[0].formatted_address);
       setAddress(data.results[0].formatted_address);
+      setMapSearch(data.results[0].formatted_address);
     } else {
       console.error("Geocoding error:", data.status);
     }
@@ -139,9 +150,18 @@ function CreateMosqueProfile() {
           setMosqueStatus(data.mosque.mosqueStatus);
           setLatitude(data.mosque.locationAddress.coordinates[0]);
           setLongitude(data.mosque.locationAddress.coordinates[1]);
+          const code = countries.find(
+            (country) => country.label == data?.address?.country
+          );
+
+          if (code.value) {
+            setCountryCode(code.value);
+          } else {
+            setCountryCode("PK");
+          }
           setCenter({
-            lat: data.mosque.locationAddress.coordinates[0],
-            lng: data.mosque.locationAddress.coordinates[1],
+            lat: parseFloat(data.mosque.locationAddress.coordinates[0]),
+            lng: parseFloat(data.mosque.locationAddress.coordinates[1]),
           });
         })
         .catch((error) => {
@@ -295,7 +315,46 @@ function CreateMosqueProfile() {
       setPopupId("");
     });
   };
+  const onLoad = (autocompleteInstance) => {
+    setAutocomplete(autocompleteInstance);
+  };
+  // Handle place selection
+  const onPlaceChanged = () => {
+    if (autocomplete) {
+      const place = autocomplete.getPlace();
+      if (place.geometry) {
+        const lat = place.geometry.location.lat();
+        const lng = place.geometry.location.lng();
+        setLatitude(lat);
+        setLongitude(lng);
+        setSelected({ lat, lng });
+        setCenter({ lat, lng });
+        setAddress(place.formatted_address || "");
+        setMapSearch(place.formatted_address || "");
+        setAddressFromGoogle(place.formatted_address || "");
 
+        // Extract city, state, country from address components
+        const addressComponents = place.address_components || [];
+        let city = "";
+        let state = "";
+        let country = "";
+        addressComponents.forEach((component) => {
+          if (component.types.includes("locality")) {
+            city = component.long_name;
+          } else if (component.types.includes("administrative_area_level_1")) {
+            state = component.long_name;
+          } else if (component.types.includes("country")) {
+            country = component.long_name;
+          }
+        });
+        // setCity(city);
+        // setState(state);
+        // setCountry(country);
+      } else {
+        console.error("No geometry available for selected place");
+      }
+    }
+  };
   return (
     <>
       <RemoveManagerPopup
@@ -657,7 +716,7 @@ function CreateMosqueProfile() {
                 </div>
               </div>
               <div className="flex items-center justify-around  ">
-                <div className="w-[45%]   ">
+                {/* <div className="w-[45%]   ">
                   <label
                     className="font-400 font-inter text-[14px] text-[#8A8A8A]"
                     htmlFor="address"
@@ -675,9 +734,9 @@ function CreateMosqueProfile() {
                       className="w-full h-full border-[#C7C7C7] border-[1px] rounded-[8px] text-[#2F2F2F] text-[14px] font-inter font-400 pl-2 focus:border-green-custom-green focus:outline-none"
                     />
                   </div>
-                </div>
+                </div> */}
 
-                <div className=" w-[45%]  mt-1 ">
+                <div className=" w-[95%]  mt-1 ">
                   <label
                     htmlFor=""
                     className="font-400 font-inter text-[14px]  text-[#8A8A8A]"
@@ -686,10 +745,8 @@ function CreateMosqueProfile() {
                   </label>
                   <div className="border-[#C7C7C7] relative mt-1 flex items-center justify-end h-[40px] border-[1px] rounded-[8px] text-[#2F2F2F] text-[14px] ">
                     <p className="font-400 font-inter text-[14px] text-[#8A8A8A] absolute left-4">
-                      {/* {addressFromGoogle
-                        ? addressFromGoogle
-                        : "Select Location"} */}
-                      {latitude}&nbsp;{longitude}
+                      {address ? address : "Select Location"}
+                      {/* {latitude}&nbsp;{longitude} */}
                     </p>
                     <button type="button" onClick={toggleMap}>
                       <img src={locationIcon} alt="" className="w-8 mr-3" />
@@ -699,19 +756,37 @@ function CreateMosqueProfile() {
               </div>
 
               {showMap && latitude && longitude && (
-                <GoogleMap
-                  mapContainerStyle={mapContainerStyle}
-                  zoom={6}
-                  center={center}
-                  onClick={onMapClick}
-                >
-                  <Marker
-                    position={{
-                      lat: parseFloat(latitude),
-                      lng: parseFloat(longitude),
-                    }}
-                  />
-                </GoogleMap>
+                <>
+                  <div className="mx-auto w-[95%] mt-1">
+                    <Autocomplete
+                      onLoad={onLoad}
+                      onPlaceChanged={onPlaceChanged}
+                      restrictions={{ country: countryCode }}
+                    >
+                      <input
+                        placeholder="Search for a location"
+                        className="w-full h-[48px] border-[#C7C7C7] border-[1px] rounded-[8px] text-[#2F2F2F] text-[14px] font-inter font-400 pl-2 focus:border-green-custom-green focus:outline-none"
+                        value={mapSearch}
+                        onChange={(e) => {
+                          setMapSearch(e.target.value);
+                        }}
+                      />
+                    </Autocomplete>
+                  </div>
+                  <GoogleMap
+                    mapContainerStyle={mapContainerStyle}
+                    zoom={15}
+                    center={center}
+                    onClick={onMapClick}
+                  >
+                    <Marker
+                      position={{
+                        lat: parseFloat(latitude),
+                        lng: parseFloat(longitude),
+                      }}
+                    />
+                  </GoogleMap>
+                </>
               )}
               <div className="flex w-[95%] mx-auto">
                 <div className="w-[47%]">
