@@ -185,12 +185,56 @@ function CreateBlog({ fetchBlogs, handleCloseModal }) {
     }
   };
 
+  // const handleUploadChange = async (e) => {
+  //   const file = e.target.files[0];
+  //   if (file) {
+  //     const { compressedFile, previewUrl } = await compressImage(file);
+  //     setThumbnailFile(compressedFile);
+  //     setThumbnailPreview(previewUrl);
+  //   }
+  // };
   const handleUploadChange = async (e) => {
     const file = e.target.files[0];
     if (file) {
-      const { compressedFile, previewUrl } = await compressImage(file);
-      setThumbnailFile(compressedFile);
-      setThumbnailPreview(previewUrl);
+      // Check if the file is an image
+      if (!file.type.startsWith("image/")) {
+        if (showToast) {
+          setShowToast(false);
+          toast.error("Please upload a valid image file!");
+        }
+        return;
+      }
+
+      // Create an image object to check dimensions
+      const img = new Image();
+      const objectUrl = URL.createObjectURL(file);
+      img.src = objectUrl;
+
+      img.onload = async () => {
+        const aspectRatio = img.width / img.height;
+        if (aspectRatio <= 1) {
+          if (showToast) {
+            setShowToast(false);
+            toast.error("Please upload a landscape image (width > height)!");
+          }
+          URL.revokeObjectURL(objectUrl);
+          return;
+        }
+
+        // If the image is landscape, proceed with compression and preview
+        const { compressedFile, previewUrl } = await compressImage(file);
+        setThumbnailFile(compressedFile);
+        setThumbnailPreview(previewUrl);
+        URL.revokeObjectURL(objectUrl);
+      };
+
+      img.onerror = () => {
+        if (showToast) {
+          setShowToast(false);
+          toast.error("Failed to load the image!");
+        }
+        URL.revokeObjectURL(objectUrl);
+      };
     }
   };
 
