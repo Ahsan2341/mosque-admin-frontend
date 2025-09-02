@@ -296,7 +296,6 @@ const AllBlogs = () => {
               value={limit}
               onChange={(e) => setLimit(e.target.value)}
               size="small"
-              sx={{ width: 120 }}
             >
               <MenuItem value={10}>10</MenuItem>
               <MenuItem value={20}>20</MenuItem>
