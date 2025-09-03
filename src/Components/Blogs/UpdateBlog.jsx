@@ -12,6 +12,9 @@ import {
   FormControlLabel,
   TextField,
   Typography,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
 // import ReactQuill from "react-quill";
 // import "react-quill/dist/quill.snow.css";
@@ -30,6 +33,7 @@ function UpdateBlog({ fetchBlogs, handleCloseModal, id }) {
     metaTitle: "",
     description: "",
     paraLink: "",
+    category: "",
   });
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
@@ -46,7 +50,12 @@ function UpdateBlog({ fetchBlogs, handleCloseModal, id }) {
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
   const [rawCoverFile, setRawCoverFile] = useState(null);
   const { compressImage, isCompressing } = useImageCompression();
-
+  const [categories, setCategories] = useState([]);
+  useEffect(() => {
+    BlogAPI.fetchCategories().then((response) => {
+      setCategories(response.data);
+    });
+  }, []);
   useEffect(() => {
     const fetchBlogDetails = async () => {
       setLoading(true);
@@ -58,6 +67,7 @@ function UpdateBlog({ fetchBlogs, handleCloseModal, id }) {
           metaTitle: blogData?.metaTitle || "",
           description: blogData?.description || "",
           paraLink: blogData?.paraLink || "",
+          category: blogData?.category?._id || "",
         });
         setIsPopular(blogData?.isPopular || false);
         setContent(blogData?.content || "");
@@ -107,6 +117,7 @@ function UpdateBlog({ fetchBlogs, handleCloseModal, id }) {
       formData.append("metaTitle", formValues.metaTitle);
       formData.append("description", formValues.description);
       formData.append("paraLink", formValues.paraLink);
+      formData.append("category", formValues.category);
       formData.append("content", content);
       formData.append("isPopular", isPopular);
       if (thumbnailFile) {
@@ -304,7 +315,26 @@ function UpdateBlog({ fetchBlogs, handleCloseModal, id }) {
             error={!formValues.paraLink}
           />
         </FormControl>
-
+        <FormControl fullWidth sx={{ mb: 2 }}>
+          <InputLabel id="category-select-label">Category</InputLabel>
+          <Select
+            labelId="category-select-label"
+            name="category"
+            value={formValues.category}
+            onChange={handleInputChange}
+            label="Category"
+            required
+          >
+            <MenuItem value="">
+              <em>Select a category</em>
+            </MenuItem>
+            {categories?.map((category) => (
+              <MenuItem key={category._id} value={category._id}>
+                {category.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
         <FormControl fullWidth sx={{ mb: 2 }}>
           <Typography variant="subtitle1" gutterBottom>
             Content

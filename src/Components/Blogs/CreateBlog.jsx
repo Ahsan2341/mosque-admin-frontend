@@ -12,6 +12,9 @@ import {
   FormControlLabel,
   TextField,
   Typography,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
 // import ReactQuill from "react-quill-new";
 // import "react-quill-new/dist/quill.snow.css";
@@ -28,6 +31,7 @@ function CreateBlog({ fetchBlogs, handleCloseModal }) {
     metaTitle: "",
     description: "",
     paraLink: "",
+    category: "",
   });
   const [showToast, setShowToast] = useState(true);
   const [content, setContent] = useState("");
@@ -45,6 +49,7 @@ function CreateBlog({ fetchBlogs, handleCloseModal }) {
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
   const [rawCoverFile, setRawCoverFile] = useState(null);
   const { compressImage, isCompressing } = useImageCompression();
+  const [categories, setCategories] = useState([]);
   useEffect(() => {
     if (!showToast) {
       const timer = setTimeout(() => {
@@ -56,7 +61,11 @@ function CreateBlog({ fetchBlogs, handleCloseModal }) {
   useEffect(() => {
     setContentCounters(content.replace(/<[^>]*>/g, "").length);
   }, [content]);
-
+  useEffect(() => {
+    BlogAPI.fetchCategories().then((response) => {
+      setCategories(response.data);
+    });
+  }, []);
   const handleCreateBlog = async () => {
     if (!formValues.title) {
       if (showToast) {
@@ -69,6 +78,15 @@ function CreateBlog({ fetchBlogs, handleCloseModal }) {
       if (showToast) {
         setShowToast(false);
         toast.error("Please enter the Parma Link!");
+      }
+
+      return;
+    }
+
+    if (!formValues.category) {
+      if (showToast) {
+        setShowToast(false);
+        toast.error("Select Category!");
       }
 
       return;
@@ -111,6 +129,7 @@ function CreateBlog({ fetchBlogs, handleCloseModal }) {
       }
       return;
     }
+
     setLoading(true);
     try {
       const formData = new FormData();
@@ -120,6 +139,7 @@ function CreateBlog({ fetchBlogs, handleCloseModal }) {
       formData.append("paraLink", formValues.paraLink);
       formData.append("content", content);
       formData.append("isPopular", isPopular);
+      formData.append("category", formValues.category);
       if (thumbnailFile) {
         formData.append("blogThumbnail", thumbnailFile);
       }
@@ -363,7 +383,26 @@ function CreateBlog({ fetchBlogs, handleCloseModal }) {
             // error={!formValues.paraLink}
           />
         </FormControl>
-
+        <FormControl fullWidth sx={{ mb: 2 }}>
+          <InputLabel id="category-select-label">Category</InputLabel>
+          <Select
+            labelId="category-select-label"
+            name="category"
+            value={formValues.category}
+            onChange={handleInputChange}
+            label="Category"
+            required
+          >
+            <MenuItem value="">
+              <em>Select a category</em>
+            </MenuItem>
+            {categories.map((category) => (
+              <MenuItem key={category._id} value={category._id}>
+                {category.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
         <FormControl fullWidth sx={{ mb: 2 }}>
           <Typography variant="subtitle1" gutterBottom>
             Content

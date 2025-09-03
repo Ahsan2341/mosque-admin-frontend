@@ -27,6 +27,7 @@ import BlogDetails from "./BlogDetails";
 import { useSelector } from "react-redux";
 import MainLayout from "../Common/MainLayout";
 import { toast } from "react-toastify";
+import AddCategory from "./AddCategory";
 
 const AllBlogs = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -214,6 +215,8 @@ const AllBlogs = () => {
           <Typography variant="h5" fontWeight="bold">
             All Blogs
           </Typography>
+
+          <AddCategory />
           {
             <Button
               variant="contained"
